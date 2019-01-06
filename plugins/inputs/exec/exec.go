@@ -8,7 +8,6 @@ import (
 	"runtime"
 	"strings"
 	"sync"
-	"syscall"
 	"time"
 
 	"github.com/kballard/go-shellquote"
@@ -17,7 +16,6 @@ import (
 	"github.com/influxdata/telegraf/internal"
 	"github.com/influxdata/telegraf/plugins/inputs"
 	"github.com/influxdata/telegraf/plugins/parsers"
-	"github.com/influxdata/telegraf/plugins/parsers/nagios"
 )
 
 const sampleConfig = `
@@ -66,25 +64,6 @@ type Runner interface {
 
 type CommandRunner struct{}
 
-func AddNagiosState(exitCode error, acc telegraf.Accumulator) error {
-	nagiosState := 0
-	if exitCode != nil {
-		exiterr, ok := exitCode.(*exec.ExitError)
-		if ok {
-			status, ok := exiterr.Sys().(syscall.WaitStatus)
-			if ok {
-				nagiosState = status.ExitStatus()
-			} else {
-				return fmt.Errorf("exec: unable to get nagios plugin exit code")
-			}
-		} else {
-			return fmt.Errorf("exec: unable to get nagios plugin exit code")
-		}
-	}
-	fields := map[string]interface{}{"state": nagiosState}
-	acc.AddFields("nagios_state", fields, nil)
-	return nil
-}
 
 func (c CommandRunner) Run(
 	e *Exec,
@@ -106,41 +85,31 @@ func (c CommandRunner) Run(
 	cmd.Stderr = &stderr
 
 	if err := internal.RunTimeout(cmd, e.Timeout.Duration); err != nil {
-		switch e.parser.(type) {
-		case *nagios.NagiosParser:
-			AddNagiosState(err, acc)
-		default:
-			var errMessage = ""
-			if stderr.Len() > 0 {
-				stderr = removeCarriageReturns(stderr)
-				// Limit the number of bytes.
-				didTruncate := false
-				if stderr.Len() > MaxStderrBytes {
-					stderr.Truncate(MaxStderrBytes)
+		var errMessage = ""
+		if stderr.Len() > 0 {
+			stderr = removeCarriageReturns(stderr)
+			// Limit the number of bytes.
+			didTruncate := false
+			if stderr.Len() > MaxStderrBytes {
+				stderr.Truncate(MaxStderrBytes)
+				didTruncate = true
+			}
+			if i := bytes.IndexByte(stderr.Bytes(), '\n'); i > 0 {
+				// Only show truncation if the newline wasn't the last character.
+				if i < stderr.Len()-1 {
 					didTruncate = true
 				}
-				if i := bytes.IndexByte(stderr.Bytes(), '\n'); i > 0 {
-					// Only show truncation if the newline wasn't the last character.
-					if i < stderr.Len()-1 {
-						didTruncate = true
-					}
-					stderr.Truncate(i)
-				}
-				if didTruncate {
-					stderr.WriteString("...")
-				}
-
-				errMessage = fmt.Sprintf(": %s", stderr.String())
+				stderr.Truncate(i)
 			}
-			return nil, fmt.Errorf("exec: %s for command '%s'%s", err, command, errMessage)
-		}
-	} else {
-		switch e.parser.(type) {
-		case *nagios.NagiosParser:
-			AddNagiosState(nil, acc)
-		}
-	}
+			if didTruncate {
+				stderr.WriteString("...")
+			}
 
+			errMessage = fmt.Sprintf(": %s", stderr.String())
+		}
+		return nil, fmt.Errorf("exec: %s for command '%s'%s", err, command, errMessage)
+	} 
+ 
 	out = removeCarriageReturns(out)
 	return out.Bytes(), nil
 }

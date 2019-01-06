@@ -1365,83 +1365,6 @@ func getParserConfig(name string, tbl *ast.Table) (*parsers.Config, error) {
 		}
 	}
 
-	if node, ok := tbl.Fields["collectd_auth_file"]; ok {
-		if kv, ok := node.(*ast.KeyValue); ok {
-			if str, ok := kv.Value.(*ast.String); ok {
-				c.CollectdAuthFile = str.Value
-			}
-		}
-	}
-
-	if node, ok := tbl.Fields["collectd_security_level"]; ok {
-		if kv, ok := node.(*ast.KeyValue); ok {
-			if str, ok := kv.Value.(*ast.String); ok {
-				c.CollectdSecurityLevel = str.Value
-			}
-		}
-	}
-
-	if node, ok := tbl.Fields["collectd_parse_multivalue"]; ok {
-		if kv, ok := node.(*ast.KeyValue); ok {
-			if str, ok := kv.Value.(*ast.String); ok {
-				c.CollectdSplit = str.Value
-			}
-		}
-	}
-
-	if node, ok := tbl.Fields["collectd_typesdb"]; ok {
-		if kv, ok := node.(*ast.KeyValue); ok {
-			if ary, ok := kv.Value.(*ast.Array); ok {
-				for _, elem := range ary.Value {
-					if str, ok := elem.(*ast.String); ok {
-						c.CollectdTypesDB = append(c.CollectdTypesDB, str.Value)
-					}
-				}
-			}
-		}
-	}
-
-	if node, ok := tbl.Fields["dropwizard_metric_registry_path"]; ok {
-		if kv, ok := node.(*ast.KeyValue); ok {
-			if str, ok := kv.Value.(*ast.String); ok {
-				c.DropwizardMetricRegistryPath = str.Value
-			}
-		}
-	}
-	if node, ok := tbl.Fields["dropwizard_time_path"]; ok {
-		if kv, ok := node.(*ast.KeyValue); ok {
-			if str, ok := kv.Value.(*ast.String); ok {
-				c.DropwizardTimePath = str.Value
-			}
-		}
-	}
-	if node, ok := tbl.Fields["dropwizard_time_format"]; ok {
-		if kv, ok := node.(*ast.KeyValue); ok {
-			if str, ok := kv.Value.(*ast.String); ok {
-				c.DropwizardTimeFormat = str.Value
-			}
-		}
-	}
-	if node, ok := tbl.Fields["dropwizard_tags_path"]; ok {
-		if kv, ok := node.(*ast.KeyValue); ok {
-			if str, ok := kv.Value.(*ast.String); ok {
-				c.DropwizardTagsPath = str.Value
-			}
-		}
-	}
-	c.DropwizardTagPathsMap = make(map[string]string)
-	if node, ok := tbl.Fields["dropwizard_tag_paths"]; ok {
-		if subtbl, ok := node.(*ast.Table); ok {
-			for name, val := range subtbl.Fields {
-				if kv, ok := val.(*ast.KeyValue); ok {
-					if str, ok := kv.Value.(*ast.String); ok {
-						c.DropwizardTagPathsMap[name] = str.Value
-					}
-				}
-			}
-		}
-	}
-
 	//for grok data_format
 	if node, ok := tbl.Fields["grok_named_patterns"]; ok {
 		if kv, ok := node.(*ast.KeyValue); ok {
@@ -1633,15 +1556,6 @@ func getParserConfig(name string, tbl *ast.Table) (*parsers.Config, error) {
 	delete(tbl.Fields, "json_time_format")
 	delete(tbl.Fields, "json_time_key")
 	delete(tbl.Fields, "data_type")
-	delete(tbl.Fields, "collectd_auth_file")
-	delete(tbl.Fields, "collectd_security_level")
-	delete(tbl.Fields, "collectd_typesdb")
-	delete(tbl.Fields, "collectd_parse_multivalue")
-	delete(tbl.Fields, "dropwizard_metric_registry_path")
-	delete(tbl.Fields, "dropwizard_time_path")
-	delete(tbl.Fields, "dropwizard_time_format")
-	delete(tbl.Fields, "dropwizard_tags_path")
-	delete(tbl.Fields, "dropwizard_tag_paths")
 	delete(tbl.Fields, "grok_named_patterns")
 	delete(tbl.Fields, "grok_patterns")
 	delete(tbl.Fields, "grok_custom_patterns")
