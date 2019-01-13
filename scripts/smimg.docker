@@ -1,0 +1,9 @@
+FROM scratch
+COPY telex /telex
+COPY etc/telex.conf /telex.conf
+
+EXPOSE 8125/udp 8092/udp 8094
+
+COPY scripts/docker-entrypoint.sh /entrypoint.sh
+ENTRYPOINT ["/telex"]
+CMD ["telex"]

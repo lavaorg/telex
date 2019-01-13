@@ -1,6 +1,6 @@
 // +build linux
 
-package ipvs
+package ipvsutil
 
 const (
 	genlCtrlID = 0x10

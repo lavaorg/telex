@@ -10,14 +10,14 @@ import (
 	"strconv"
 	"syscall"
 
-	"ipvs"
 	"github.com/lavaorg/telex"
 	"github.com/lavaorg/telex/plugins/inputs"
+	"github.com/lavaorg/telex/plugins/inputs/ipvs/ipvsutil"
 )
 
 // IPVS holds the state for this input plugin
 type IPVS struct {
-	handle *ipvs.Handle
+	handle *ipvsutil.Handle
 }
 
 // Description returns a description string
@@ -33,7 +33,7 @@ func (i *IPVS) SampleConfig() string {
 // Gather gathers the stats
 func (i *IPVS) Gather(acc telex.Accumulator) error {
 	if i.handle == nil {
-		h, err := ipvs.New("") // TODO: make the namespace configurable
+		h, err := ipvsutil.New("") // TODO: make the namespace configurable
 		if err != nil {
 			return errors.New("Unable to open IPVS handle")
 		}
@@ -94,7 +94,7 @@ func (i *IPVS) Gather(acc telex.Accumulator) error {
 }
 
 // helper: given a Service, return tags that identify it
-func serviceTags(s *ipvs.Service) map[string]string {
+func serviceTags(s *ipvsutil.Service) map[string]string {
 	ret := map[string]string{
 		"sched":          s.SchedName,
 		"netmask":        strconv.Itoa(bits.OnesCount32(s.Netmask)),
@@ -113,7 +113,7 @@ func serviceTags(s *ipvs.Service) map[string]string {
 }
 
 // helper: given a Destination, return tags that identify it
-func destinationTags(d *ipvs.Destination) map[string]string {
+func destinationTags(d *ipvsutil.Destination) map[string]string {
 	return map[string]string{
 		"address":        d.Address.String(),
 		"port":           strconv.Itoa(int(d.Port)),

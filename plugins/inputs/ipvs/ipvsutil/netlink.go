@@ -1,6 +1,6 @@
 // +build linux
 
-package ipvs
+package ipvsutil
 
 import (
 	"bytes"
@@ -66,7 +66,7 @@ func setup() {
 
 		ipvsFamily, err = getIPVSFamily()
 		if err != nil {
-			log.Error("Could not get ipvs family information from the kernel. It is possible that ipvs is not enabled in your kernel. Native loadbalancing will not work until this is fixed.")
+			log.Printf("Could not get ipvs family information from the kernel. It is possible that ipvs is not enabled in your kernel. Native loadbalancing will not work until this is fixed.")
 		}
 	})
 }

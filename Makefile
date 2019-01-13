@@ -19,8 +19,12 @@ all:
 
 .PHONY: telex
 telex:
+	go mod download
 	go build -ldflags "$(LDFLAGS)" ./cmd/telex
 
+telex_linux_x86:
+	go mod download
+	GOOS=linux GOARCH=amd64 go build -ldflags "$(LDFLAGS)" ./cmd/telex
 
 .PHONY: test
 test:
@@ -63,9 +67,14 @@ clean:
 	rm -f telex
 
 .PHONY: docker-image
-docker-image:
+docker-image: telex_linux_x86
 	docker build -f scripts/alpine.docker -t "telex:$(COMMIT)" .
 
+docker-sm: telex_linux_x86
+	docker build -f scripts/smimg.docker -t "telexsm" .
+	
+docker-base:
+	docker build -f scripts/telex_base.docker -t "telex_base" .
 
 .PHONY: static
 static:
