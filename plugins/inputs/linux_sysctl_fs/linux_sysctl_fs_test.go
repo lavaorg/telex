@@ -5,7 +5,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/influxdata/telegraf/testutil"
+	"github.com/lavaorg/telex/testutil"
 	"github.com/stretchr/testify/require"
 )
 

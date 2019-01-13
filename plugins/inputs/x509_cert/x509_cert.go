@@ -13,10 +13,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/internal"
-	_tls "github.com/influxdata/telegraf/internal/tls"
-	"github.com/influxdata/telegraf/plugins/inputs"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/internal"
+	_tls "github.com/lavaorg/telex/internal/tls"
+	"github.com/lavaorg/telex/plugins/inputs"
 )
 
 const sampleConfig = `
@@ -160,7 +160,7 @@ func getTags(subject pkix.Name, location string) map[string]string {
 }
 
 // Gather adds metrics into the accumulator.
-func (c *X509Cert) Gather(acc telegraf.Accumulator) error {
+func (c *X509Cert) Gather(acc telex.Accumulator) error {
 	now := time.Now()
 
 	for _, location := range c.Sources {
@@ -181,7 +181,7 @@ func (c *X509Cert) Gather(acc telegraf.Accumulator) error {
 }
 
 func init() {
-	inputs.Add("x509_cert", func() telegraf.Input {
+	inputs.Add("x509_cert", func() telex.Input {
 		return &X509Cert{
 			Sources: []string{},
 			Timeout: internal.Duration{Duration: 5},

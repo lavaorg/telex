@@ -14,16 +14,16 @@ import (
 	"strings"
 	"syscall"
 
-	"github.com/influxdata/telegraf/agent"
-	"github.com/influxdata/telegraf/internal"
-	"github.com/influxdata/telegraf/internal/config"
-	"github.com/influxdata/telegraf/logger"
-	_ "github.com/influxdata/telegraf/plugins/aggregators/all"
-	"github.com/influxdata/telegraf/plugins/inputs"
-	_ "github.com/influxdata/telegraf/plugins/inputs/all"
-	"github.com/influxdata/telegraf/plugins/outputs"
-	_ "github.com/influxdata/telegraf/plugins/outputs/all"
-	_ "github.com/influxdata/telegraf/plugins/processors/all"
+	"github.com/lavaorg/telex/agent"
+	"github.com/lavaorg/telex/internal"
+	"github.com/lavaorg/telex/internal/config"
+	"github.com/lavaorg/telex/logger"
+	_ "github.com/lavaorg/telex/plugins/aggregators/all"
+	"github.com/lavaorg/telex/plugins/inputs"
+	_ "github.com/lavaorg/telex/plugins/inputs/all"
+	"github.com/lavaorg/telex/plugins/outputs"
+	_ "github.com/lavaorg/telex/plugins/outputs/all"
+	_ "github.com/lavaorg/telex/plugins/processors/all"
 	"github.com/kardianos/service"
 )
 
@@ -348,7 +348,7 @@ func main() {
 			DisplayName: "Telegraf Data Collector Service",
 			Description: "Collects data using a series of plugins and publishes it to" +
 				"another series of plugins.",
-			Arguments: []string{"--config", "C:\\Program Files\\Telegraf\\telegraf.conf"},
+			Arguments: []string{"--config", "C:\\Program Files\\Telegraf\\telex.conf"},
 		}
 
 		prg := &program{

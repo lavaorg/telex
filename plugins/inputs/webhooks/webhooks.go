@@ -8,23 +8,23 @@ import (
 	"reflect"
 
 	"github.com/gorilla/mux"
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/plugins/inputs"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/plugins/inputs"
 
-	"github.com/influxdata/telegraf/plugins/inputs/webhooks/filestack"
-	"github.com/influxdata/telegraf/plugins/inputs/webhooks/github"
-	"github.com/influxdata/telegraf/plugins/inputs/webhooks/mandrill"
-	"github.com/influxdata/telegraf/plugins/inputs/webhooks/papertrail"
-	"github.com/influxdata/telegraf/plugins/inputs/webhooks/particle"
-	"github.com/influxdata/telegraf/plugins/inputs/webhooks/rollbar"
+	"github.com/lavaorg/telex/plugins/inputs/webhooks/filestack"
+	"github.com/lavaorg/telex/plugins/inputs/webhooks/github"
+	"github.com/lavaorg/telex/plugins/inputs/webhooks/mandrill"
+	"github.com/lavaorg/telex/plugins/inputs/webhooks/papertrail"
+	"github.com/lavaorg/telex/plugins/inputs/webhooks/particle"
+	"github.com/lavaorg/telex/plugins/inputs/webhooks/rollbar"
 )
 
 type Webhook interface {
-	Register(router *mux.Router, acc telegraf.Accumulator)
+	Register(router *mux.Router, acc telex.Accumulator)
 }
 
 func init() {
-	inputs.Add("webhooks", func() telegraf.Input { return NewWebhooks() })
+	inputs.Add("webhooks", func() telex.Input { return NewWebhooks() })
 }
 
 type Webhooks struct {
@@ -74,7 +74,7 @@ func (wb *Webhooks) Description() string {
 	return "A Webhooks Event collector"
 }
 
-func (wb *Webhooks) Gather(_ telegraf.Accumulator) error {
+func (wb *Webhooks) Gather(_ telex.Accumulator) error {
 	return nil
 }
 
@@ -99,7 +99,7 @@ func (wb *Webhooks) AvailableWebhooks() []Webhook {
 	return webhooks
 }
 
-func (wb *Webhooks) Start(acc telegraf.Accumulator) error {
+func (wb *Webhooks) Start(acc telex.Accumulator) error {
 	r := mux.NewRouter()
 
 	for _, webhook := range wb.AvailableWebhooks() {

@@ -10,7 +10,7 @@ This setup will collect data on all interfaces from three different tables, `IF-
 
 This configuration also collects the hostname from the device (`RFC1213-MIB::sysName.0`) and adds as a tag. So each metric will both have the configured host/IP as `agent_host` as well as the device self-reported hostname as `hostname` and the name of the host that has collected these metrics as `host`.
 
-Here is the configuration that you add to your `telegraf.conf`:
+Here is the configuration that you add to your `telex.conf`:
 
 ```
 [[inputs.snmp]]

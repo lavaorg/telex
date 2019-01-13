@@ -6,8 +6,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/testutil"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/testutil"
 	"github.com/stretchr/testify/require"
 )
 
@@ -742,7 +742,7 @@ func TestTimeKeyDelete(t *testing.T) {
 
 	metrics, err := parser.Parse([]byte(data))
 	require.NoError(t, err)
-	expected := []telegraf.Metric{
+	expected := []telex.Metric{
 		testutil.MustMetric("json",
 			map[string]string{},
 			map[string]interface{}{"value": 42.0},

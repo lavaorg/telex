@@ -6,10 +6,10 @@ import (
 	"log"
 	"strings"
 
-	"github.com/influxdata/telegraf"
-	tlsint "github.com/influxdata/telegraf/internal/tls"
-	"github.com/influxdata/telegraf/plugins/outputs"
-	"github.com/influxdata/telegraf/plugins/serializers"
+	"github.com/lavaorg/telex"
+	tlsint "github.com/lavaorg/telex/internal/tls"
+	"github.com/lavaorg/telex/plugins/outputs"
+	"github.com/lavaorg/telex/plugins/serializers"
 	uuid "github.com/satori/go.uuid"
 
 	"github.com/Shopify/sarama"
@@ -162,7 +162,7 @@ var sampleConfig = `
   ## Data format to output.
   ## Each data format has its own unique set of configuration options, read
   ## more about them here:
-  ## https://github.com/influxdata/telegraf/blob/master/docs/DATA_FORMATS_OUTPUT.md
+  ## https:/github.com/lavaorg/telex/blob/master/docs/DATA_FORMATS_OUTPUT.md
   # data_format = "influx"
 `
 
@@ -175,7 +175,7 @@ func ValidateTopicSuffixMethod(method string) error {
 	return fmt.Errorf("Unknown topic suffix method provided: %s", method)
 }
 
-func (k *Kafka) GetTopicName(metric telegraf.Metric) string {
+func (k *Kafka) GetTopicName(metric telex.Metric) string {
 	var topicName string
 	switch k.TopicSuffix.Method {
 	case "measurement":
@@ -273,7 +273,7 @@ func (k *Kafka) Description() string {
 	return "Configuration for the Kafka server to send metrics to"
 }
 
-func (k *Kafka) routingKey(metric telegraf.Metric) string {
+func (k *Kafka) routingKey(metric telex.Metric) string {
 	if k.RoutingTag != "" {
 		key, ok := metric.GetTag(k.RoutingTag)
 		if ok {
@@ -289,7 +289,7 @@ func (k *Kafka) routingKey(metric telegraf.Metric) string {
 	return k.RoutingKey
 }
 
-func (k *Kafka) Write(metrics []telegraf.Metric) error {
+func (k *Kafka) Write(metrics []telex.Metric) error {
 	msgs := make([]*sarama.ProducerMessage, 0, len(metrics))
 	for _, metric := range metrics {
 		buf, err := k.serializer.Serialize(metric)
@@ -327,7 +327,7 @@ func (k *Kafka) Write(metrics []telegraf.Metric) error {
 }
 
 func init() {
-	outputs.Add("kafka", func() telegraf.Output {
+	outputs.Add("kafka", func() telex.Output {
 		return &Kafka{
 			MaxRetry:     3,
 			RequiredAcks: -1,

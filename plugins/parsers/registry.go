@@ -4,13 +4,13 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/plugins/parsers/csv"
-	"github.com/influxdata/telegraf/plugins/parsers/grok"
-	"github.com/influxdata/telegraf/plugins/parsers/influx"
-	"github.com/influxdata/telegraf/plugins/parsers/json"
-	"github.com/influxdata/telegraf/plugins/parsers/logfmt"
-	"github.com/influxdata/telegraf/plugins/parsers/value"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/plugins/parsers/csv"
+	"github.com/lavaorg/telex/plugins/parsers/grok"
+	"github.com/lavaorg/telex/plugins/parsers/influx"
+	"github.com/lavaorg/telex/plugins/parsers/json"
+	"github.com/lavaorg/telex/plugins/parsers/logfmt"
+	"github.com/lavaorg/telex/plugins/parsers/value"
 )
 
 type ParserFunc func() (Parser, error)
@@ -36,14 +36,14 @@ type Parser interface {
 	// and parses it into telegraf metrics
 	//
 	// Must be thread-safe.
-	Parse(buf []byte) ([]telegraf.Metric, error)
+	Parse(buf []byte) ([]telex.Metric, error)
 
 	// ParseLine takes a single string metric
 	// ie, "cpu.usage.idle 90"
 	// and parses it into a telegraf metric.
 	//
 	// Must be thread-safe.
-	ParseLine(line string) (telegraf.Metric, error)
+	ParseLine(line string) (telex.Metric, error)
 
 	// SetDefaultTags tells the parser to add all of the given tags
 	// to each parsed metric.

@@ -1,4 +1,4 @@
-package telegraf
+package telex
 
 // Aggregator is an interface for implementing an Aggregator plugin.
 // the RunningAggregator wraps this interface and guarantees that

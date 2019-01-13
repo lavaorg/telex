@@ -9,11 +9,11 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/plugins/inputs"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/plugins/inputs"
 )
 
-func (z *Zfs) gatherPoolStats(acc telegraf.Accumulator) (string, error) {
+func (z *Zfs) gatherPoolStats(acc telex.Accumulator) (string, error) {
 
 	lines, err := z.zpool()
 	if err != nil {
@@ -87,7 +87,7 @@ func (z *Zfs) gatherPoolStats(acc telegraf.Accumulator) (string, error) {
 	return strings.Join(pools, "::"), nil
 }
 
-func (z *Zfs) Gather(acc telegraf.Accumulator) error {
+func (z *Zfs) Gather(acc telex.Accumulator) error {
 	kstatMetrics := z.KstatMetrics
 	if len(kstatMetrics) == 0 {
 		kstatMetrics = []string{"arcstats", "zfetchstats", "vdev_cache_stats"}
@@ -142,7 +142,7 @@ func sysctl(metric string) ([]string, error) {
 }
 
 func init() {
-	inputs.Add("zfs", func() telegraf.Input {
+	inputs.Add("zfs", func() telex.Input {
 		return &Zfs{
 			sysctl: sysctl,
 			zpool:  zpool,

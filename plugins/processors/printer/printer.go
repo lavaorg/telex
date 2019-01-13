@@ -3,10 +3,10 @@ package printer
 import (
 	"fmt"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/plugins/processors"
-	"github.com/influxdata/telegraf/plugins/serializers"
-	"github.com/influxdata/telegraf/plugins/serializers/influx"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/plugins/processors"
+	"github.com/lavaorg/telex/plugins/serializers"
+	"github.com/lavaorg/telex/plugins/serializers/influx"
 )
 
 type Printer struct {
@@ -24,7 +24,7 @@ func (p *Printer) Description() string {
 	return "Print all metrics that pass through this filter."
 }
 
-func (p *Printer) Apply(in ...telegraf.Metric) []telegraf.Metric {
+func (p *Printer) Apply(in ...telex.Metric) []telex.Metric {
 	for _, metric := range in {
 		octets, err := p.serializer.Serialize(metric)
 		if err != nil {
@@ -36,7 +36,7 @@ func (p *Printer) Apply(in ...telegraf.Metric) []telegraf.Metric {
 }
 
 func init() {
-	processors.Add("printer", func() telegraf.Processor {
+	processors.Add("printer", func() telex.Processor {
 		return &Printer{
 			serializer: influx.NewSerializer(),
 		}

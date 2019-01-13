@@ -1,19 +1,19 @@
 package models
 
 import (
-	"github.com/influxdata/telegraf"
+	"github.com/lavaorg/telex"
 )
 
 // Makemetric applies new metric plugin and agent measurement and tag
 // settings.
 func makemetric(
-	metric telegraf.Metric,
+	metric telex.Metric,
 	nameOverride string,
 	namePrefix string,
 	nameSuffix string,
 	tags map[string]string,
 	globalTags map[string]string,
-) telegraf.Metric {
+) telex.Metric {
 	if len(nameOverride) != 0 {
 		metric.SetName(nameOverride)
 	}

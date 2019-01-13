@@ -1,12 +1,12 @@
 [Unit]
 Description=The plugin-driven server agent for reporting metrics into InfluxDB
-Documentation=https://github.com/influxdata/telegraf
+Documentation=https:/github.com/lavaorg/telex
 After=network.target
 
 [Service]
 EnvironmentFile=-/etc/default/telegraf
 User=telegraf
-ExecStart=/usr/bin/telegraf -config /etc/telegraf/telegraf.conf -config-directory /etc/telegraf/telegraf.d $TELEGRAF_OPTS
+ExecStart=/usr/bin/telegraf -config /etc/telegraf/telex.conf -config-directory /etc/telegraf/telex.d $TELEGRAF_OPTS
 ExecReload=/bin/kill -HUP $MAINPID
 Restart=on-failure
 RestartForceExitStatus=SIGPIPE

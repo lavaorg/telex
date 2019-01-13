@@ -1,9 +1,9 @@
 package hddtemp
 
 import (
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/plugins/inputs"
-	gohddtemp "github.com/influxdata/telegraf/plugins/inputs/hddtemp/go-hddtemp"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/plugins/inputs"
+	gohddtemp "github.com/lavaorg/telex/plugins/inputs/hddtemp/go-hddtemp"
 )
 
 const defaultAddress = "127.0.0.1:7634"
@@ -38,7 +38,7 @@ func (_ *HDDTemp) SampleConfig() string {
 	return hddtempSampleConfig
 }
 
-func (h *HDDTemp) Gather(acc telegraf.Accumulator) error {
+func (h *HDDTemp) Gather(acc telex.Accumulator) error {
 	if h.fetcher == nil {
 		h.fetcher = gohddtemp.New()
 	}
@@ -71,7 +71,7 @@ func (h *HDDTemp) Gather(acc telegraf.Accumulator) error {
 }
 
 func init() {
-	inputs.Add("hddtemp", func() telegraf.Input {
+	inputs.Add("hddtemp", func() telex.Input {
 		return &HDDTemp{
 			Address: defaultAddress,
 			Devices: []string{"*"},

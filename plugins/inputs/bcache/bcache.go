@@ -8,8 +8,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/plugins/inputs"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/plugins/inputs"
 )
 
 type Bcache struct {
@@ -70,7 +70,7 @@ func prettyToBytes(v string) uint64 {
 	return uint64(result)
 }
 
-func (b *Bcache) gatherBcache(bdev string, acc telegraf.Accumulator) error {
+func (b *Bcache) gatherBcache(bdev string, acc telex.Accumulator) error {
 	tags := getTags(bdev)
 	metrics, err := filepath.Glob(bdev + "/stats_total/*")
 	if len(metrics) < 0 {
@@ -105,7 +105,7 @@ func (b *Bcache) gatherBcache(bdev string, acc telegraf.Accumulator) error {
 	return nil
 }
 
-func (b *Bcache) Gather(acc telegraf.Accumulator) error {
+func (b *Bcache) Gather(acc telex.Accumulator) error {
 	bcacheDevsChecked := make(map[string]bool)
 	var restrictDevs bool
 	if len(b.BcacheDevs) != 0 {
@@ -136,7 +136,7 @@ func (b *Bcache) Gather(acc telegraf.Accumulator) error {
 }
 
 func init() {
-	inputs.Add("bcache", func() telegraf.Input {
+	inputs.Add("bcache", func() telex.Input {
 		return &Bcache{}
 	})
 }

@@ -3,8 +3,8 @@ package trig
 import (
 	"math"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/plugins/inputs"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/plugins/inputs"
 )
 
 type Trig struct {
@@ -25,7 +25,7 @@ func (s *Trig) Description() string {
 	return "Inserts sine and cosine waves for demonstration purposes"
 }
 
-func (s *Trig) Gather(acc telegraf.Accumulator) error {
+func (s *Trig) Gather(acc telex.Accumulator) error {
 	sinner := math.Sin((s.x*math.Pi)/5.0) * s.Amplitude
 	cosinner := math.Cos((s.x*math.Pi)/5.0) * s.Amplitude
 
@@ -42,5 +42,5 @@ func (s *Trig) Gather(acc telegraf.Accumulator) error {
 }
 
 func init() {
-	inputs.Add("trig", func() telegraf.Input { return &Trig{x: 0.0} })
+	inputs.Add("trig", func() telex.Input { return &Trig{x: 0.0} })
 }

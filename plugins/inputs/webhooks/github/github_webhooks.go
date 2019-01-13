@@ -10,16 +10,16 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/influxdata/telegraf"
+	"github.com/lavaorg/telex"
 )
 
 type GithubWebhook struct {
 	Path   string
 	Secret string
-	acc    telegraf.Accumulator
+	acc    telex.Accumulator
 }
 
-func (gh *GithubWebhook) Register(router *mux.Router, acc telegraf.Accumulator) {
+func (gh *GithubWebhook) Register(router *mux.Router, acc telex.Accumulator) {
 	router.HandleFunc(gh.Path, gh.eventHandler).Methods("POST")
 	log.Printf("I! Started the webhooks_github on %s\n", gh.Path)
 	gh.acc = acc

@@ -12,10 +12,10 @@ import (
 
 	"github.com/kballard/go-shellquote"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/internal"
-	"github.com/influxdata/telegraf/plugins/inputs"
-	"github.com/influxdata/telegraf/plugins/parsers"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/internal"
+	"github.com/lavaorg/telex/plugins/inputs"
+	"github.com/lavaorg/telex/plugins/parsers"
 )
 
 const sampleConfig = `
@@ -35,7 +35,7 @@ const sampleConfig = `
   ## Data format to consume.
   ## Each data format has its own unique set of configuration options, read
   ## more about them here:
-  ## https://github.com/influxdata/telegraf/blob/master/docs/DATA_FORMATS_INPUT.md
+  ## https:/github.com/lavaorg/telex/blob/master/docs/DATA_FORMATS_INPUT.md
   data_format = "influx"
 `
 
@@ -59,7 +59,7 @@ func NewExec() *Exec {
 }
 
 type Runner interface {
-	Run(*Exec, string, telegraf.Accumulator) ([]byte, error)
+	Run(*Exec, string, telex.Accumulator) ([]byte, error)
 }
 
 type CommandRunner struct{}
@@ -68,7 +68,7 @@ type CommandRunner struct{}
 func (c CommandRunner) Run(
 	e *Exec,
 	command string,
-	acc telegraf.Accumulator,
+	acc telex.Accumulator,
 ) ([]byte, error) {
 	split_cmd, err := shellquote.Split(command)
 	if err != nil || len(split_cmd) == 0 {
@@ -140,7 +140,7 @@ func removeCarriageReturns(b bytes.Buffer) bytes.Buffer {
 
 }
 
-func (e *Exec) ProcessCommand(command string, acc telegraf.Accumulator, wg *sync.WaitGroup) {
+func (e *Exec) ProcessCommand(command string, acc telex.Accumulator, wg *sync.WaitGroup) {
 	defer wg.Done()
 
 	out, err := e.runner.Run(e, command, acc)
@@ -171,7 +171,7 @@ func (e *Exec) SetParser(parser parsers.Parser) {
 	e.parser = parser
 }
 
-func (e *Exec) Gather(acc telegraf.Accumulator) error {
+func (e *Exec) Gather(acc telex.Accumulator) error {
 	var wg sync.WaitGroup
 	// Legacy single command support
 	if e.Command != "" {
@@ -219,7 +219,7 @@ func (e *Exec) Gather(acc telegraf.Accumulator) error {
 }
 
 func init() {
-	inputs.Add("exec", func() telegraf.Input {
+	inputs.Add("exec", func() telex.Input {
 		return NewExec()
 	})
 }

@@ -22,7 +22,7 @@ if [[ -f /etc/redhat-release ]] || [[ -f /etc/SuSE-release ]]; then
         rm -f /etc/default/telegraf
 
         if [[ "$(readlink /proc/1/exe)" == */systemd ]]; then
-            disable_systemd /usr/lib/systemd/system/telegraf.service
+            disable_systemd /usr/lib/systemd/system/telex.service
         else
             # Assuming sysv
             disable_chkconfig
@@ -35,7 +35,7 @@ elif [[ -f /etc/debian_version ]]; then
         rm -f /etc/default/telegraf
 
         if [[ "$(readlink /proc/1/exe)" == */systemd ]]; then
-            disable_systemd /lib/systemd/system/telegraf.service
+            disable_systemd /lib/systemd/system/telex.service
         else
             # Assuming sysv
             # Run update-rc.d or fallback to chkconfig if not available

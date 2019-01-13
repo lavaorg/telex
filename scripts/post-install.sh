@@ -11,7 +11,7 @@ function install_init {
 }
 
 function install_systemd {
-    cp -f $SCRIPT_DIR/telegraf.service $1
+    cp -f $SCRIPT_DIR/telex.service $1
     systemctl enable telegraf || true
     systemctl daemon-reload || true
 }
@@ -41,8 +41,8 @@ if [[ -L /etc/init.d/telegraf ]]; then
     rm -f /etc/init.d/telegraf
 fi
 # Remove legacy symlink, if it exists
-if [[ -L /etc/systemd/system/telegraf.service ]]; then
-    rm -f /etc/systemd/system/telegraf.service
+if [[ -L /etc/systemd/system/telex.service ]]; then
+    rm -f /etc/systemd/system/telex.service
 fi
 
 # Add defaults file, if it doesn't exist
@@ -51,15 +51,15 @@ if [[ ! -f /etc/default/telegraf ]]; then
 fi
 
 # Add .d configuration directory
-if [[ ! -d /etc/telegraf/telegraf.d ]]; then
-    mkdir -p /etc/telegraf/telegraf.d
+if [[ ! -d /etc/telegraf/telex.d ]]; then
+    mkdir -p /etc/telegraf/telex.d
 fi
 
 # Distribution-specific logic
 if [[ -f /etc/redhat-release ]] || [[ -f /etc/SuSE-release ]]; then
     # RHEL-variant logic
     if [[ "$(readlink /proc/1/exe)" == */systemd ]]; then
-        install_systemd /usr/lib/systemd/system/telegraf.service
+        install_systemd /usr/lib/systemd/system/telex.service
     else
         # Assuming SysVinit
         install_init
@@ -73,8 +73,8 @@ if [[ -f /etc/redhat-release ]] || [[ -f /etc/SuSE-release ]]; then
 elif [[ -f /etc/debian_version ]]; then
     # Debian/Ubuntu logic
     if [[ "$(readlink /proc/1/exe)" == */systemd ]]; then
-        install_systemd /lib/systemd/system/telegraf.service
-        deb-systemd-invoke restart telegraf.service || echo "WARNING: systemd not running."
+        install_systemd /lib/systemd/system/telex.service
+        deb-systemd-invoke restart telex.service || echo "WARNING: systemd not running."
     else
         # Assuming SysVinit
         install_init

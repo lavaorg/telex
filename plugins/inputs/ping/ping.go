@@ -14,9 +14,9 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/internal"
-	"github.com/influxdata/telegraf/plugins/inputs"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/internal"
+	"github.com/lavaorg/telex/plugins/inputs"
 )
 
 // HostPinger is a function that runs the "ping" function using a list of
@@ -93,7 +93,7 @@ func (_ *Ping) SampleConfig() string {
 	return sampleConfig
 }
 
-func (p *Ping) Gather(acc telegraf.Accumulator) error {
+func (p *Ping) Gather(acc telex.Accumulator) error {
 	// Spin off a go routine for each url to ping
 	for _, url := range p.Urls {
 		p.wg.Add(1)
@@ -105,7 +105,7 @@ func (p *Ping) Gather(acc telegraf.Accumulator) error {
 	return nil
 }
 
-func (p *Ping) pingToURL(u string, acc telegraf.Accumulator) {
+func (p *Ping) pingToURL(u string, acc telex.Accumulator) {
 	defer p.wg.Done()
 	tags := map[string]string{"url": u}
 	fields := map[string]interface{}{"result_code": 0}
@@ -300,7 +300,7 @@ func processPingOutput(out string) (int, int, float64, float64, float64, float64
 }
 
 func init() {
-	inputs.Add("ping", func() telegraf.Input {
+	inputs.Add("ping", func() telex.Input {
 		return &Ping{
 			pingHost:     hostPinger,
 			PingInterval: 1.0,

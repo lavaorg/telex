@@ -1,4 +1,4 @@
-package telegraf
+package telex
 
 import (
 	"time"

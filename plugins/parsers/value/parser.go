@@ -7,8 +7,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/metric"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/metric"
 )
 
 type ValueParser struct {
@@ -17,7 +17,7 @@ type ValueParser struct {
 	DefaultTags map[string]string
 }
 
-func (v *ValueParser) Parse(buf []byte) ([]telegraf.Metric, error) {
+func (v *ValueParser) Parse(buf []byte) ([]telex.Metric, error) {
 	vStr := string(bytes.TrimSpace(bytes.Trim(buf, "\x00")))
 
 	// unless it's a string, separate out any fields in the buffer,
@@ -25,7 +25,7 @@ func (v *ValueParser) Parse(buf []byte) ([]telegraf.Metric, error) {
 	if v.DataType != "string" {
 		values := strings.Fields(vStr)
 		if len(values) < 1 {
-			return []telegraf.Metric{}, nil
+			return []telex.Metric{}, nil
 		}
 		vStr = string(values[len(values)-1])
 	}
@@ -53,10 +53,10 @@ func (v *ValueParser) Parse(buf []byte) ([]telegraf.Metric, error) {
 		return nil, err
 	}
 
-	return []telegraf.Metric{metric}, nil
+	return []telex.Metric{metric}, nil
 }
 
-func (v *ValueParser) ParseLine(line string) (telegraf.Metric, error) {
+func (v *ValueParser) ParseLine(line string) (telex.Metric, error) {
 	metrics, err := v.Parse([]byte(line))
 
 	if err != nil {

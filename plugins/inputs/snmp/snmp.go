@@ -12,9 +12,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/internal"
-	"github.com/influxdata/telegraf/plugins/inputs"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/internal"
+	"github.com/lavaorg/telex/plugins/inputs"
 
 	"github.com/soniah/gosnmp"
 )
@@ -327,7 +327,7 @@ func Errorf(err error, msg string, format ...interface{}) error {
 }
 
 func init() {
-	inputs.Add("snmp", func() telegraf.Input {
+	inputs.Add("snmp", func() telex.Input {
 		return &Snmp{
 			Name:           "snmp",
 			Retries:        3,
@@ -352,7 +352,7 @@ func (s *Snmp) Description() string {
 // Gather retrieves all the configured fields and tables.
 // Any error encountered does not halt the process. The errors are accumulated
 // and returned at the end.
-func (s *Snmp) Gather(acc telegraf.Accumulator) error {
+func (s *Snmp) Gather(acc telex.Accumulator) error {
 	if err := s.init(); err != nil {
 		return err
 	}
@@ -391,7 +391,7 @@ func (s *Snmp) Gather(acc telegraf.Accumulator) error {
 	return nil
 }
 
-func (s *Snmp) gatherTable(acc telegraf.Accumulator, gs snmpConnection, t Table, topTags map[string]string, walk bool) error {
+func (s *Snmp) gatherTable(acc telex.Accumulator, gs snmpConnection, t Table, topTags map[string]string, walk bool) error {
 	rt, err := t.Build(gs, walk)
 	if err != nil {
 		return err

@@ -3,8 +3,8 @@ package models
 import (
 	"sync"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/selfstat"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/selfstat"
 )
 
 var (
@@ -15,7 +15,7 @@ var (
 // Buffer stores metrics in a circular buffer.
 type Buffer struct {
 	sync.Mutex
-	buf   []telegraf.Metric
+	buf   []telex.Metric
 	first int // index of the first/oldest metric
 	last  int // one after the index of the last/newest metric
 	size  int // number of metrics currently in the buffer
@@ -33,7 +33,7 @@ type Buffer struct {
 // NewBuffer returns a new empty Buffer with the given capacity.
 func NewBuffer(name string, capacity int) *Buffer {
 	b := &Buffer{
-		buf:   make([]telegraf.Metric, capacity),
+		buf:   make([]telex.Metric, capacity),
 		first: 0,
 		last:  0,
 		size:  0,
@@ -70,13 +70,13 @@ func (b *Buffer) metricAdded() {
 	b.MetricsAdded.Incr(1)
 }
 
-func (b *Buffer) metricWritten(metric telegraf.Metric) {
+func (b *Buffer) metricWritten(metric telex.Metric) {
 	AgentMetricsWritten.Incr(1)
 	b.MetricsWritten.Incr(1)
 	metric.Accept()
 }
 
-func (b *Buffer) metricDropped(metric telegraf.Metric) {
+func (b *Buffer) metricDropped(metric telex.Metric) {
 	AgentMetricsDropped.Incr(1)
 	b.MetricsDropped.Incr(1)
 	metric.Reject()
@@ -94,7 +94,7 @@ func (b *Buffer) inBatch() bool {
 	}
 }
 
-func (b *Buffer) add(m telegraf.Metric) {
+func (b *Buffer) add(m telex.Metric) {
 	// Check if Buffer is full
 	if b.size == b.cap {
 		if b.batchSize == 0 {
@@ -128,7 +128,7 @@ func (b *Buffer) add(m telegraf.Metric) {
 }
 
 // Add adds metrics to the buffer
-func (b *Buffer) Add(metrics ...telegraf.Metric) {
+func (b *Buffer) Add(metrics ...telex.Metric) {
 	b.Lock()
 	defer b.Unlock()
 
@@ -142,12 +142,12 @@ func (b *Buffer) Add(metrics ...telegraf.Metric) {
 //
 // The metrics contained in the batch are not removed from the buffer, instead
 // the last batch is recorded and removed only if Accept is called.
-func (b *Buffer) Batch(batchSize int) []telegraf.Metric {
+func (b *Buffer) Batch(batchSize int) []telex.Metric {
 	b.Lock()
 	defer b.Unlock()
 
 	outLen := min(b.size, batchSize)
-	out := make([]telegraf.Metric, outLen)
+	out := make([]telex.Metric, outLen)
 	if outLen == 0 {
 		return out
 	}
@@ -167,7 +167,7 @@ func (b *Buffer) Batch(batchSize int) []telegraf.Metric {
 }
 
 // Accept removes the metrics contained in the last batch.
-func (b *Buffer) Accept(batch []telegraf.Metric) {
+func (b *Buffer) Accept(batch []telex.Metric) {
 	b.Lock()
 	defer b.Unlock()
 
@@ -187,7 +187,7 @@ func (b *Buffer) Accept(batch []telegraf.Metric) {
 
 // Reject clears the current batch record so that calls to Accept will have no
 // effect.
-func (b *Buffer) Reject(batch []telegraf.Metric) {
+func (b *Buffer) Reject(batch []telex.Metric) {
 	b.Lock()
 	defer b.Unlock()
 

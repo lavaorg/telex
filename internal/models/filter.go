@@ -3,8 +3,8 @@ package models
 import (
 	"fmt"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/filter"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/filter"
 )
 
 // TagFilter is the name of a tag, and the values on which to filter
@@ -96,7 +96,7 @@ func (f *Filter) Compile() error {
 
 // Select returns true if the metric matches according to the
 // namepass/namedrop and tagpass/tagdrop filters.  The metric is not modified.
-func (f *Filter) Select(metric telegraf.Metric) bool {
+func (f *Filter) Select(metric telex.Metric) bool {
 	if !f.isActive {
 		return true
 	}
@@ -114,7 +114,7 @@ func (f *Filter) Select(metric telegraf.Metric) bool {
 
 // Modify removes any tags and fields from the metric according to the
 // fieldpass/fielddrop and taginclude/tagexclude filters.
-func (f *Filter) Modify(metric telegraf.Metric) {
+func (f *Filter) Modify(metric telex.Metric) {
 	if !f.isActive {
 		return
 	}
@@ -171,7 +171,7 @@ func (f *Filter) shouldFieldPass(key string) bool {
 
 // shouldTagsPass returns true if the metric should pass, false if should drop
 // based on the tagdrop/tagpass filter parameters
-func (f *Filter) shouldTagsPass(tags []*telegraf.Tag) bool {
+func (f *Filter) shouldTagsPass(tags []*telex.Tag) bool {
 	pass := func(f *Filter) bool {
 		for _, pat := range f.TagPass {
 			if pat.filter == nil {
@@ -205,7 +205,7 @@ func (f *Filter) shouldTagsPass(tags []*telegraf.Tag) bool {
 	}
 
 	// Add additional logic in case where both parameters are set.
-	// see: https://github.com/influxdata/telegraf/issues/2860
+	// see: https:/github.com/lavaorg/telex/issues/2860
 	if f.TagPass != nil && f.TagDrop != nil {
 		// return true only in case when tag pass and won't be dropped (true, true).
 		// in case when the same tag should be passed and dropped it will be dropped (true, false).
@@ -220,7 +220,7 @@ func (f *Filter) shouldTagsPass(tags []*telegraf.Tag) bool {
 }
 
 // filterFields removes fields according to fieldpass/fielddrop.
-func (f *Filter) filterFields(metric telegraf.Metric) {
+func (f *Filter) filterFields(metric telex.Metric) {
 	filterKeys := []string{}
 	for _, field := range metric.FieldList() {
 		if !f.shouldFieldPass(field.Key) {
@@ -234,7 +234,7 @@ func (f *Filter) filterFields(metric telegraf.Metric) {
 }
 
 // filterTags removes tags according to taginclude/tagexclude.
-func (f *Filter) filterTags(metric telegraf.Metric) {
+func (f *Filter) filterTags(metric telex.Metric) {
 	filterKeys := []string{}
 	if f.tagInclude != nil {
 		for _, tag := range metric.TagList() {

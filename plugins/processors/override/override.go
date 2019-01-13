@@ -1,8 +1,8 @@
 package override
 
 import (
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/plugins/processors"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/plugins/processors"
 )
 
 var sampleConfig = `
@@ -31,7 +31,7 @@ func (p *Override) Description() string {
 	return "Apply metric modifications using override semantics."
 }
 
-func (p *Override) Apply(in ...telegraf.Metric) []telegraf.Metric {
+func (p *Override) Apply(in ...telex.Metric) []telex.Metric {
 	for _, metric := range in {
 		if len(p.NameOverride) > 0 {
 			metric.SetName(p.NameOverride)
@@ -50,7 +50,7 @@ func (p *Override) Apply(in ...telegraf.Metric) []telegraf.Metric {
 }
 
 func init() {
-	processors.Add("override", func() telegraf.Processor {
+	processors.Add("override", func() telex.Processor {
 		return &Override{}
 	})
 }

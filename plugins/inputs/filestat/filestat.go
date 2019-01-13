@@ -7,9 +7,9 @@ import (
 	"log"
 	"os"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/internal/globpath"
-	"github.com/influxdata/telegraf/plugins/inputs"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/internal/globpath"
+	"github.com/lavaorg/telex/plugins/inputs"
 )
 
 const sampleConfig = `
@@ -47,7 +47,7 @@ func (_ *FileStat) Description() string {
 
 func (_ *FileStat) SampleConfig() string { return sampleConfig }
 
-func (f *FileStat) Gather(acc telegraf.Accumulator) error {
+func (f *FileStat) Gather(acc telex.Accumulator) error {
 	var err error
 
 	for _, filepath := range f.Files {
@@ -127,7 +127,7 @@ func getMd5(file string) (string, error) {
 }
 
 func init() {
-	inputs.Add("filestat", func() telegraf.Input {
+	inputs.Add("filestat", func() telex.Input {
 		return NewFileStat()
 	})
 }

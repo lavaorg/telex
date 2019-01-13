@@ -8,11 +8,11 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/metric"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/metric"
 )
 
-func MustMetric(v telegraf.Metric, err error) telegraf.Metric {
+func MustMetric(v telex.Metric, err error) telex.Metric {
 	if err != nil {
 		panic(err)
 	}
@@ -187,7 +187,7 @@ func TestSerializeBatch(t *testing.T) {
 		),
 	)
 
-	metrics := []telegraf.Metric{m, m}
+	metrics := []telex.Metric{m, m}
 	s, _ := NewSerializer(0)
 	buf, err := s.SerializeBatch(metrics)
 	require.NoError(t, err)

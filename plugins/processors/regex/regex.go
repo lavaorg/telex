@@ -3,8 +3,8 @@ package regex
 import (
 	"regexp"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/plugins/processors"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/plugins/processors"
 )
 
 type Regex struct {
@@ -63,7 +63,7 @@ func (r *Regex) Description() string {
 	return "Transforms tag and field values with regex pattern"
 }
 
-func (r *Regex) Apply(in ...telegraf.Metric) []telegraf.Metric {
+func (r *Regex) Apply(in ...telex.Metric) []telex.Metric {
 	for _, metric := range in {
 		for _, converter := range r.Tags {
 			if value, ok := metric.GetTag(converter.Key); ok {
@@ -108,7 +108,7 @@ func (r *Regex) convert(c converter, src string) (string, string) {
 }
 
 func init() {
-	processors.Add("regex", func() telegraf.Processor {
+	processors.Add("regex", func() telex.Processor {
 		return NewRegex()
 	})
 }

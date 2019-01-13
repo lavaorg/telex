@@ -4,12 +4,12 @@ import (
 	"testing"
 	"time"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/metric"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/metric"
 	"github.com/stretchr/testify/assert"
 )
 
-func createTestMetric() telegraf.Metric {
+func createTestMetric() telex.Metric {
 	metric, _ := metric.New("m1",
 		map[string]string{"tag": "tag_value"},
 		map[string]interface{}{
@@ -22,7 +22,7 @@ func createTestMetric() telegraf.Metric {
 	return metric
 }
 
-func calculateProcessedValues(mapper EnumMapper, metric telegraf.Metric) map[string]interface{} {
+func calculateProcessedValues(mapper EnumMapper, metric telex.Metric) map[string]interface{} {
 	processed := mapper.Apply(metric)
 	return processed[0].Fields()
 }

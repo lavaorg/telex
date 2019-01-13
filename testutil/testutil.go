@@ -6,8 +6,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/metric"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/metric"
 )
 
 var localhost = "localhost"
@@ -32,10 +32,10 @@ func GetLocalHost() string {
 	return localhost
 }
 
-// MockMetrics returns a mock []telegraf.Metric object for using in unit tests
+// MockMetrics returns a mock []telex.Metric object for using in unit tests
 // of telegraf output sinks.
-func MockMetrics() []telegraf.Metric {
-	metrics := make([]telegraf.Metric, 0)
+func MockMetrics() []telex.Metric {
+	metrics := make([]telex.Metric, 0)
 	// Create a new point batch
 	metrics = append(metrics, TestMetric(1.0))
 	return metrics
@@ -46,7 +46,7 @@ func MockMetrics() []telegraf.Metric {
 //     tags -> "tag1":"value1"
 //     value -> value
 //     time -> time.Date(2009, time.November, 10, 23, 0, 0, 0, time.UTC)
-func TestMetric(value interface{}, name ...string) telegraf.Metric {
+func TestMetric(value interface{}, name ...string) telex.Metric {
 	if value == nil {
 		panic("Cannot use a nil value")
 	}

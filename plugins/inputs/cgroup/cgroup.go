@@ -1,8 +1,8 @@
 package cgroup
 
 import (
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/plugins/inputs"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/plugins/inputs"
 )
 
 type CGroup struct {
@@ -34,5 +34,5 @@ func (g *CGroup) Description() string {
 }
 
 func init() {
-	inputs.Add("cgroup", func() telegraf.Input { return &CGroup{} })
+	inputs.Add("cgroup", func() telex.Input { return &CGroup{} })
 }

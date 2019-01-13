@@ -4,19 +4,19 @@ import (
 	"testing"
 	"time"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/metric"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/metric"
 )
 
 func TestRequireMetricsEqual(t *testing.T) {
 	tests := []struct {
 		name string
-		got  telegraf.Metric
-		want telegraf.Metric
+		got  telex.Metric
+		want telex.Metric
 	}{
 		{
 			name: "telegraf and testutil metrics should be equal",
-			got: func() telegraf.Metric {
+			got: func() telex.Metric {
 				m, _ := metric.New(
 					"test",
 					map[string]string{
@@ -32,7 +32,7 @@ func TestRequireMetricsEqual(t *testing.T) {
 				)
 				return m
 			}(),
-			want: func() telegraf.Metric {
+			want: func() telex.Metric {
 				m, _ := metric.New(
 					"test",
 					map[string]string{

@@ -8,11 +8,11 @@ import (
 
 	"crypto/tls"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/internal"
-	tlsint "github.com/influxdata/telegraf/internal/tls"
-	"github.com/influxdata/telegraf/plugins/outputs"
-	"github.com/influxdata/telegraf/plugins/serializers"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/internal"
+	tlsint "github.com/lavaorg/telex/internal/tls"
+	"github.com/lavaorg/telex/plugins/outputs"
+	"github.com/lavaorg/telex/plugins/serializers"
 )
 
 type SocketWriter struct {
@@ -40,8 +40,8 @@ func (sw *SocketWriter) SampleConfig() string {
   # address = "udp://127.0.0.1:8094"
   # address = "udp4://127.0.0.1:8094"
   # address = "udp6://127.0.0.1:8094"
-  # address = "unix:///tmp/telegraf.sock"
-  # address = "unixgram:///tmp/telegraf.sock"
+  # address = "unix:///tmp/telex.sock"
+  # address = "unixgram:///tmp/telex.sock"
 
   ## Optional TLS Config
   # tls_ca = "/etc/telegraf/ca.pem"
@@ -59,7 +59,7 @@ func (sw *SocketWriter) SampleConfig() string {
   ## Data format to generate.
   ## Each data format has its own unique set of configuration options, read
   ## more about them here:
-  ## https://github.com/influxdata/telegraf/blob/master/docs/DATA_FORMATS_INPUT.md
+  ## https:/github.com/lavaorg/telex/blob/master/docs/DATA_FORMATS_INPUT.md
   # data_format = "influx"
 `
 }
@@ -117,7 +117,7 @@ func (sw *SocketWriter) setKeepAlive(c net.Conn) error {
 // Write writes the given metrics to the destination.
 // If an error is encountered, it is up to the caller to retry the same write again later.
 // Not parallel safe.
-func (sw *SocketWriter) Write(metrics []telegraf.Metric) error {
+func (sw *SocketWriter) Write(metrics []telex.Metric) error {
 	if sw.Conn == nil {
 		// previous write failed with permanent error and socket was closed.
 		if err := sw.Connect(); err != nil {
@@ -164,5 +164,5 @@ func newSocketWriter() *SocketWriter {
 }
 
 func init() {
-	outputs.Add("socket_writer", func() telegraf.Output { return newSocketWriter() })
+	outputs.Add("socket_writer", func() telex.Output { return newSocketWriter() })
 }

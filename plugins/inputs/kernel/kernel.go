@@ -10,8 +10,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/plugins/inputs"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/plugins/inputs"
 )
 
 // /proc/stat file line prefixes to gather stats on:
@@ -34,7 +34,7 @@ func (k *Kernel) Description() string {
 
 func (k *Kernel) SampleConfig() string { return "" }
 
-func (k *Kernel) Gather(acc telegraf.Accumulator) error {
+func (k *Kernel) Gather(acc telex.Accumulator) error {
 
 	data, err := k.getProcStat()
 	if err != nil {
@@ -118,7 +118,7 @@ func (k *Kernel) getProcStat() ([]byte, error) {
 }
 
 func init() {
-	inputs.Add("kernel", func() telegraf.Input {
+	inputs.Add("kernel", func() telex.Input {
 		return &Kernel{
 			statFile:        "/proc/stat",
 			entropyStatFile: "/proc/sys/kernel/random/entropy_avail",

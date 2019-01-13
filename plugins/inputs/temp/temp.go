@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/plugins/inputs"
-	"github.com/influxdata/telegraf/plugins/inputs/system"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/plugins/inputs"
+	"github.com/lavaorg/telex/plugins/inputs/system"
 )
 
 type Temperature struct {
@@ -23,7 +23,7 @@ func (t *Temperature) SampleConfig() string {
 	return sampleConfig
 }
 
-func (t *Temperature) Gather(acc telegraf.Accumulator) error {
+func (t *Temperature) Gather(acc telex.Accumulator) error {
 	temps, err := t.ps.Temperature()
 	if err != nil {
 		if strings.Contains(err.Error(), "not implemented yet") {
@@ -44,7 +44,7 @@ func (t *Temperature) Gather(acc telegraf.Accumulator) error {
 }
 
 func init() {
-	inputs.Add("temp", func() telegraf.Input {
+	inputs.Add("temp", func() telex.Input {
 		return &Temperature{ps: system.NewSystemPS()}
 	})
 }

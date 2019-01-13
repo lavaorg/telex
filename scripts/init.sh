@@ -20,7 +20,7 @@
 # In the third case we have to define our own functions which are very dumb
 # and expect the args to be positioned correctly.
 
-# Command-line options that can be set in /etc/default/telegraf.  These will override
+# Command-line options that can be set in /etc/default/telex.  These will override
 # any config file values.
 TELEGRAF_OPTS=
 
@@ -47,7 +47,7 @@ if [ ! -f "$STDOUT" ]; then
 fi
 
 if [ -z "$STDERR" ]; then
-    STDERR=/var/log/telegraf/telegraf.log
+    STDERR=/var/log/telegraf/telex.log
 fi
 if [ ! -f "$STDERR" ]; then
     mkdir -p `dirname $STDERR`
@@ -102,7 +102,7 @@ name=telegraf
 daemon=/usr/bin/telegraf
 
 # pid file for the daemon
-pidfile=/var/run/telegraf/telegraf.pid
+pidfile=/var/run/telegraf/telex.pid
 piddir=`dirname $pidfile`
 
 if [ ! -d "$piddir" ]; then
@@ -111,8 +111,8 @@ if [ ! -d "$piddir" ]; then
 fi
 
 # Configuration file
-config=/etc/telegraf/telegraf.conf
-confdir=/etc/telegraf/telegraf.d
+config=/etc/telegraf/telex.conf
+confdir=/etc/telegraf/telex.d
 
 # If the daemon is not there, then exit.
 [ -x $daemon ] || exit 5

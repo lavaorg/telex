@@ -3,8 +3,8 @@ package valuecounter
 import (
 	"fmt"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/plugins/aggregators"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/plugins/aggregators"
 )
 
 type aggregate struct {
@@ -21,7 +21,7 @@ type ValueCounter struct {
 
 // NewValueCounter create a new aggregation plugin which counts the occurrences
 // of fields and emits the count.
-func NewValueCounter() telegraf.Aggregator {
+func NewValueCounter() telex.Aggregator {
 	vc := &ValueCounter{}
 	vc.Reset()
 	return vc
@@ -49,7 +49,7 @@ func (vc *ValueCounter) Description() string {
 }
 
 // Add is run on every metric which passes the plugin
-func (vc *ValueCounter) Add(in telegraf.Metric) {
+func (vc *ValueCounter) Add(in telex.Metric) {
 	id := in.HashID()
 
 	// Check if the cache already has an entry for this metric, if not create it
@@ -75,7 +75,7 @@ func (vc *ValueCounter) Add(in telegraf.Metric) {
 }
 
 // Push emits the counters
-func (vc *ValueCounter) Push(acc telegraf.Accumulator) {
+func (vc *ValueCounter) Push(acc telex.Accumulator) {
 	for _, agg := range vc.cache {
 		fields := map[string]interface{}{}
 
@@ -93,7 +93,7 @@ func (vc *ValueCounter) Reset() {
 }
 
 func init() {
-	aggregators.Add("valuecounter", func() telegraf.Aggregator {
+	aggregators.Add("valuecounter", func() telex.Aggregator {
 		return NewValueCounter()
 	})
 }

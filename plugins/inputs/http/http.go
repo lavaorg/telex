@@ -10,11 +10,11 @@ import (
 	"sync"
 	"time"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/internal"
-	"github.com/influxdata/telegraf/internal/tls"
-	"github.com/influxdata/telegraf/plugins/inputs"
-	"github.com/influxdata/telegraf/plugins/parsers"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/internal"
+	"github.com/lavaorg/telex/internal/tls"
+	"github.com/lavaorg/telex/plugins/inputs"
+	"github.com/lavaorg/telex/plugins/parsers"
 )
 
 type HTTP struct {
@@ -75,7 +75,7 @@ var sampleConfig = `
   ## Data format to consume.
   ## Each data format has its own unique set of configuration options, read
   ## more about them here:
-  ## https://github.com/influxdata/telegraf/blob/master/docs/DATA_FORMATS_INPUT.md
+  ## https:/github.com/lavaorg/telex/blob/master/docs/DATA_FORMATS_INPUT.md
   # data_format = "influx"
 `
 
@@ -91,7 +91,7 @@ func (*HTTP) Description() string {
 
 // Gather takes in an accumulator and adds the metrics that the Input
 // gathers. This is called every "interval"
-func (h *HTTP) Gather(acc telegraf.Accumulator) error {
+func (h *HTTP) Gather(acc telex.Accumulator) error {
 	if h.parser == nil {
 		return errors.New("Parser is not set")
 	}
@@ -139,7 +139,7 @@ func (h *HTTP) SetParser(parser parsers.Parser) {
 // Returns:
 //     error: Any error that may have occurred
 func (h *HTTP) gatherURL(
-	acc telegraf.Accumulator,
+	acc telex.Accumulator,
 	url string,
 ) error {
 	body, err := makeRequestBodyReader(h.ContentEncoding, h.Body)
@@ -215,7 +215,7 @@ func makeRequestBodyReader(contentEncoding, body string) (io.Reader, error) {
 }
 
 func init() {
-	inputs.Add("http", func() telegraf.Input {
+	inputs.Add("http", func() telex.Input {
 		return &HTTP{
 			Timeout: internal.Duration{Duration: time.Second * 5},
 			Method:  "GET",

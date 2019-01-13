@@ -5,15 +5,15 @@ import (
 	"testing"
 	"time"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/testutil"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/testutil"
 
 	"github.com/stretchr/testify/require"
 )
 
 // MockProcessor is a Processor with an overrideable Apply implementation.
 type MockProcessor struct {
-	ApplyF func(in ...telegraf.Metric) []telegraf.Metric
+	ApplyF func(in ...telex.Metric) []telex.Metric
 }
 
 func (p *MockProcessor) SampleConfig() string {
@@ -24,7 +24,7 @@ func (p *MockProcessor) Description() string {
 	return ""
 }
 
-func (p *MockProcessor) Apply(in ...telegraf.Metric) []telegraf.Metric {
+func (p *MockProcessor) Apply(in ...telex.Metric) []telex.Metric {
 	return p.ApplyF(in...)
 }
 
@@ -32,7 +32,7 @@ func (p *MockProcessor) Apply(in ...telegraf.Metric) []telegraf.Metric {
 // value.
 func TagProcessor(key, value string) *MockProcessor {
 	return &MockProcessor{
-		ApplyF: func(in ...telegraf.Metric) []telegraf.Metric {
+		ApplyF: func(in ...telex.Metric) []telex.Metric {
 			for _, m := range in {
 				m.AddTag(key, value)
 			}
@@ -43,15 +43,15 @@ func TagProcessor(key, value string) *MockProcessor {
 
 func TestRunningProcessor_Apply(t *testing.T) {
 	type args struct {
-		Processor telegraf.Processor
+		Processor telex.Processor
 		Config    *ProcessorConfig
 	}
 
 	tests := []struct {
 		name     string
 		args     args
-		input    []telegraf.Metric
-		expected []telegraf.Metric
+		input    []telex.Metric
+		expected []telex.Metric
 	}{
 		{
 			name: "inactive filter applies metrics",
@@ -61,7 +61,7 @@ func TestRunningProcessor_Apply(t *testing.T) {
 					Filter: Filter{},
 				},
 			},
-			input: []telegraf.Metric{
+			input: []telex.Metric{
 				testutil.MustMetric(
 					"cpu",
 					map[string]string{},
@@ -71,7 +71,7 @@ func TestRunningProcessor_Apply(t *testing.T) {
 					time.Unix(0, 0),
 				),
 			},
-			expected: []telegraf.Metric{
+			expected: []telex.Metric{
 				testutil.MustMetric(
 					"cpu",
 					map[string]string{
@@ -94,7 +94,7 @@ func TestRunningProcessor_Apply(t *testing.T) {
 					},
 				},
 			},
-			input: []telegraf.Metric{
+			input: []telex.Metric{
 				testutil.MustMetric(
 					"cpu",
 					map[string]string{},
@@ -104,7 +104,7 @@ func TestRunningProcessor_Apply(t *testing.T) {
 					time.Unix(0, 0),
 				),
 			},
-			expected: []telegraf.Metric{
+			expected: []telex.Metric{
 				testutil.MustMetric(
 					"cpu",
 					map[string]string{
@@ -127,7 +127,7 @@ func TestRunningProcessor_Apply(t *testing.T) {
 					},
 				},
 			},
-			input: []telegraf.Metric{
+			input: []telex.Metric{
 				testutil.MustMetric(
 					"cpu",
 					map[string]string{},
@@ -137,7 +137,7 @@ func TestRunningProcessor_Apply(t *testing.T) {
 					time.Unix(0, 0),
 				),
 			},
-			expected: []telegraf.Metric{
+			expected: []telex.Metric{
 				testutil.MustMetric(
 					"cpu",
 					map[string]string{},

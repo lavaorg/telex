@@ -8,9 +8,9 @@ import (
 	"regexp"
 	"time"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/internal"
-	"github.com/influxdata/telegraf/plugins/inputs"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/internal"
+	"github.com/lavaorg/telex/plugins/inputs"
 )
 
 type ResultType uint64
@@ -183,7 +183,7 @@ func (n *NetResponse) UDPGather() (tags map[string]string, fields map[string]int
 // Gather is called by telegraf when the plugin is executed on its interval.
 // It will call either UDPGather or TCPGather based on the configuration and
 // also fill an Accumulator that is supplied.
-func (n *NetResponse) Gather(acc telegraf.Accumulator) error {
+func (n *NetResponse) Gather(acc telex.Accumulator) error {
 	// Set default values
 	if n.Timeout.Duration == 0 {
 		n.Timeout.Duration = time.Second
@@ -263,7 +263,7 @@ func setResult(result ResultType, fields map[string]interface{}, tags map[string
 }
 
 func init() {
-	inputs.Add("net_response", func() telegraf.Input {
+	inputs.Add("net_response", func() telex.Input {
 		return &NetResponse{}
 	})
 }

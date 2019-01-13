@@ -5,8 +5,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/testutil"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/testutil"
 
 	"github.com/stretchr/testify/require"
 )
@@ -32,7 +32,7 @@ func TestAdd(t *testing.T) {
 			"value": int64(101),
 		},
 		time.Now().Add(time.Millisecond*150),
-		telegraf.Untyped)
+		telex.Untyped)
 	require.False(t, ra.Add(m))
 	ra.Push(&acc)
 
@@ -60,7 +60,7 @@ func TestAddMetricsOutsideCurrentPeriod(t *testing.T) {
 			"value": int64(101),
 		},
 		now.Add(-time.Hour),
-		telegraf.Untyped,
+		telex.Untyped,
 	)
 	require.False(t, ra.Add(m))
 
@@ -71,7 +71,7 @@ func TestAddMetricsOutsideCurrentPeriod(t *testing.T) {
 			"value": int64(101),
 		},
 		now.Add(time.Hour),
-		telegraf.Untyped,
+		telex.Untyped,
 	)
 	require.False(t, ra.Add(m))
 
@@ -82,7 +82,7 @@ func TestAddMetricsOutsideCurrentPeriod(t *testing.T) {
 			"value": int64(101),
 		},
 		time.Now().Add(time.Millisecond*50),
-		telegraf.Untyped)
+		telex.Untyped)
 	require.False(t, ra.Add(m))
 
 	ra.Push(&acc)
@@ -111,7 +111,7 @@ func TestAddAndPushOnePeriod(t *testing.T) {
 			"value": int64(101),
 		},
 		time.Now().Add(time.Millisecond*100),
-		telegraf.Untyped)
+		telex.Untyped)
 	require.False(t, ra.Add(m))
 
 	ra.Push(&acc)
@@ -138,7 +138,7 @@ func TestAddDropOriginal(t *testing.T) {
 			"value": int64(101),
 		},
 		now,
-		telegraf.Untyped)
+		telex.Untyped)
 	require.True(t, ra.Add(m))
 
 	// this metric name doesn't match the filter, so Add will return false
@@ -148,7 +148,7 @@ func TestAddDropOriginal(t *testing.T) {
 			"value": int64(101),
 		},
 		now,
-		telegraf.Untyped)
+		telex.Untyped)
 	require.False(t, ra.Add(m2))
 }
 
@@ -162,14 +162,14 @@ func (t *TestAggregator) Reset() {
 	atomic.StoreInt64(&t.sum, 0)
 }
 
-func (t *TestAggregator) Push(acc telegraf.Accumulator) {
+func (t *TestAggregator) Push(acc telex.Accumulator) {
 	acc.AddFields("TestMetric",
 		map[string]interface{}{"sum": t.sum},
 		map[string]string{},
 	)
 }
 
-func (t *TestAggregator) Add(in telegraf.Metric) {
+func (t *TestAggregator) Add(in telex.Metric) {
 	for _, v := range in.Fields() {
 		if vi, ok := v.(int64); ok {
 			atomic.AddInt64(&t.sum, vi)

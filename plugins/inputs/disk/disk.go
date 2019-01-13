@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/plugins/inputs"
-	"github.com/influxdata/telegraf/plugins/inputs/system"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/plugins/inputs"
+	"github.com/lavaorg/telex/plugins/inputs/system"
 )
 
 type DiskStats struct {
@@ -36,7 +36,7 @@ func (_ *DiskStats) SampleConfig() string {
 	return diskSampleConfig
 }
 
-func (s *DiskStats) Gather(acc telegraf.Accumulator) error {
+func (s *DiskStats) Gather(acc telex.Accumulator) error {
 	// Legacy support:
 	if len(s.Mountpoints) != 0 {
 		s.MountPoints = s.Mountpoints
@@ -107,7 +107,7 @@ func parseOptions(opts string) MountOptions {
 
 func init() {
 	ps := system.NewSystemPS()
-	inputs.Add("disk", func() telegraf.Input {
+	inputs.Add("disk", func() telex.Input {
 		return &DiskStats{ps: ps}
 	})
 }

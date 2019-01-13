@@ -12,11 +12,11 @@ import (
 	"sync"
 	"time"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/internal"
-	tlsint "github.com/influxdata/telegraf/internal/tls"
-	"github.com/influxdata/telegraf/plugins/inputs"
-	"github.com/influxdata/telegraf/plugins/parsers"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/internal"
+	tlsint "github.com/lavaorg/telex/internal/tls"
+	"github.com/lavaorg/telex/plugins/inputs"
+	"github.com/lavaorg/telex/plugins/parsers"
 )
 
 type setReadBufferer interface {
@@ -168,7 +168,7 @@ type SocketListener struct {
 	tlsint.ServerConfig
 
 	parsers.Parser
-	telegraf.Accumulator
+	telex.Accumulator
 	io.Closer
 }
 
@@ -187,8 +187,8 @@ func (sl *SocketListener) SampleConfig() string {
   # service_address = "udp://:8094"
   # service_address = "udp4://:8094"
   # service_address = "udp6://:8094"
-  # service_address = "unix:///tmp/telegraf.sock"
-  # service_address = "unixgram:///tmp/telegraf.sock"
+  # service_address = "unix:///tmp/telex.sock"
+  # service_address = "unixgram:///tmp/telex.sock"
 
   ## Maximum number of concurrent connections.
   ## Only applies to stream sockets (e.g. TCP).
@@ -222,12 +222,12 @@ func (sl *SocketListener) SampleConfig() string {
   ## Data format to consume.
   ## Each data format has its own unique set of configuration options, read
   ## more about them here:
-  ## https://github.com/influxdata/telegraf/blob/master/docs/DATA_FORMATS_INPUT.md
+  ## https:/github.com/lavaorg/telex/blob/master/docs/DATA_FORMATS_INPUT.md
   # data_format = "influx"
 `
 }
 
-func (sl *SocketListener) Gather(_ telegraf.Accumulator) error {
+func (sl *SocketListener) Gather(_ telex.Accumulator) error {
 	return nil
 }
 
@@ -235,7 +235,7 @@ func (sl *SocketListener) SetParser(parser parsers.Parser) {
 	sl.Parser = parser
 }
 
-func (sl *SocketListener) Start(acc telegraf.Accumulator) error {
+func (sl *SocketListener) Start(acc telex.Accumulator) error {
 	sl.Accumulator = acc
 	spl := strings.SplitN(sl.ServiceAddress, "://", 2)
 	if len(spl) != 2 {
@@ -337,5 +337,5 @@ func (uc unixCloser) Close() error {
 }
 
 func init() {
-	inputs.Add("socket_listener", func() telegraf.Input { return newSocketListener() })
+	inputs.Add("socket_listener", func() telex.Input { return newSocketListener() })
 }

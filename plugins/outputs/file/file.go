@@ -5,9 +5,9 @@ import (
 	"io"
 	"os"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/plugins/outputs"
-	"github.com/influxdata/telegraf/plugins/serializers"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/plugins/outputs"
+	"github.com/lavaorg/telex/plugins/serializers"
 )
 
 type File struct {
@@ -26,7 +26,7 @@ var sampleConfig = `
   ## Data format to output.
   ## Each data format has its own unique set of configuration options, read
   ## more about them here:
-  ## https://github.com/influxdata/telegraf/blob/master/docs/DATA_FORMATS_OUTPUT.md
+  ## https:/github.com/lavaorg/telex/blob/master/docs/DATA_FORMATS_OUTPUT.md
   data_format = "influx"
 `
 
@@ -82,7 +82,7 @@ func (f *File) Description() string {
 	return "Send telegraf metrics to file(s)"
 }
 
-func (f *File) Write(metrics []telegraf.Metric) error {
+func (f *File) Write(metrics []telex.Metric) error {
 	var writeErr error = nil
 	for _, metric := range metrics {
 		b, err := f.serializer.Serialize(metric)
@@ -101,7 +101,7 @@ func (f *File) Write(metrics []telegraf.Metric) error {
 }
 
 func init() {
-	outputs.Add("file", func() telegraf.Output {
+	outputs.Add("file", func() telex.Output {
 		return &File{}
 	})
 }

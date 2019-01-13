@@ -11,9 +11,9 @@ import (
 
 	"encoding/json"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/internal"
-	"github.com/influxdata/telegraf/plugins/inputs"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/internal"
+	"github.com/lavaorg/telex/plugins/inputs"
 
 	gnatsd "github.com/nats-io/gnatsd/server"
 )
@@ -41,7 +41,7 @@ func (n *Nats) Description() string {
 	return "Provides metrics about the state of a NATS server"
 }
 
-func (n *Nats) Gather(acc telegraf.Accumulator) error {
+func (n *Nats) Gather(acc telex.Accumulator) error {
 	url, err := url.Parse(n.Server)
 	if err != nil {
 		return err
@@ -106,7 +106,7 @@ func (n *Nats) createHTTPClient() *http.Client {
 }
 
 func init() {
-	inputs.Add("nats", func() telegraf.Input {
+	inputs.Add("nats", func() telex.Input {
 		return &Nats{
 			Server: "http://localhost:8222",
 		}

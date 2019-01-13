@@ -13,9 +13,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/internal"
-	"github.com/influxdata/telegraf/plugins/inputs"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/internal"
+	"github.com/lavaorg/telex/plugins/inputs"
 )
 
 // HostPinger is a function that runs the "ping" function using a list of
@@ -72,7 +72,7 @@ func (s *Ping) SampleConfig() string {
 	return sampleConfig
 }
 
-func (p *Ping) Gather(acc telegraf.Accumulator) error {
+func (p *Ping) Gather(acc telex.Accumulator) error {
 	if p.Count < 1 {
 		p.Count = 1
 	}
@@ -88,7 +88,7 @@ func (p *Ping) Gather(acc telegraf.Accumulator) error {
 	return nil
 }
 
-func (p *Ping) pingToURL(u string, acc telegraf.Accumulator) {
+func (p *Ping) pingToURL(u string, acc telex.Accumulator) {
 	defer p.wg.Done()
 
 	tags := map[string]string{"url": u}
@@ -248,7 +248,7 @@ func (p *Ping) timeout() float64 {
 }
 
 func init() {
-	inputs.Add("ping", func() telegraf.Input {
+	inputs.Add("ping", func() telex.Input {
 		return &Ping{
 			pingHost:  hostPinger,
 			Count:     1,

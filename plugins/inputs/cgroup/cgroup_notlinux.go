@@ -3,9 +3,9 @@
 package cgroup
 
 import (
-	"github.com/influxdata/telegraf"
+	"github.com/lavaorg/telex"
 )
 
-func (g *CGroup) Gather(acc telegraf.Accumulator) error {
+func (g *CGroup) Gather(acc telex.Accumulator) error {
 	return nil
 }

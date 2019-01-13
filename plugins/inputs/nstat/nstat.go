@@ -6,8 +6,8 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/plugins/inputs"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/plugins/inputs"
 )
 
 var (
@@ -58,7 +58,7 @@ func (ns *Nstat) SampleConfig() string {
 	return sampleConfig
 }
 
-func (ns *Nstat) Gather(acc telegraf.Accumulator) error {
+func (ns *Nstat) Gather(acc telex.Accumulator) error {
 	// load paths, get from env if config values are empty
 	ns.loadPaths()
 
@@ -95,7 +95,7 @@ func (ns *Nstat) Gather(acc telegraf.Accumulator) error {
 	return nil
 }
 
-func (ns *Nstat) gatherNetstat(data []byte, acc telegraf.Accumulator) error {
+func (ns *Nstat) gatherNetstat(data []byte, acc telex.Accumulator) error {
 	metrics, err := loadUglyTable(data, ns.DumpZeros)
 	if err != nil {
 		return err
@@ -107,7 +107,7 @@ func (ns *Nstat) gatherNetstat(data []byte, acc telegraf.Accumulator) error {
 	return nil
 }
 
-func (ns *Nstat) gatherSNMP(data []byte, acc telegraf.Accumulator) error {
+func (ns *Nstat) gatherSNMP(data []byte, acc telex.Accumulator) error {
 	metrics, err := loadUglyTable(data, ns.DumpZeros)
 	if err != nil {
 		return err
@@ -119,7 +119,7 @@ func (ns *Nstat) gatherSNMP(data []byte, acc telegraf.Accumulator) error {
 	return nil
 }
 
-func (ns *Nstat) gatherSNMP6(data []byte, acc telegraf.Accumulator) error {
+func (ns *Nstat) gatherSNMP6(data []byte, acc telex.Accumulator) error {
 	metrics, err := loadGoodTable(data, ns.DumpZeros)
 	if err != nil {
 		return err
@@ -227,7 +227,7 @@ func proc(env, path string) string {
 }
 
 func init() {
-	inputs.Add("nstat", func() telegraf.Input {
+	inputs.Add("nstat", func() telex.Input {
 		return &Nstat{}
 	})
 }

@@ -3,14 +3,14 @@ package models
 import (
 	"time"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/selfstat"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/selfstat"
 )
 
 var GlobalMetricsGathered = selfstat.Register("agent", "metrics_gathered", map[string]string{})
 
 type RunningInput struct {
-	Input  telegraf.Input
+	Input  telex.Input
 	Config *InputConfig
 
 	defaultTags map[string]string
@@ -19,7 +19,7 @@ type RunningInput struct {
 	GatherTime      selfstat.Stat
 }
 
-func NewRunningInput(input telegraf.Input, config *InputConfig) *RunningInput {
+func NewRunningInput(input telex.Input, config *InputConfig) *RunningInput {
 	return &RunningInput{
 		Input:  input,
 		Config: config,
@@ -52,11 +52,11 @@ func (r *RunningInput) Name() string {
 	return "inputs." + r.Config.Name
 }
 
-func (r *RunningInput) metricFiltered(metric telegraf.Metric) {
+func (r *RunningInput) metricFiltered(metric telex.Metric) {
 	metric.Drop()
 }
 
-func (r *RunningInput) MakeMetric(metric telegraf.Metric) telegraf.Metric {
+func (r *RunningInput) MakeMetric(metric telex.Metric) telex.Metric {
 	if ok := r.Config.Filter.Select(metric); !ok {
 		r.metricFiltered(metric)
 		return nil
@@ -81,7 +81,7 @@ func (r *RunningInput) MakeMetric(metric telegraf.Metric) telegraf.Metric {
 	return m
 }
 
-func (r *RunningInput) Gather(acc telegraf.Accumulator) error {
+func (r *RunningInput) Gather(acc telex.Accumulator) error {
 	start := time.Now()
 	err := r.Input.Gather(acc)
 	elapsed := time.Since(start)

@@ -9,10 +9,10 @@ import (
 
 	"github.com/influxdata/tail"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/internal/globpath"
-	"github.com/influxdata/telegraf/plugins/inputs"
-	"github.com/influxdata/telegraf/plugins/parsers"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/internal/globpath"
+	"github.com/lavaorg/telex/plugins/inputs"
+	"github.com/lavaorg/telex/plugins/parsers"
 	// Parsers
 )
 
@@ -45,7 +45,7 @@ type LogParserPlugin struct {
 	lines   chan logEntry
 	done    chan struct{}
 	wg      sync.WaitGroup
-	acc     telegraf.Accumulator
+	acc     telex.Accumulator
 
 	sync.Mutex
 
@@ -113,7 +113,7 @@ func (l *LogParserPlugin) Description() string {
 }
 
 // Gather is the primary function to collect the metrics for the plugin
-func (l *LogParserPlugin) Gather(acc telegraf.Accumulator) error {
+func (l *LogParserPlugin) Gather(acc telex.Accumulator) error {
 	l.Lock()
 	defer l.Unlock()
 
@@ -122,7 +122,7 @@ func (l *LogParserPlugin) Gather(acc telegraf.Accumulator) error {
 }
 
 // Start kicks off collection of stats for the plugin
-func (l *LogParserPlugin) Start(acc telegraf.Accumulator) error {
+func (l *LogParserPlugin) Start(acc telex.Accumulator) error {
 	l.Lock()
 	defer l.Unlock()
 
@@ -249,7 +249,7 @@ func (l *LogParserPlugin) receiver(tailer *tail.Tail) {
 func (l *LogParserPlugin) parser() {
 	defer l.wg.Done()
 
-	var m telegraf.Metric
+	var m telex.Metric
 	var err error
 	var entry logEntry
 	for {
@@ -296,7 +296,7 @@ func (l *LogParserPlugin) Stop() {
 }
 
 func init() {
-	inputs.Add("logparser", func() telegraf.Input {
+	inputs.Add("logparser", func() telex.Input {
 		return &LogParserPlugin{
 			WatchMethod: defaultWatchMethod,
 		}

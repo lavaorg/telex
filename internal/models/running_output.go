@@ -5,8 +5,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/selfstat"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/selfstat"
 )
 
 const (
@@ -30,7 +30,7 @@ type OutputConfig struct {
 // RunningOutput contains the output configuration
 type RunningOutput struct {
 	Name              string
-	Output            telegraf.Output
+	Output            telex.Output
 	Config            *OutputConfig
 	MetricBufferLimit int
 	MetricBatchSize   int
@@ -40,7 +40,7 @@ type RunningOutput struct {
 	BufferLimit     selfstat.Stat
 	WriteTime       selfstat.Stat
 
-	batch      []telegraf.Metric
+	batch      []telex.Metric
 	buffer     *Buffer
 	BatchReady chan time.Time
 
@@ -50,7 +50,7 @@ type RunningOutput struct {
 
 func NewRunningOutput(
 	name string,
-	output telegraf.Output,
+	output telex.Output,
 	conf *OutputConfig,
 	batchSize int,
 	bufferLimit int,
@@ -69,7 +69,7 @@ func NewRunningOutput(
 	}
 	ro := &RunningOutput{
 		Name:              name,
-		batch:             make([]telegraf.Metric, 0, batchSize),
+		batch:             make([]telex.Metric, 0, batchSize),
 		buffer:            NewBuffer(name, bufferLimit),
 		BatchReady:        make(chan time.Time, 1),
 		Output:            output,
@@ -102,7 +102,7 @@ func NewRunningOutput(
 	return ro
 }
 
-func (ro *RunningOutput) metricFiltered(metric telegraf.Metric) {
+func (ro *RunningOutput) metricFiltered(metric telex.Metric) {
 	ro.MetricsFiltered.Incr(1)
 	metric.Drop()
 }
@@ -110,7 +110,7 @@ func (ro *RunningOutput) metricFiltered(metric telegraf.Metric) {
 // AddMetric adds a metric to the output.
 //
 // Takes ownership of metric
-func (ro *RunningOutput) AddMetric(metric telegraf.Metric) {
+func (ro *RunningOutput) AddMetric(metric telex.Metric) {
 	if ok := ro.Config.Filter.Select(metric); !ok {
 		ro.metricFiltered(metric)
 		return
@@ -122,7 +122,7 @@ func (ro *RunningOutput) AddMetric(metric telegraf.Metric) {
 		return
 	}
 
-	if output, ok := ro.Output.(telegraf.AggregatingOutput); ok {
+	if output, ok := ro.Output.(telex.AggregatingOutput); ok {
 		ro.aggMutex.Lock()
 		output.Add(metric)
 		ro.aggMutex.Unlock()
@@ -156,7 +156,7 @@ func (ro *RunningOutput) addBatchToBuffer() {
 // Write writes all metrics to the output, stopping when all have been sent on
 // or error.
 func (ro *RunningOutput) Write() error {
-	if output, ok := ro.Output.(telegraf.AggregatingOutput); ok {
+	if output, ok := ro.Output.(telex.AggregatingOutput); ok {
 		ro.aggMutex.Lock()
 		metrics := output.Push()
 		ro.buffer.Add(metrics...)
@@ -206,7 +206,7 @@ func (ro *RunningOutput) WriteBatch() error {
 	return nil
 }
 
-func (ro *RunningOutput) write(metrics []telegraf.Metric) error {
+func (ro *RunningOutput) write(metrics []telex.Metric) error {
 	start := time.Now()
 	err := ro.Output.Write(metrics)
 	elapsed := time.Since(start)

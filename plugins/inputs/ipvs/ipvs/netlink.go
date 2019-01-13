@@ -15,7 +15,6 @@ import (
 	"unsafe"
 	"log"
 
-	"github.com/sirupsen/logrus"
 	"github.com/vishvananda/netlink/nl"
 	"github.com/vishvananda/netns"
 )

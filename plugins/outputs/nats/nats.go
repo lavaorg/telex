@@ -5,10 +5,10 @@ import (
 
 	nats_client "github.com/nats-io/go-nats"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/internal/tls"
-	"github.com/influxdata/telegraf/plugins/outputs"
-	"github.com/influxdata/telegraf/plugins/serializers"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/internal/tls"
+	"github.com/lavaorg/telex/plugins/outputs"
+	"github.com/lavaorg/telex/plugins/serializers"
 )
 
 type NATS struct {
@@ -44,7 +44,7 @@ var sampleConfig = `
   ## Data format to output.
   ## Each data format has its own unique set of configuration options, read
   ## more about them here:
-  ## https://github.com/influxdata/telegraf/blob/master/docs/DATA_FORMATS_OUTPUT.md
+  ## https:/github.com/lavaorg/telex/blob/master/docs/DATA_FORMATS_OUTPUT.md
   data_format = "influx"
 `
 
@@ -100,7 +100,7 @@ func (n *NATS) Description() string {
 	return "Send telegraf measurements to NATS"
 }
 
-func (n *NATS) Write(metrics []telegraf.Metric) error {
+func (n *NATS) Write(metrics []telex.Metric) error {
 	if len(metrics) == 0 {
 		return nil
 	}
@@ -120,7 +120,7 @@ func (n *NATS) Write(metrics []telegraf.Metric) error {
 }
 
 func init() {
-	outputs.Add("nats", func() telegraf.Output {
+	outputs.Add("nats", func() telex.Output {
 		return &NATS{}
 	})
 }

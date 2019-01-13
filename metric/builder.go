@@ -3,7 +3,7 @@ package metric
 import (
 	"time"
 
-	"github.com/influxdata/telegraf"
+	"github.com/lavaorg/telex"
 )
 
 type TimeFunc func() time.Time
@@ -42,11 +42,11 @@ func (b *Builder) SetTime(tm time.Time) {
 
 func (b *Builder) Reset() {
 	b.metric = &metric{
-		tp: telegraf.Untyped,
+		tp: telex.Untyped,
 	}
 }
 
-func (b *Builder) Metric() (telegraf.Metric, error) {
+func (b *Builder) Metric() (telex.Metric, error) {
 	if b.tm.IsZero() {
 		b.tm = b.TimeFunc().Truncate(b.TimePrecision)
 	}

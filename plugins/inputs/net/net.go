@@ -5,10 +5,10 @@ import (
 	"net"
 	"strings"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/filter"
-	"github.com/influxdata/telegraf/plugins/inputs"
-	"github.com/influxdata/telegraf/plugins/inputs/system"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/filter"
+	"github.com/lavaorg/telex/plugins/inputs"
+	"github.com/lavaorg/telex/plugins/inputs/system"
 )
 
 type NetIOStats struct {
@@ -42,7 +42,7 @@ func (_ *NetIOStats) SampleConfig() string {
 	return netSampleConfig
 }
 
-func (s *NetIOStats) Gather(acc telegraf.Accumulator) error {
+func (s *NetIOStats) Gather(acc telex.Accumulator) error {
 	netio, err := s.ps.NetIO()
 	if err != nil {
 		return fmt.Errorf("error getting net io info: %s", err)
@@ -119,7 +119,7 @@ func (s *NetIOStats) Gather(acc telegraf.Accumulator) error {
 }
 
 func init() {
-	inputs.Add("net", func() telegraf.Input {
+	inputs.Add("net", func() telex.Input {
 		return &NetIOStats{ps: system.NewSystemPS()}
 	})
 }

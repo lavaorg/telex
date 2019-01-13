@@ -10,14 +10,14 @@ import (
 	"testing"
 	"time"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/internal"
-	"github.com/influxdata/telegraf/metric"
-	"github.com/influxdata/telegraf/plugins/serializers/influx"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/internal"
+	"github.com/lavaorg/telex/metric"
+	"github.com/lavaorg/telex/plugins/serializers/influx"
 	"github.com/stretchr/testify/require"
 )
 
-func getMetric() telegraf.Metric {
+func getMetric() telex.Metric {
 	m, err := metric.New(
 		"cpu",
 		map[string]string{},
@@ -105,7 +105,7 @@ func TestMethod(t *testing.T) {
 			}
 			require.NoError(t, err)
 
-			err = tt.plugin.Write([]telegraf.Metric{getMetric()})
+			err = tt.plugin.Write([]telex.Metric{getMetric()})
 			require.NoError(t, err)
 		})
 	}
@@ -177,7 +177,7 @@ func TestStatusCode(t *testing.T) {
 			err = tt.plugin.Connect()
 			require.NoError(t, err)
 
-			err = tt.plugin.Write([]telegraf.Metric{getMetric()})
+			err = tt.plugin.Write([]telex.Metric{getMetric()})
 			tt.errFunc(t, err)
 		})
 	}
@@ -224,7 +224,7 @@ func TestContentType(t *testing.T) {
 			err = tt.plugin.Connect()
 			require.NoError(t, err)
 
-			err = tt.plugin.Write([]telegraf.Metric{getMetric()})
+			err = tt.plugin.Write([]telex.Metric{getMetric()})
 			require.NoError(t, err)
 		})
 	}
@@ -284,7 +284,7 @@ func TestContentEncodingGzip(t *testing.T) {
 			err = tt.plugin.Connect()
 			require.NoError(t, err)
 
-			err = tt.plugin.Write([]telegraf.Metric{getMetric()})
+			err = tt.plugin.Write([]telex.Metric{getMetric()})
 			require.NoError(t, err)
 		})
 	}
@@ -345,7 +345,7 @@ func TestBasicAuth(t *testing.T) {
 			err = tt.plugin.Connect()
 			require.NoError(t, err)
 
-			err = tt.plugin.Write([]telegraf.Metric{getMetric()})
+			err = tt.plugin.Write([]telex.Metric{getMetric()})
 			require.NoError(t, err)
 		})
 	}
@@ -418,7 +418,7 @@ func TestOAuthClientCredentialsGrant(t *testing.T) {
 			err = tt.plugin.Connect()
 			require.NoError(t, err)
 
-			err = tt.plugin.Write([]telegraf.Metric{getMetric()})
+			err = tt.plugin.Write([]telex.Metric{getMetric()})
 			require.NoError(t, err)
 		})
 	}
@@ -449,7 +449,7 @@ func TestDefaultUserAgent(t *testing.T) {
 		err = client.Connect()
 		require.NoError(t, err)
 
-		err = client.Write([]telegraf.Metric{getMetric()})
+		err = client.Write([]telex.Metric{getMetric()})
 		require.NoError(t, err)
 	})
 }

@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"time"
 
-	"github.com/influxdata/telegraf"
+	"github.com/lavaorg/telex"
 )
 
 type serializer struct {
@@ -18,7 +18,7 @@ func NewSerializer(timestampUnits time.Duration) (*serializer, error) {
 	return s, nil
 }
 
-func (s *serializer) Serialize(metric telegraf.Metric) ([]byte, error) {
+func (s *serializer) Serialize(metric telex.Metric) ([]byte, error) {
 	m := s.createObject(metric)
 	serialized, err := json.Marshal(m)
 	if err != nil {
@@ -29,7 +29,7 @@ func (s *serializer) Serialize(metric telegraf.Metric) ([]byte, error) {
 	return serialized, nil
 }
 
-func (s *serializer) SerializeBatch(metrics []telegraf.Metric) ([]byte, error) {
+func (s *serializer) SerializeBatch(metrics []telex.Metric) ([]byte, error) {
 	objects := make([]interface{}, 0, len(metrics))
 	for _, metric := range metrics {
 		m := s.createObject(metric)
@@ -47,7 +47,7 @@ func (s *serializer) SerializeBatch(metrics []telegraf.Metric) ([]byte, error) {
 	return serialized, nil
 }
 
-func (s *serializer) createObject(metric telegraf.Metric) map[string]interface{} {
+func (s *serializer) createObject(metric telex.Metric) map[string]interface{} {
 	m := make(map[string]interface{}, 4)
 	m["tags"] = metric.Tags()
 	m["fields"] = metric.Fields()

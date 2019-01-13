@@ -8,15 +8,15 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
-	"github.com/influxdata/telegraf"
+	"github.com/lavaorg/telex"
 )
 
 type FilestackWebhook struct {
 	Path string
-	acc  telegraf.Accumulator
+	acc  telex.Accumulator
 }
 
-func (fs *FilestackWebhook) Register(router *mux.Router, acc telegraf.Accumulator) {
+func (fs *FilestackWebhook) Register(router *mux.Router, acc telex.Accumulator) {
 	router.HandleFunc(fs.Path, fs.eventHandler).Methods("POST")
 
 	log.Printf("I! Started the webhooks_filestack on %s\n", fs.Path)

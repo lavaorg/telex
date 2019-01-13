@@ -1,4 +1,4 @@
-package telegraf
+package telex
 
 type Output interface {
 	// Connect to the Output

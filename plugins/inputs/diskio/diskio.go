@@ -6,10 +6,10 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/filter"
-	"github.com/influxdata/telegraf/plugins/inputs"
-	"github.com/influxdata/telegraf/plugins/inputs/system"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/filter"
+	"github.com/lavaorg/telex/plugins/inputs"
+	"github.com/lavaorg/telex/plugins/inputs/system"
 )
 
 var (
@@ -84,7 +84,7 @@ func (s *DiskIO) init() error {
 	return nil
 }
 
-func (s *DiskIO) Gather(acc telegraf.Accumulator) error {
+func (s *DiskIO) Gather(acc telex.Accumulator) error {
 	if !s.initialized {
 		err := s.init()
 		if err != nil {
@@ -193,7 +193,7 @@ func (s *DiskIO) diskTags(devName string) map[string]string {
 
 func init() {
 	ps := system.NewSystemPS()
-	inputs.Add("diskio", func() telegraf.Input {
+	inputs.Add("diskio", func() telex.Input {
 		return &DiskIO{ps: ps, SkipSerialNumber: true}
 	})
 }

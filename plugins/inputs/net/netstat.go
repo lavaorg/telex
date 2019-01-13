@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"syscall"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/plugins/inputs"
-	"github.com/influxdata/telegraf/plugins/inputs/system"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/plugins/inputs"
+	"github.com/lavaorg/telex/plugins/inputs/system"
 )
 
 type NetStats struct {
@@ -23,7 +23,7 @@ func (_ *NetStats) SampleConfig() string {
 	return tcpstatSampleConfig
 }
 
-func (s *NetStats) Gather(acc telegraf.Accumulator) error {
+func (s *NetStats) Gather(acc telex.Accumulator) error {
 	netconns, err := s.ps.NetConnections()
 	if err != nil {
 		return fmt.Errorf("error getting net connections info: %s", err)
@@ -66,7 +66,7 @@ func (s *NetStats) Gather(acc telegraf.Accumulator) error {
 }
 
 func init() {
-	inputs.Add("netstat", func() telegraf.Input {
+	inputs.Add("netstat", func() telex.Input {
 		return &NetStats{ps: system.NewSystemPS()}
 	})
 }

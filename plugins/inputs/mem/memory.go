@@ -3,9 +3,9 @@ package mem
 import (
 	"fmt"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/plugins/inputs"
-	"github.com/influxdata/telegraf/plugins/inputs/system"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/plugins/inputs"
+	"github.com/lavaorg/telex/plugins/inputs/system"
 )
 
 type MemStats struct {
@@ -18,7 +18,7 @@ func (_ *MemStats) Description() string {
 
 func (_ *MemStats) SampleConfig() string { return "" }
 
-func (s *MemStats) Gather(acc telegraf.Accumulator) error {
+func (s *MemStats) Gather(acc telex.Accumulator) error {
 	vm, err := s.ps.VMStat()
 	if err != nil {
 		return fmt.Errorf("error getting virtual memory info: %s", err)
@@ -66,7 +66,7 @@ func (s *MemStats) Gather(acc telegraf.Accumulator) error {
 
 func init() {
 	ps := system.NewSystemPS()
-	inputs.Add("mem", func() telegraf.Input {
+	inputs.Add("mem", func() telex.Input {
 		return &MemStats{ps: ps}
 	})
 }

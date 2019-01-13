@@ -18,15 +18,15 @@ import (
 	"strings"
 	"time"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/internal"
-	"github.com/influxdata/telegraf/internal/models"
-	"github.com/influxdata/telegraf/plugins/aggregators"
-	"github.com/influxdata/telegraf/plugins/inputs"
-	"github.com/influxdata/telegraf/plugins/outputs"
-	"github.com/influxdata/telegraf/plugins/parsers"
-	"github.com/influxdata/telegraf/plugins/processors"
-	"github.com/influxdata/telegraf/plugins/serializers"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/internal"
+	"github.com/lavaorg/telex/internal/models"
+	"github.com/lavaorg/telex/plugins/aggregators"
+	"github.com/lavaorg/telex/plugins/inputs"
+	"github.com/lavaorg/telex/plugins/outputs"
+	"github.com/lavaorg/telex/plugins/parsers"
+	"github.com/lavaorg/telex/plugins/processors"
+	"github.com/lavaorg/telex/plugins/serializers"
 	"github.com/influxdata/toml"
 	"github.com/influxdata/toml/ast"
 )
@@ -205,7 +205,7 @@ var header = `# Telegraf Configuration
 # Plugins must be declared in here to be active.
 # To deactivate a plugin, comment out the name and any variables.
 #
-# Use 'telegraf -config telegraf.conf -test' to see what metrics a config
+# Use 'telegraf -config telex.conf -test' to see what metrics a config
 # file would generate.
 #
 # Environment variables can be used anywhere in this config file, simply prepend
@@ -426,7 +426,7 @@ func printFilteredInputs(inputFilters []string, commented bool) {
 	sort.Strings(pnames)
 
 	// cache service inputs to print them at the end
-	servInputs := make(map[string]telegraf.ServiceInput)
+	servInputs := make(map[string]telex.ServiceInput)
 	// for alphabetical looping:
 	servInputNames := []string{}
 
@@ -436,7 +436,7 @@ func printFilteredInputs(inputFilters []string, commented bool) {
 		input := creator()
 
 		switch p := input.(type) {
-		case telegraf.ServiceInput:
+		case telex.ServiceInput:
 			servInputs[pname] = p
 			servInputNames = append(servInputNames, pname)
 			continue
@@ -561,15 +561,15 @@ func (c *Config) LoadDirectory(path string) error {
 
 // Try to find a default config file at these locations (in order):
 //   1. $TELEGRAF_CONFIG_PATH
-//   2. $HOME/.telegraf/telegraf.conf
-//   3. /etc/telegraf/telegraf.conf
+//   2. $HOME/.telegraf/telex.conf
+//   3. /etc/telegraf/telex.conf
 //
 func getDefaultConfigPath() (string, error) {
 	envfile := os.Getenv("TELEGRAF_CONFIG_PATH")
-	homefile := os.ExpandEnv("${HOME}/.telegraf/telegraf.conf")
-	etcfile := "/etc/telegraf/telegraf.conf"
+	homefile := os.ExpandEnv("${HOME}/.telegraf/telex.conf")
+	etcfile := "/etc/telegraf/telex.conf"
 	if runtime.GOOS == "windows" {
-		etcfile = `C:\Program Files\Telegraf\telegraf.conf`
+		etcfile = `C:\Program Files\Telegraf\telex.conf`
 	}
 	for _, path := range []string{envfile, homefile, etcfile} {
 		if _, err := os.Stat(path); err == nil {
@@ -733,7 +733,7 @@ func (c *Config) LoadConfig(path string) error {
 
 // trimBOM trims the Byte-Order-Marks from the beginning of the file.
 // this is for Windows compatibility only.
-// see https://github.com/influxdata/telegraf/issues/1378
+// see https:/github.com/lavaorg/telex/issues/1378
 func trimBOM(f []byte) []byte {
 	return bytes.TrimPrefix(f, []byte("\xef\xbb\xbf"))
 }

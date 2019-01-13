@@ -10,8 +10,8 @@ import (
 
 	"github.com/miekg/dns"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/plugins/inputs"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/plugins/inputs"
 )
 
 type ResultType uint64
@@ -70,7 +70,7 @@ func (d *DnsQuery) SampleConfig() string {
 func (d *DnsQuery) Description() string {
 	return "Query given DNS server and gives statistics"
 }
-func (d *DnsQuery) Gather(acc telegraf.Accumulator) error {
+func (d *DnsQuery) Gather(acc telex.Accumulator) error {
 	var wg sync.WaitGroup
 	d.setDefaultValues()
 
@@ -206,7 +206,7 @@ func setResult(result ResultType, fields map[string]interface{}, tags map[string
 }
 
 func init() {
-	inputs.Add("dns_query", func() telegraf.Input {
+	inputs.Add("dns_query", func() telex.Input {
 		return &DnsQuery{}
 	})
 }

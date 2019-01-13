@@ -8,7 +8,7 @@
 # as a section with no variables. To deactivate a plugin, comment
 # out the name and any variables.
 
-# Use 'telegraf -config telegraf.toml -test' to see what metrics a config
+# Use 'telegraf -config telex.toml -test' to see what metrics a config
 # file would generate.
 
 # One rule that plugins conform to is wherever a connection string

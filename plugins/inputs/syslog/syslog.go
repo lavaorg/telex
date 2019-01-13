@@ -16,10 +16,10 @@ import (
 	"github.com/influxdata/go-syslog/nontransparent"
 	"github.com/influxdata/go-syslog/octetcounting"
 	"github.com/influxdata/go-syslog/rfc5424"
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/internal"
-	tlsConfig "github.com/influxdata/telegraf/internal/tls"
-	"github.com/influxdata/telegraf/plugins/inputs"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/internal"
+	tlsConfig "github.com/lavaorg/telex/internal/tls"
+	"github.com/lavaorg/telex/plugins/inputs"
 )
 
 const defaultReadTimeout = time.Second * 5
@@ -113,12 +113,12 @@ func (s *Syslog) Description() string {
 }
 
 // Gather ...
-func (s *Syslog) Gather(_ telegraf.Accumulator) error {
+func (s *Syslog) Gather(_ telex.Accumulator) error {
 	return nil
 }
 
 // Start starts the service.
-func (s *Syslog) Start(acc telegraf.Accumulator) error {
+func (s *Syslog) Start(acc telex.Accumulator) error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
@@ -214,7 +214,7 @@ func getAddressParts(a string) (string, string, error) {
 	return u.Scheme, host, nil
 }
 
-func (s *Syslog) listenPacket(acc telegraf.Accumulator) {
+func (s *Syslog) listenPacket(acc telex.Accumulator) {
 	defer s.wg.Done()
 	b := make([]byte, ipMaxPacketSize)
 	var p syslog.Machine
@@ -242,7 +242,7 @@ func (s *Syslog) listenPacket(acc telegraf.Accumulator) {
 	}
 }
 
-func (s *Syslog) listenStream(acc telegraf.Accumulator) {
+func (s *Syslog) listenStream(acc telex.Accumulator) {
 	defer s.wg.Done()
 
 	s.connections = map[string]net.Conn{}
@@ -289,7 +289,7 @@ func (s *Syslog) removeConnection(c net.Conn) {
 	s.connectionsMu.Unlock()
 }
 
-func (s *Syslog) handle(conn net.Conn, acc telegraf.Accumulator) {
+func (s *Syslog) handle(conn net.Conn, acc telex.Accumulator) {
 	defer func() {
 		s.removeConnection(conn)
 		conn.Close()
@@ -343,7 +343,7 @@ func (s *Syslog) setKeepAlive(c *net.TCPConn) error {
 	return c.SetKeepAlivePeriod(s.KeepAlivePeriod.Duration)
 }
 
-func (s *Syslog) store(res syslog.Result, acc telegraf.Accumulator) {
+func (s *Syslog) store(res syslog.Result, acc telex.Accumulator) {
 	if res.Error != nil {
 		acc.AddError(res.Error)
 	}
@@ -449,5 +449,5 @@ func init() {
 		Separator: "_",
 	}
 
-	inputs.Add("syslog", func() telegraf.Input { return receiver })
+	inputs.Add("syslog", func() telex.Input { return receiver })
 }

@@ -4,8 +4,8 @@ import (
 	"log"
 	"math"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/plugins/aggregators"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/plugins/aggregators"
 )
 
 type BasicStats struct {
@@ -63,7 +63,7 @@ func (m *BasicStats) Description() string {
 	return "Keep the aggregate basicstats of each metric passing through."
 }
 
-func (m *BasicStats) Add(in telegraf.Metric) {
+func (m *BasicStats) Add(in telex.Metric) {
 	id := in.HashID()
 	if _, ok := m.cache[id]; !ok {
 		// hit an uncached metric, create caches for first time:
@@ -132,7 +132,7 @@ func (m *BasicStats) Add(in telegraf.Metric) {
 	}
 }
 
-func (m *BasicStats) Push(acc telegraf.Accumulator) {
+func (m *BasicStats) Push(acc telex.Accumulator) {
 	config := getConfiguredStats(m)
 
 	for _, aggregate := range m.cache {
@@ -253,7 +253,7 @@ func convert(in interface{}) (float64, bool) {
 }
 
 func init() {
-	aggregators.Add("basicstats", func() telegraf.Aggregator {
+	aggregators.Add("basicstats", func() telex.Aggregator {
 		return NewBasicStats()
 	})
 }

@@ -34,20 +34,20 @@ The commands & flags are:
 Examples:
 
   # generate a telegraf config file:
-  telegraf config > telegraf.conf
+  telegraf config > telex.conf
 
   # generate config with only cpu input & influxdb output plugins defined
   telegraf --input-filter cpu --output-filter influxdb config
 
   # run a single telegraf collection, outputing metrics to stdout
-  telegraf --config telegraf.conf --test
+  telegraf --config telex.conf --test
 
   # run telegraf with all plugins defined in config file
-  telegraf --config telegraf.conf
+  telegraf --config telex.conf
 
   # run telegraf, enabling the cpu & memory input, and influxdb output plugins
-  telegraf --config telegraf.conf --input-filter cpu:mem --output-filter influxdb
+  telegraf --config telex.conf --input-filter cpu:mem --output-filter influxdb
 
   # run telegraf with pprof
-  telegraf --config telegraf.conf --pprof-addr localhost:6060
+  telegraf --config telex.conf --pprof-addr localhost:6060
 `

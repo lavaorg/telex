@@ -11,7 +11,6 @@ Processes can be selected for monitoring using one of several methods:
 - user
 - systemd_unit
 - cgroup
-- win_service
 
 ### Configuration:
 
@@ -30,9 +29,6 @@ Processes can be selected for monitoring using one of several methods:
   # systemd_unit = "nginx.service"
   ## CGroup name or path
   # cgroup = "systemd/system.slice/nginx.service"
-
-  ## Windows service name
-  # win_service = ""
 
   ## override for process_name
   ## This is optional; default is sourced from /proc/<pid>/status
@@ -53,20 +49,6 @@ Processes can be selected for monitoring using one of several methods:
   # pid_finder = "pgrep"
 ```
 
-#### Windows support
-
-Preliminary support for Windows has been added, however you may prefer using
-the `win_perf_counters` input plugin as a more mature alternative.
-
-When using the `pid_finder = "native"` in Windows, the pattern lookup method is
-implemented as a WMI query.  The pattern allows fuzzy matching using only
-[WMI query patterns](https://msdn.microsoft.com/en-us/library/aa392263(v=vs.85).aspx):
-```toml
-[[inputs.procstat]]
-  pattern = "%influx%"
-  pid_finder = "native"
-```
-
 ### Metrics:
 
 - procstat
@@ -79,7 +61,6 @@ implemented as a WMI query.  The pattern allows fuzzy matching using only
     - user (when selected)
     - systemd_unit (when defined)
     - cgroup (when defined)
-    - win_service (when defined)
   - fields:
     - cpu_time (int)
     - cpu_time_guest (float)

@@ -11,10 +11,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/filter"
-	"github.com/influxdata/telegraf/internal"
-	"github.com/influxdata/telegraf/plugins/inputs"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/filter"
+	"github.com/lavaorg/telex/internal"
+	"github.com/lavaorg/telex/plugins/inputs"
 )
 
 type runner func(cmdName string, Timeout internal.Duration, UseSudo bool, Server string, ThreadAsTag bool) (*bytes.Buffer, error)
@@ -116,7 +116,7 @@ func unboundRunner(cmdName string, Timeout internal.Duration, UseSudo bool, Serv
 // Gather collects stats from unbound-control and adds them to the Accumulator
 //
 // All the dots in stat name will replaced by underscores. Histogram statistics will not be collected.
-func (s *Unbound) Gather(acc telegraf.Accumulator) error {
+func (s *Unbound) Gather(acc telex.Accumulator) error {
 
 	// Always exclude histrogram statistics
 	statExcluded := []string{"histogram.*"}
@@ -199,7 +199,7 @@ func (s *Unbound) Gather(acc telegraf.Accumulator) error {
 }
 
 func init() {
-	inputs.Add("unbound", func() telegraf.Input {
+	inputs.Add("unbound", func() telex.Input {
 		return &Unbound{
 			run:         unboundRunner,
 			Binary:      defaultBinary,

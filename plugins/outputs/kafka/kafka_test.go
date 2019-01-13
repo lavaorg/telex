@@ -4,10 +4,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/metric"
-	"github.com/influxdata/telegraf/plugins/serializers"
-	"github.com/influxdata/telegraf/testutil"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/metric"
+	"github.com/lavaorg/telex/plugins/serializers"
+	"github.com/lavaorg/telex/testutil"
 	"github.com/stretchr/testify/require"
 )
 
@@ -104,7 +104,7 @@ func TestRoutingKey(t *testing.T) {
 	tests := []struct {
 		name   string
 		kafka  *Kafka
-		metric telegraf.Metric
+		metric telex.Metric
 		check  func(t *testing.T, routingKey string)
 	}{
 		{
@@ -112,7 +112,7 @@ func TestRoutingKey(t *testing.T) {
 			kafka: &Kafka{
 				RoutingKey: "static",
 			},
-			metric: func() telegraf.Metric {
+			metric: func() telex.Metric {
 				m, _ := metric.New(
 					"cpu",
 					map[string]string{},
@@ -132,7 +132,7 @@ func TestRoutingKey(t *testing.T) {
 			kafka: &Kafka{
 				RoutingKey: "random",
 			},
-			metric: func() telegraf.Metric {
+			metric: func() telex.Metric {
 				m, _ := metric.New(
 					"cpu",
 					map[string]string{},

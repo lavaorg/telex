@@ -10,8 +10,8 @@ import (
 	"time"
 
 	"github.com/google/go-cmp/cmp"
-	"github.com/influxdata/telegraf/internal"
-	"github.com/influxdata/telegraf/testutil"
+	"github.com/lavaorg/telex/internal"
+	"github.com/lavaorg/telex/testutil"
 	"github.com/stretchr/testify/require"
 )
 

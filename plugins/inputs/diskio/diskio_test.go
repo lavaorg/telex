@@ -3,8 +3,8 @@ package diskio
 import (
 	"testing"
 
-	"github.com/influxdata/telegraf/plugins/inputs/system"
-	"github.com/influxdata/telegraf/testutil"
+	"github.com/lavaorg/telex/plugins/inputs/system"
+	"github.com/lavaorg/telex/testutil"
 	"github.com/shirou/gopsutil/disk"
 	"github.com/stretchr/testify/require"
 )

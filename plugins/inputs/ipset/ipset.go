@@ -9,9 +9,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/internal"
-	"github.com/influxdata/telegraf/plugins/inputs"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/internal"
+	"github.com/lavaorg/telex/plugins/inputs"
 )
 
 // Ipsets is a telegraf plugin to gather packets and bytes counters from ipset
@@ -46,7 +46,7 @@ func (ipset *Ipset) SampleConfig() string {
 `
 }
 
-func (ips *Ipset) Gather(acc telegraf.Accumulator) error {
+func (ips *Ipset) Gather(acc telex.Accumulator) error {
 	out, e := ips.lister(ips.Timeout, ips.UseSudo)
 	if e != nil {
 		acc.AddError(e)
@@ -117,7 +117,7 @@ func setList(Timeout internal.Duration, UseSudo bool) (*bytes.Buffer, error) {
 }
 
 func init() {
-	inputs.Add("ipset", func() telegraf.Input {
+	inputs.Add("ipset", func() telex.Input {
 		return &Ipset{
 			lister:  setList,
 			Timeout: defaultTimeout,

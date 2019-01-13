@@ -9,7 +9,7 @@ import (
 
 	"errors"
 
-	"github.com/influxdata/telegraf"
+	"github.com/lavaorg/telex"
 )
 
 const metricName = "dmcache"
@@ -33,7 +33,7 @@ type cacheStatus struct {
 	dirty             int64
 }
 
-func (c *DMCache) Gather(acc telegraf.Accumulator) error {
+func (c *DMCache) Gather(acc telex.Accumulator) error {
 	outputLines, err := c.getCurrentStatus()
 	if err != nil {
 		return err

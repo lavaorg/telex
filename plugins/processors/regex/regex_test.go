@@ -4,12 +4,12 @@ import (
 	"testing"
 	"time"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/metric"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/metric"
 	"github.com/stretchr/testify/assert"
 )
 
-func newM1() telegraf.Metric {
+func newM1() telex.Metric {
 	m1, _ := metric.New("access_log",
 		map[string]string{
 			"verb":      "GET",
@@ -23,7 +23,7 @@ func newM1() telegraf.Metric {
 	return m1
 }
 
-func newM2() telegraf.Metric {
+func newM2() telex.Metric {
 	m2, _ := metric.New("access_log",
 		map[string]string{
 			"verb":      "GET",

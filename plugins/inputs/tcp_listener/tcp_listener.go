@@ -7,11 +7,11 @@ import (
 	"net"
 	"sync"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/internal"
-	"github.com/influxdata/telegraf/plugins/inputs"
-	"github.com/influxdata/telegraf/plugins/parsers"
-	"github.com/influxdata/telegraf/selfstat"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/internal"
+	"github.com/lavaorg/telex/plugins/inputs"
+	"github.com/lavaorg/telex/plugins/parsers"
+	"github.com/lavaorg/telex/selfstat"
 )
 
 type TcpListener struct {
@@ -41,7 +41,7 @@ type TcpListener struct {
 	conns map[string]*net.TCPConn
 
 	parser parsers.Parser
-	acc    telegraf.Accumulator
+	acc    telex.Accumulator
 
 	MaxConnections     selfstat.Stat
 	CurrentConnections selfstat.Stat
@@ -60,7 +60,7 @@ var malformedwarn = "E! tcp_listener has received %d malformed packets" +
 const sampleConfig = `
   # DEPRECATED: the TCP listener plugin has been deprecated in favor of the
   # socket_listener plugin
-  # see https://github.com/influxdata/telegraf/tree/master/plugins/inputs/socket_listener
+  # see https:/github.com/lavaorg/telex/tree/master/plugins/inputs/socket_listener
 `
 
 func (t *TcpListener) SampleConfig() string {
@@ -73,7 +73,7 @@ func (t *TcpListener) Description() string {
 
 // All the work is done in the Start() function, so this is just a dummy
 // function.
-func (t *TcpListener) Gather(_ telegraf.Accumulator) error {
+func (t *TcpListener) Gather(_ telex.Accumulator) error {
 	return nil
 }
 
@@ -82,13 +82,13 @@ func (t *TcpListener) SetParser(parser parsers.Parser) {
 }
 
 // Start starts the tcp listener service.
-func (t *TcpListener) Start(acc telegraf.Accumulator) error {
+func (t *TcpListener) Start(acc telex.Accumulator) error {
 	t.Lock()
 	defer t.Unlock()
 
 	log.Println("W! DEPRECATED: the TCP listener plugin has been deprecated " +
 		"in favor of the socket_listener plugin " +
-		"(https://github.com/influxdata/telegraf/tree/master/plugins/inputs/socket_listener)")
+		"(https:/github.com/lavaorg/telex/tree/master/plugins/inputs/socket_listener)")
 
 	tags := map[string]string{
 		"address": t.ServiceAddress,
@@ -247,7 +247,7 @@ func (t *TcpListener) tcpParser() error {
 	defer t.wg.Done()
 
 	var packet []byte
-	var metrics []telegraf.Metric
+	var metrics []telex.Metric
 	var err error
 	for {
 		select {
@@ -290,7 +290,7 @@ func (t *TcpListener) remember(id string, conn *net.TCPConn) {
 }
 
 func init() {
-	inputs.Add("tcp_listener", func() telegraf.Input {
+	inputs.Add("tcp_listener", func() telex.Input {
 		return &TcpListener{
 			ServiceAddress:         ":8094",
 			AllowedPendingMessages: 10000,

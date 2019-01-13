@@ -8,9 +8,9 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/internal"
-	"github.com/influxdata/telegraf/plugins/inputs"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/internal"
+	"github.com/lavaorg/telex/plugins/inputs"
 )
 
 type poolInfo struct {
@@ -44,7 +44,7 @@ func getTags(pools []poolInfo) map[string]string {
 	return map[string]string{"pools": poolNames}
 }
 
-func gatherPoolStats(pool poolInfo, acc telegraf.Accumulator) error {
+func gatherPoolStats(pool poolInfo, acc telex.Accumulator) error {
 	lines, err := internal.ReadLines(pool.ioFilename)
 	if err != nil {
 		return err
@@ -77,7 +77,7 @@ func gatherPoolStats(pool poolInfo, acc telegraf.Accumulator) error {
 	return nil
 }
 
-func (z *Zfs) Gather(acc telegraf.Accumulator) error {
+func (z *Zfs) Gather(acc telex.Accumulator) error {
 	kstatMetrics := z.KstatMetrics
 	if len(kstatMetrics) == 0 {
 		// vdev_cache_stats is deprecated
@@ -132,7 +132,7 @@ func (z *Zfs) Gather(acc telegraf.Accumulator) error {
 }
 
 func init() {
-	inputs.Add("zfs", func() telegraf.Input {
+	inputs.Add("zfs", func() telex.Input {
 		return &Zfs{}
 	})
 }

@@ -15,12 +15,7 @@ LDFLAGS := $(LDFLAGS) -X main.commit=$(COMMIT) -X main.branch=$(BRANCH)
 
 .PHONY: all
 all:
-	@$(MAKE) --no-print-directory deps
 	@$(MAKE) --no-print-directory telegraf
-
-.PHONY: deps
-deps:
-	dep ensure -vendor-only
 
 .PHONY: telegraf
 telegraf:
@@ -66,7 +61,7 @@ test-all: fmtcheck vet
 .PHONY: clean
 clean:
 	rm -f telegraf
-	rm -f telegraf.exe
+	rm -f telex.exe
 
 .PHONY: docker-image
 docker-image:

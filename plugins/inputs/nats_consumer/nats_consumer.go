@@ -6,9 +6,9 @@ import (
 	"log"
 	"sync"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/plugins/inputs"
-	"github.com/influxdata/telegraf/plugins/parsers"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/plugins/inputs"
+	"github.com/lavaorg/telex/plugins/parsers"
 	nats "github.com/nats-io/go-nats"
 )
 
@@ -53,7 +53,7 @@ type natsConsumer struct {
 	in chan *nats.Msg
 	// channel for all NATS read errors
 	errs   chan error
-	acc    telegraf.TrackingAccumulator
+	acc    telex.TrackingAccumulator
 	wg     sync.WaitGroup
 	cancel context.CancelFunc
 }
@@ -86,7 +86,7 @@ var sampleConfig = `
   ## Data format to consume.
   ## Each data format has its own unique set of configuration options, read
   ## more about them here:
-  ## https://github.com/influxdata/telegraf/blob/master/docs/DATA_FORMATS_INPUT.md
+  ## https:/github.com/lavaorg/telex/blob/master/docs/DATA_FORMATS_INPUT.md
   data_format = "influx"
 `
 
@@ -111,7 +111,7 @@ func (n *natsConsumer) natsErrHandler(c *nats.Conn, s *nats.Subscription, e erro
 }
 
 // Start the nats consumer. Caller must call *natsConsumer.Stop() to clean up.
-func (n *natsConsumer) Start(acc telegraf.Accumulator) error {
+func (n *natsConsumer) Start(acc telex.Accumulator) error {
 	n.acc = acc.WithTracking(n.MaxUndeliveredMessages)
 
 	var connectErr error
@@ -229,12 +229,12 @@ func (n *natsConsumer) Stop() {
 	n.clean()
 }
 
-func (n *natsConsumer) Gather(acc telegraf.Accumulator) error {
+func (n *natsConsumer) Gather(acc telex.Accumulator) error {
 	return nil
 }
 
 func init() {
-	inputs.Add("nats_consumer", func() telegraf.Input {
+	inputs.Add("nats_consumer", func() telex.Input {
 		return &natsConsumer{
 			Servers:                []string{"nats://localhost:4222"},
 			Secure:                 false,

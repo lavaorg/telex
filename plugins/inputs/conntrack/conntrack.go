@@ -9,8 +9,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/plugins/inputs"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/plugins/inputs"
 	"path/filepath"
 )
 
@@ -69,7 +69,7 @@ func (c *Conntrack) SampleConfig() string {
 	return sampleConfig
 }
 
-func (c *Conntrack) Gather(acc telegraf.Accumulator) error {
+func (c *Conntrack) Gather(acc telex.Accumulator) error {
 	c.setDefaults()
 
 	var metricKey string
@@ -115,5 +115,5 @@ func (c *Conntrack) Gather(acc telegraf.Accumulator) error {
 }
 
 func init() {
-	inputs.Add(inputName, func() telegraf.Input { return &Conntrack{} })
+	inputs.Add(inputName, func() telex.Input { return &Conntrack{} })
 }

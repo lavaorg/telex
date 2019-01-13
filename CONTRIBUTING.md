@@ -18,7 +18,7 @@
 Public interfaces for inputs, outputs, processors, aggregators, metrics,
 and the accumulator can be found in the GoDoc:
 
-[![GoDoc](https://godoc.org/github.com/influxdata/telegraf?status.svg)](https://godoc.org/github.com/influxdata/telegraf)
+[![GoDoc](https://godoc.orggithub.com/lavaorg/telex?status.svg)](https://godoc.orggithub.com/lavaorg/telex)
 
 ### Common development tasks
 
@@ -63,8 +63,8 @@ Use `make docker-kill` to stop the containers.
 
 
 [cla]: https://www.influxdata.com/legal/cla/
-[new issue]: https://github.com/influxdata/telegraf/issues/new/choose
-[pull request]: https://github.com/influxdata/telegraf/compare
+[new issue]: https:/github.com/lavaorg/telex/issues/new/choose
+[pull request]: https:/github.com/lavaorg/telex/compare
 [inputs]: /docs/INPUTS.md
 [processors]: /docs/PROCESSORS.md
 [aggregators]: /docs/AGGREGATORS.md

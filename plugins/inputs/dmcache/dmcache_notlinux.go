@@ -3,10 +3,10 @@
 package dmcache
 
 import (
-	"github.com/influxdata/telegraf"
+	"github.com/lavaorg/telex"
 )
 
-func (c *DMCache) Gather(acc telegraf.Accumulator) error {
+func (c *DMCache) Gather(acc telex.Accumulator) error {
 	return nil
 }
 

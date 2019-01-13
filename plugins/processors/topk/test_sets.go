@@ -1,8 +1,8 @@
 package topk
 
 import (
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/metric"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/metric"
 	"time"
 )
 
@@ -57,7 +57,7 @@ var metric15, _ = metric.New(
 	time.Now(),
 )
 
-var MetricsSet1 = []telegraf.Metric{metric11, metric12, metric13, metric14, metric15}
+var MetricsSet1 = []telex.Metric{metric11, metric12, metric13, metric14, metric15}
 
 ///// Test set 2 /////
 var metric21, _ = metric.New(
@@ -160,4 +160,4 @@ var metric26, _ = metric.New(
 	time.Now(),
 )
 
-var MetricsSet2 = []telegraf.Metric{metric21, metric22, metric23, metric24, metric25, metric26}
+var MetricsSet2 = []telex.Metric{metric21, metric22, metric23, metric24, metric25, metric26}

@@ -16,9 +16,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/internal"
-	"github.com/influxdata/telegraf/plugins/inputs"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/internal"
+	"github.com/lavaorg/telex/plugins/inputs"
 )
 
 var (
@@ -138,7 +138,7 @@ func (*Sysstat) SampleConfig() string {
 	return sampleConfig
 }
 
-func (s *Sysstat) Gather(acc telegraf.Accumulator) error {
+func (s *Sysstat) Gather(acc telex.Accumulator) error {
 	if s.SadcInterval.Duration != 0 {
 		// Collect interval is calculated as interval - parseInterval
 		s.interval = int(s.SadcInterval.Duration.Seconds()) + parseInterval
@@ -158,7 +158,7 @@ func (s *Sysstat) Gather(acc telegraf.Accumulator) error {
 	var wg sync.WaitGroup
 	for option := range s.Options {
 		wg.Add(1)
-		go func(acc telegraf.Accumulator, option string) {
+		go func(acc telex.Accumulator, option string) {
 			defer wg.Done()
 			acc.AddError(s.parse(acc, option, ts))
 		}(acc, option)
@@ -230,8 +230,8 @@ func withCLocale(cmd *exec.Cmd) *exec.Cmd {
 
 // parse runs Sadf on the previously saved tmpFile:
 //    Sadf -p -- -p <option> tmpFile
-// and parses the output to add it to the telegraf.Accumulator acc.
-func (s *Sysstat) parse(acc telegraf.Accumulator, option string, ts time.Time) error {
+// and parses the output to add it to the telex.Accumulator acc.
+func (s *Sysstat) parse(acc telex.Accumulator, option string, ts time.Time) error {
 	cmd := execCommand(s.Sadf, s.sadfOptions(option)...)
 	cmd = withCLocale(cmd)
 	stdout, err := cmd.StdoutPipe()
@@ -350,7 +350,7 @@ func init() {
 	if len(sadf) > 0 {
 		s.Sadf = sadf
 	}
-	inputs.Add("sysstat", func() telegraf.Input {
+	inputs.Add("sysstat", func() telex.Input {
 		return &s
 	})
 }

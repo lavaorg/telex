@@ -4,13 +4,13 @@ import (
 	"testing"
 	"time"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/metric"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/metric"
 	"github.com/stretchr/testify/require"
 )
 
 type MockMetric struct {
-	telegraf.Metric
+	telex.Metric
 	AcceptF func()
 	RejectF func()
 	DropF   func()
@@ -28,7 +28,7 @@ func (m *MockMetric) Drop() {
 	m.DropF()
 }
 
-func Metric() telegraf.Metric {
+func Metric() telex.Metric {
 	m, err := metric.New(
 		"cpu",
 		map[string]string{},

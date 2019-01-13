@@ -1,8 +1,8 @@
 package inputs
 
-import "github.com/influxdata/telegraf"
+import "github.com/lavaorg/telex"
 
-type Creator func() telegraf.Input
+type Creator func() telex.Input
 
 var Inputs = map[string]Creator{}
 

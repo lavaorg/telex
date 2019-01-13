@@ -11,15 +11,15 @@ import (
 	"testing"
 	"time"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/internal"
-	"github.com/influxdata/telegraf/testutil"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/internal"
+	"github.com/lavaorg/telex/testutil"
 )
 
 var pki = testutil.NewPKI("../../../testutil/pki")
 
-// Make sure X509Cert implements telegraf.Input
-var _ telegraf.Input = &X509Cert{}
+// Make sure X509Cert implements telex.Input
+var _ telex.Input = &X509Cert{}
 
 func TestGatherRemote(t *testing.T) {
 	if testing.Short() {

@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/influxdata/telegraf"
+	"github.com/lavaorg/telex"
 
-	"github.com/influxdata/telegraf/plugins/serializers/influx"
-	"github.com/influxdata/telegraf/plugins/serializers/json"
+	"github.com/lavaorg/telex/plugins/serializers/influx"
+	"github.com/lavaorg/telex/plugins/serializers/json"
 )
 
 // SerializerOutput is an interface for output plugins that are able to
@@ -23,12 +23,12 @@ type Serializer interface {
 	// Serialize takes a single telegraf metric and turns it into a byte buffer.
 	// separate metrics should be separated by a newline, and there should be
 	// a newline at the end of the buffer.
-	Serialize(metric telegraf.Metric) ([]byte, error)
+	Serialize(metric telex.Metric) ([]byte, error)
 
 	// SerializeBatch takes an array of telegraf metric and serializes it into
 	// a byte buffer.  This method is not required to be suitable for use with
 	// line oriented framing.
-	SerializeBatch(metrics []telegraf.Metric) ([]byte, error)
+	SerializeBatch(metrics []telex.Metric) ([]byte, error)
 }
 
 // Config is a struct that covers the data types needed for all serializer types,

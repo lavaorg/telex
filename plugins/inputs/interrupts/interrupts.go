@@ -8,8 +8,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/plugins/inputs"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/plugins/inputs"
 )
 
 type Interrupts struct {
@@ -108,7 +108,7 @@ func gatherTagsFields(irq IRQ) (map[string]string, map[string]interface{}) {
 	return tags, fields
 }
 
-func (s *Interrupts) Gather(acc telegraf.Accumulator) error {
+func (s *Interrupts) Gather(acc telex.Accumulator) error {
 	for measurement, file := range map[string]string{"interrupts": "/proc/interrupts", "soft_interrupts": "/proc/softirqs"} {
 		f, err := os.Open(file)
 		if err != nil {
@@ -126,7 +126,7 @@ func (s *Interrupts) Gather(acc telegraf.Accumulator) error {
 	return nil
 }
 
-func reportMetrics(measurement string, irqs []IRQ, acc telegraf.Accumulator, cpusAsTags bool) {
+func reportMetrics(measurement string, irqs []IRQ, acc telex.Accumulator, cpusAsTags bool) {
 	for _, irq := range irqs {
 		tags, fields := gatherTagsFields(irq)
 		if cpusAsTags {
@@ -144,7 +144,7 @@ func reportMetrics(measurement string, irqs []IRQ, acc telegraf.Accumulator, cpu
 }
 
 func init() {
-	inputs.Add("interrupts", func() telegraf.Input {
+	inputs.Add("interrupts", func() telex.Input {
 		return &Interrupts{}
 	})
 }

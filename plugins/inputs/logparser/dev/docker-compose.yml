@@ -4,10 +4,10 @@ services:
     telegraf:
         image: glinton/scratch
         volumes:
-          - ./telegraf.conf:/telegraf.conf
+          - ./telex.conf:/telex.conf
           - ../../../../telegraf:/telegraf
           - ./test.log:/var/log/test.log
         entrypoint:
           - /telegraf
           - --config
-          - /telegraf.conf
+          - /telex.conf

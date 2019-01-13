@@ -5,12 +5,12 @@ import (
 	"testing"
 	"time"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/metric"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/metric"
 	"github.com/stretchr/testify/require"
 )
 
-func MustMetric(v telegraf.Metric, err error) telegraf.Metric {
+func MustMetric(v telex.Metric, err error) telex.Metric {
 	if err != nil {
 		panic(err)
 	}
@@ -21,7 +21,7 @@ var tests = []struct {
 	name        string
 	maxBytes    int
 	typeSupport FieldTypeSupport
-	input       telegraf.Metric
+	input       telex.Metric
 	output      []byte
 	errReason   string
 }{
@@ -463,7 +463,7 @@ func TestSerialize_SerializeBatch(t *testing.T) {
 		),
 	)
 
-	metrics := []telegraf.Metric{m, m}
+	metrics := []telex.Metric{m, m}
 
 	serializer := NewSerializer()
 	serializer.SetFieldSortOrder(SortFields)

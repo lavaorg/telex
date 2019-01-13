@@ -14,10 +14,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/internal"
-	"github.com/influxdata/telegraf/internal/tls"
-	"github.com/influxdata/telegraf/plugins/inputs"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/internal"
+	"github.com/lavaorg/telex/internal/tls"
+	"github.com/lavaorg/telex/plugins/inputs"
 )
 
 // HTTPResponse struct
@@ -266,7 +266,7 @@ func (h *HTTPResponse) httpGather() (map[string]interface{}, map[string]string, 
 }
 
 // Gather gets all metric fields and tags and returns any errors it encounters
-func (h *HTTPResponse) Gather(acc telegraf.Accumulator) error {
+func (h *HTTPResponse) Gather(acc telex.Accumulator) error {
 	// Compile the body regex if it exist
 	if h.compiledStringMatch == nil {
 		var err error
@@ -319,7 +319,7 @@ func (h *HTTPResponse) Gather(acc telegraf.Accumulator) error {
 }
 
 func init() {
-	inputs.Add("http_response", func() telegraf.Input {
+	inputs.Add("http_response", func() telex.Input {
 		return &HTTPResponse{}
 	})
 }

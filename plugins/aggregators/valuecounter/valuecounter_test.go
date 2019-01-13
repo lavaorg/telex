@@ -4,13 +4,13 @@ import (
 	"testing"
 	"time"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/metric"
-	"github.com/influxdata/telegraf/testutil"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/metric"
+	"github.com/lavaorg/telex/testutil"
 )
 
 // Create a valuecounter with config
-func NewTestValueCounter(fields []string) telegraf.Aggregator {
+func NewTestValueCounter(fields []string) telex.Aggregator {
 	vc := &ValueCounter{
 		Fields: fields,
 	}

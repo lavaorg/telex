@@ -3,14 +3,14 @@ package models
 import (
 	"sync"
 
-	"github.com/influxdata/telegraf"
+	"github.com/lavaorg/telex"
 )
 
 type RunningProcessor struct {
 	Name string
 
 	sync.Mutex
-	Processor telegraf.Processor
+	Processor telex.Processor
 	Config    *ProcessorConfig
 }
 
@@ -27,11 +27,11 @@ type ProcessorConfig struct {
 	Filter Filter
 }
 
-func (rp *RunningProcessor) metricFiltered(metric telegraf.Metric) {
+func (rp *RunningProcessor) metricFiltered(metric telex.Metric) {
 	metric.Drop()
 }
 
-func containsMetric(item telegraf.Metric, metrics []telegraf.Metric) bool {
+func containsMetric(item telex.Metric, metrics []telex.Metric) bool {
 	for _, m := range metrics {
 		if item == m {
 			return true
@@ -40,11 +40,11 @@ func containsMetric(item telegraf.Metric, metrics []telegraf.Metric) bool {
 	return false
 }
 
-func (rp *RunningProcessor) Apply(in ...telegraf.Metric) []telegraf.Metric {
+func (rp *RunningProcessor) Apply(in ...telex.Metric) []telex.Metric {
 	rp.Lock()
 	defer rp.Unlock()
 
-	ret := []telegraf.Metric{}
+	ret := []telex.Metric{}
 
 	for _, metric := range in {
 		// In processors when a filter selects a metric it is sent through the

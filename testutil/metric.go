@@ -6,19 +6,19 @@ import (
 	"time"
 
 	"github.com/google/go-cmp/cmp"
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/metric"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/metric"
 )
 
 type metricDiff struct {
 	Measurement string
-	Tags        []*telegraf.Tag
-	Fields      []*telegraf.Field
-	Type        telegraf.ValueType
+	Tags        []*telex.Tag
+	Fields      []*telex.Field
+	Type        telex.ValueType
 	Time        time.Time
 }
 
-func newMetricDiff(metric telegraf.Metric) *metricDiff {
+func newMetricDiff(metric telex.Metric) *metricDiff {
 	m := &metricDiff{}
 	m.Measurement = metric.Name()
 
@@ -41,7 +41,7 @@ func newMetricDiff(metric telegraf.Metric) *metricDiff {
 	return m
 }
 
-func MetricEqual(expected, actual telegraf.Metric) bool {
+func MetricEqual(expected, actual telex.Metric) bool {
 	var lhs, rhs *metricDiff
 	if expected != nil {
 		lhs = newMetricDiff(expected)
@@ -53,7 +53,7 @@ func MetricEqual(expected, actual telegraf.Metric) bool {
 	return cmp.Equal(lhs, rhs)
 }
 
-func RequireMetricEqual(t *testing.T, expected, actual telegraf.Metric) {
+func RequireMetricEqual(t *testing.T, expected, actual telex.Metric) {
 	t.Helper()
 
 	var lhs, rhs *metricDiff
@@ -65,11 +65,11 @@ func RequireMetricEqual(t *testing.T, expected, actual telegraf.Metric) {
 	}
 
 	if diff := cmp.Diff(lhs, rhs); diff != "" {
-		t.Fatalf("telegraf.Metric\n--- expected\n+++ actual\n%s", diff)
+		t.Fatalf("telex.Metric\n--- expected\n+++ actual\n%s", diff)
 	}
 }
 
-func RequireMetricsEqual(t *testing.T, expected, actual []telegraf.Metric) {
+func RequireMetricsEqual(t *testing.T, expected, actual []telex.Metric) {
 	t.Helper()
 
 	lhs := make([]*metricDiff, 0, len(expected))
@@ -81,7 +81,7 @@ func RequireMetricsEqual(t *testing.T, expected, actual []telegraf.Metric) {
 		rhs = append(rhs, newMetricDiff(m))
 	}
 	if diff := cmp.Diff(lhs, rhs); diff != "" {
-		t.Fatalf("[]telegraf.Metric\n--- expected\n+++ actual\n%s", diff)
+		t.Fatalf("[]telex.Metric\n--- expected\n+++ actual\n%s", diff)
 	}
 }
 
@@ -91,8 +91,8 @@ func MustMetric(
 	tags map[string]string,
 	fields map[string]interface{},
 	tm time.Time,
-	tp ...telegraf.ValueType,
-) telegraf.Metric {
+	tp ...telex.ValueType,
+) telex.Metric {
 	m, err := metric.New(name, tags, fields, tm, tp...)
 	if err != nil {
 		panic("MustMetric")

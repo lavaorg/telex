@@ -5,12 +5,12 @@ import (
 	"testing"
 	"time"
 
-	"github.com/influxdata/telegraf/internal/models"
-	"github.com/influxdata/telegraf/plugins/inputs"
-	"github.com/influxdata/telegraf/plugins/inputs/exec"
-	"github.com/influxdata/telegraf/plugins/inputs/memcached"
-	"github.com/influxdata/telegraf/plugins/inputs/procstat"
-	"github.com/influxdata/telegraf/plugins/parsers"
+	"github.com/lavaorg/telex/internal/models"
+	"github.com/lavaorg/telex/plugins/inputs"
+	"github.com/lavaorg/telex/plugins/inputs/exec"
+	"github.com/lavaorg/telex/plugins/inputs/memcached"
+	"github.com/lavaorg/telex/plugins/inputs/procstat"
+	"github.com/lavaorg/telex/plugins/parsers"
 
 	"github.com/stretchr/testify/assert"
 )

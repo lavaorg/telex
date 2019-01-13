@@ -1,8 +1,8 @@
 package aggregators
 
-import "github.com/influxdata/telegraf"
+import "github.com/lavaorg/telex"
 
-type Creator func() telegraf.Aggregator
+type Creator func() telex.Aggregator
 
 var Aggregators = map[string]Creator{}
 

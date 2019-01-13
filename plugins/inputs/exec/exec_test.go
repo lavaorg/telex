@@ -6,10 +6,10 @@ import (
 	"runtime"
 	"testing"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/plugins/parsers"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/plugins/parsers"
 
-	"github.com/influxdata/telegraf/testutil"
+	"github.com/lavaorg/telex/testutil"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -85,7 +85,7 @@ func newRunnerMock(out []byte, err error) Runner {
 	}
 }
 
-func (r runnerMock) Run(e *Exec, command string, acc telegraf.Accumulator) ([]byte, error) {
+func (r runnerMock) Run(e *Exec, command string, acc telex.Accumulator) ([]byte, error) {
 	if r.err != nil {
 		return nil, r.err
 	}

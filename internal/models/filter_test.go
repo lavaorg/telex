@@ -4,9 +4,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/metric"
-	"github.com/influxdata/telegraf/testutil"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/metric"
+	"github.com/lavaorg/telex/testutil"
 	"github.com/stretchr/testify/require"
 )
 
@@ -258,7 +258,7 @@ func TestFilter_TagPass(t *testing.T) {
 	}
 	require.NoError(t, f.Compile())
 
-	passes := [][]*telegraf.Tag{
+	passes := [][]*telex.Tag{
 		{{Key: "cpu", Value: "cpu-total"}},
 		{{Key: "cpu", Value: "cpu-0"}},
 		{{Key: "cpu", Value: "cpu-1"}},
@@ -266,7 +266,7 @@ func TestFilter_TagPass(t *testing.T) {
 		{{Key: "mem", Value: "mem_free"}},
 	}
 
-	drops := [][]*telegraf.Tag{
+	drops := [][]*telex.Tag{
 		{{Key: "cpu", Value: "cputotal"}},
 		{{Key: "cpu", Value: "cpu0"}},
 		{{Key: "cpu", Value: "cpu1"}},
@@ -302,7 +302,7 @@ func TestFilter_TagDrop(t *testing.T) {
 	}
 	require.NoError(t, f.Compile())
 
-	drops := [][]*telegraf.Tag{
+	drops := [][]*telex.Tag{
 		{{Key: "cpu", Value: "cpu-total"}},
 		{{Key: "cpu", Value: "cpu-0"}},
 		{{Key: "cpu", Value: "cpu-1"}},
@@ -310,7 +310,7 @@ func TestFilter_TagDrop(t *testing.T) {
 		{{Key: "mem", Value: "mem_free"}},
 	}
 
-	passes := [][]*telegraf.Tag{
+	passes := [][]*telex.Tag{
 		{{Key: "cpu", Value: "cputotal"}},
 		{{Key: "cpu", Value: "cpu0"}},
 		{{Key: "cpu", Value: "cpu1"}},
@@ -400,7 +400,7 @@ func TestFilter_FilterTagsMatches(t *testing.T) {
 
 // TestFilter_FilterNamePassAndDrop used for check case when
 // both parameters were defined
-// see: https://github.com/influxdata/telegraf/issues/2860
+// see: https:/github.com/lavaorg/telex/issues/2860
 func TestFilter_FilterNamePassAndDrop(t *testing.T) {
 
 	inputData := []string{"name1", "name2", "name3", "name4"}
@@ -420,7 +420,7 @@ func TestFilter_FilterNamePassAndDrop(t *testing.T) {
 
 // TestFilter_FilterFieldPassAndDrop used for check case when
 // both parameters were defined
-// see: https://github.com/influxdata/telegraf/issues/2860
+// see: https:/github.com/lavaorg/telex/issues/2860
 func TestFilter_FilterFieldPassAndDrop(t *testing.T) {
 
 	inputData := []string{"field1", "field2", "field3", "field4"}
@@ -440,9 +440,9 @@ func TestFilter_FilterFieldPassAndDrop(t *testing.T) {
 
 // TestFilter_FilterTagsPassAndDrop used for check case when
 // both parameters were defined
-// see: https://github.com/influxdata/telegraf/issues/2860
+// see: https:/github.com/lavaorg/telex/issues/2860
 func TestFilter_FilterTagsPassAndDrop(t *testing.T) {
-	inputData := [][]*telegraf.Tag{
+	inputData := [][]*telex.Tag{
 		{{Key: "tag1", Value: "1"}, {Key: "tag2", Value: "3"}},
 		{{Key: "tag1", Value: "1"}, {Key: "tag2", Value: "2"}},
 		{{Key: "tag1", Value: "2"}, {Key: "tag2", Value: "1"}},
@@ -486,7 +486,7 @@ func BenchmarkFilter(b *testing.B) {
 	tests := []struct {
 		name   string
 		filter Filter
-		metric telegraf.Metric
+		metric telex.Metric
 	}{
 		{
 			name:   "empty filter",

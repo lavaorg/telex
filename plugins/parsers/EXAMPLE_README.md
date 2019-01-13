@@ -16,11 +16,11 @@ configuration for a parser is not have a standalone plugin, use the `file` or
   ## Data format to consume.
   ## Each data format has its own unique set of configuration options, read
   ## more about them here:
-  ##   https://github.com/influxdata/telegraf/blob/master/docs/DATA_FORMATS_INPUT.md
+  ##   https:/github.com/lavaorg/telex/blob/master/docs/DATA_FORMATS_INPUT.md
   data_format = "example"
 
   ## Describe variables using the standard SampleConfig style.
-  ##   https://github.com/influxdata/telegraf/wiki/SampleConfig
+  ##   https:/github.com/lavaorg/telex/wiki/SampleConfig
   example_option = "example_value"
 ```
 

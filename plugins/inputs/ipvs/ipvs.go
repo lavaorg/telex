@@ -11,8 +11,8 @@ import (
 	"syscall"
 
 	"ipvs"
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/plugins/inputs"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/plugins/inputs"
 )
 
 // IPVS holds the state for this input plugin
@@ -31,7 +31,7 @@ func (i *IPVS) SampleConfig() string {
 }
 
 // Gather gathers the stats
-func (i *IPVS) Gather(acc telegraf.Accumulator) error {
+func (i *IPVS) Gather(acc telex.Accumulator) error {
 	if i.handle == nil {
 		h, err := ipvs.New("") // TODO: make the namespace configurable
 		if err != nil {
@@ -148,5 +148,5 @@ func addressFamilyToString(af uint16) string {
 }
 
 func init() {
-	inputs.Add("ipvs", func() telegraf.Input { return &IPVS{} })
+	inputs.Add("ipvs", func() telex.Input { return &IPVS{} })
 }

@@ -8,13 +8,13 @@ import (
 	"testing"
 	"time"
 
-	"github.com/influxdata/telegraf"
+	"github.com/lavaorg/telex"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
 
 func TestAddFields(t *testing.T) {
-	metrics := make(chan telegraf.Metric, 10)
+	metrics := make(chan telex.Metric, 10)
 	defer close(metrics)
 	a := NewAccumulator(&TestMetricMaker{}, metrics)
 
@@ -42,7 +42,7 @@ func TestAddFields(t *testing.T) {
 	require.True(t, now.Equal(tm))
 
 	tp := testm.Type()
-	require.Equal(t, telegraf.Counter, tp)
+	require.Equal(t, telex.Counter, tp)
 }
 
 func TestAccAddError(t *testing.T) {
@@ -50,7 +50,7 @@ func TestAccAddError(t *testing.T) {
 	log.SetOutput(errBuf)
 	defer log.SetOutput(os.Stderr)
 
-	metrics := make(chan telegraf.Metric, 10)
+	metrics := make(chan telex.Metric, 10)
 	defer close(metrics)
 	a := NewAccumulator(&TestMetricMaker{}, metrics)
 
@@ -105,7 +105,7 @@ func TestSetPrecision(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			metrics := make(chan telegraf.Metric, 10)
+			metrics := make(chan telex.Metric, 10)
 
 			a := NewAccumulator(&TestMetricMaker{}, metrics)
 			if !tt.unset {
@@ -127,8 +127,8 @@ func TestSetPrecision(t *testing.T) {
 }
 
 func TestAddTrackingMetricGroupEmpty(t *testing.T) {
-	ch := make(chan telegraf.Metric, 10)
-	metrics := []telegraf.Metric{}
+	ch := make(chan telex.Metric, 10)
+	metrics := []telex.Metric{}
 	acc := NewAccumulator(&TestMetricMaker{}, ch).WithTracking(1)
 
 	id := acc.AddTrackingMetricGroup(metrics)
@@ -148,6 +148,6 @@ func (tm *TestMetricMaker) Name() string {
 	return "TestPlugin"
 }
 
-func (tm *TestMetricMaker) MakeMetric(metric telegraf.Metric) telegraf.Metric {
+func (tm *TestMetricMaker) MakeMetric(metric telex.Metric) telex.Metric {
 	return metric
 }

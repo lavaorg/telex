@@ -9,8 +9,8 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/plugins/inputs"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/plugins/inputs"
 	"github.com/shirou/gopsutil/process"
 )
 
@@ -32,7 +32,6 @@ type Procstat struct {
 	SystemdUnit string
 	CGroup      string `toml:"cgroup"`
 	PidTag      bool
-	WinService  string `toml:"win_service"`
 
 	finder PIDFinder
 
@@ -54,9 +53,6 @@ var sampleConfig = `
   # systemd_unit = "nginx.service"
   ## CGroup name or path
   # cgroup = "systemd/system.slice/nginx.service"
-
-  ## Windows service name
-  # win_service = ""
 
   ## override for process_name
   ## This is optional; default is sourced from /proc/<pid>/status
@@ -85,7 +81,7 @@ func (_ *Procstat) Description() string {
 	return "Monitor process cpu and memory usage"
 }
 
-func (p *Procstat) Gather(acc telegraf.Accumulator) error {
+func (p *Procstat) Gather(acc telex.Accumulator) error {
 	if p.createPIDFinder == nil {
 		switch p.PidFinder {
 		case "native":
@@ -141,7 +137,7 @@ func (p *Procstat) Gather(acc telegraf.Accumulator) error {
 }
 
 // Add metrics a single Process
-func (p *Procstat) addMetric(proc Process, acc telegraf.Accumulator) {
+func (p *Procstat) addMetric(proc Process, acc telex.Accumulator) {
 	var prefix string
 	if p.Prefix != "" {
 		prefix = p.Prefix + "_"
@@ -312,7 +308,7 @@ func (p *Procstat) getPIDFinder() (PIDFinder, error) {
 }
 
 // Get matching PIDs and their initial tags
-func (p *Procstat) findPids(acc telegraf.Accumulator) ([]PID, map[string]string, error) {
+func (p *Procstat) findPids(acc telex.Accumulator) ([]PID, map[string]string, error) {
 	var pids []PID
 	tags := make(map[string]string)
 	var err error
@@ -340,9 +336,6 @@ func (p *Procstat) findPids(acc telegraf.Accumulator) ([]PID, map[string]string,
 	} else if p.CGroup != "" {
 		pids, err = p.cgroupPIDs()
 		tags = map[string]string{"cgroup": p.CGroup}
-	} else if p.WinService != "" {
-		pids, err = p.winServicePIDs()
-		tags = map[string]string{"win_service": p.WinService}
 	} else {
 		err = fmt.Errorf("Either exe, pid_file, user, pattern, systemd_unit, cgroup, or win_service must be specified")
 	}
@@ -406,21 +399,8 @@ func (p *Procstat) cgroupPIDs() ([]PID, error) {
 	return pids, nil
 }
 
-func (p *Procstat) winServicePIDs() ([]PID, error) {
-	var pids []PID
-
-	pid, err := queryPidWithWinServiceName(p.WinService)
-	if err != nil {
-		return pids, err
-	}
-
-	pids = append(pids, PID(pid))
-
-	return pids, nil
-}
-
 func init() {
-	inputs.Add("procstat", func() telegraf.Input {
+	inputs.Add("procstat", func() telex.Input {
 		return &Procstat{}
 	})
 }

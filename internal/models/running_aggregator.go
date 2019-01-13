@@ -4,13 +4,13 @@ import (
 	"sync"
 	"time"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/selfstat"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/selfstat"
 )
 
 type RunningAggregator struct {
 	sync.Mutex
-	Aggregator  telegraf.Aggregator
+	Aggregator  telex.Aggregator
 	Config      *AggregatorConfig
 	periodStart time.Time
 	periodEnd   time.Time
@@ -22,7 +22,7 @@ type RunningAggregator struct {
 }
 
 func NewRunningAggregator(
-	aggregator telegraf.Aggregator,
+	aggregator telex.Aggregator,
 	config *AggregatorConfig,
 ) *RunningAggregator {
 	return &RunningAggregator{
@@ -78,7 +78,7 @@ func (r *RunningAggregator) SetPeriodStart(start time.Time) {
 	r.periodEnd = r.periodStart.Add(r.Config.Period).Add(r.Config.Delay)
 }
 
-func (r *RunningAggregator) MakeMetric(metric telegraf.Metric) telegraf.Metric {
+func (r *RunningAggregator) MakeMetric(metric telex.Metric) telex.Metric {
 	m := makemetric(
 		metric,
 		r.Config.NameOverride,
@@ -96,19 +96,19 @@ func (r *RunningAggregator) MakeMetric(metric telegraf.Metric) telegraf.Metric {
 	return m
 }
 
-func (r *RunningAggregator) metricFiltered(metric telegraf.Metric) {
+func (r *RunningAggregator) metricFiltered(metric telex.Metric) {
 	r.MetricsFiltered.Incr(1)
 	metric.Accept()
 }
 
-func (r *RunningAggregator) metricDropped(metric telegraf.Metric) {
+func (r *RunningAggregator) metricDropped(metric telex.Metric) {
 	r.MetricsDropped.Incr(1)
 	metric.Accept()
 }
 
 // Add a metric to the aggregator and return true if the original metric
 // should be dropped.
-func (r *RunningAggregator) Add(metric telegraf.Metric) bool {
+func (r *RunningAggregator) Add(metric telex.Metric) bool {
 
 	if ok := r.Config.Filter.Select(metric); !ok {
 		return false
@@ -131,7 +131,7 @@ func (r *RunningAggregator) Add(metric telegraf.Metric) bool {
 	return r.Config.DropOriginal
 }
 
-func (r *RunningAggregator) Push(acc telegraf.Accumulator) {
+func (r *RunningAggregator) Push(acc telex.Accumulator) {
 	r.Lock()
 	defer r.Unlock()
 
@@ -141,7 +141,7 @@ func (r *RunningAggregator) Push(acc telegraf.Accumulator) {
 	r.Aggregator.Reset()
 }
 
-func (r *RunningAggregator) push(acc telegraf.Accumulator) {
+func (r *RunningAggregator) push(acc telex.Accumulator) {
 	start := time.Now()
 	r.Aggregator.Push(acc)
 	elapsed := time.Since(start)

@@ -6,7 +6,7 @@ BIN_DIR=/usr/bin
 if [[ -f /etc/debian_version ]]; then
     # Debian/Ubuntu logic
     if [[ "$(readlink /proc/1/exe)" == */systemd ]]; then
-        deb-systemd-invoke stop telegraf.service
+        deb-systemd-invoke stop telex.service
     else
         # Assuming sysv
         invoke-rc.d telegraf stop

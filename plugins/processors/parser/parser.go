@@ -3,9 +3,9 @@ package parser
 import (
 	"log"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/plugins/parsers"
-	"github.com/influxdata/telegraf/plugins/processors"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/plugins/parsers"
+	"github.com/lavaorg/telex/plugins/processors"
 )
 
 type Parser struct {
@@ -30,7 +30,7 @@ var SampleConfig = `
   ## The dataformat to be read from files
   ## Each data format has its own unique set of configuration options, read
   ## more about them here:
-  ## https://github.com/influxdata/telegraf/blob/master/docs/DATA_FORMATS_INPUT.md
+  ## https:/github.com/lavaorg/telex/blob/master/docs/DATA_FORMATS_INPUT.md
   data_format = "influx"
 `
 
@@ -42,7 +42,7 @@ func (p *Parser) Description() string {
 	return "Parse a value in a specified field/tag(s) and add the result in a new metric"
 }
 
-func (p *Parser) Apply(metrics ...telegraf.Metric) []telegraf.Metric {
+func (p *Parser) Apply(metrics ...telex.Metric) []telex.Metric {
 	if p.Parser == nil {
 		var err error
 		p.Parser, err = parsers.NewParser(&p.Config)
@@ -52,10 +52,10 @@ func (p *Parser) Apply(metrics ...telegraf.Metric) []telegraf.Metric {
 		}
 	}
 
-	results := []telegraf.Metric{}
+	results := []telex.Metric{}
 
 	for _, metric := range metrics {
-		newMetrics := []telegraf.Metric{}
+		newMetrics := []telex.Metric{}
 		if !p.DropOriginal {
 			newMetrics = append(newMetrics, metric)
 		}
@@ -100,7 +100,7 @@ func (p *Parser) Apply(metrics ...telegraf.Metric) []telegraf.Metric {
 	return results
 }
 
-func merge(base telegraf.Metric, metrics []telegraf.Metric) telegraf.Metric {
+func merge(base telex.Metric, metrics []telex.Metric) telex.Metric {
 	for _, metric := range metrics {
 		for _, field := range metric.FieldList() {
 			base.AddField(field.Key, field.Value)
@@ -113,12 +113,12 @@ func merge(base telegraf.Metric, metrics []telegraf.Metric) telegraf.Metric {
 	return base
 }
 
-func (p *Parser) parseField(value string) ([]telegraf.Metric, error) {
+func (p *Parser) parseField(value string) ([]telex.Metric, error) {
 	return p.Parser.Parse([]byte(value))
 }
 
 func init() {
-	processors.Add("parser", func() telegraf.Processor {
+	processors.Add("parser", func() telex.Processor {
 		return &Parser{DropOriginal: false}
 	})
 }

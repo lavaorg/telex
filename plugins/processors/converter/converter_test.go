@@ -5,12 +5,12 @@ import (
 	"testing"
 	"time"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/metric"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/metric"
 	"github.com/stretchr/testify/require"
 )
 
-func Metric(v telegraf.Metric, err error) telegraf.Metric {
+func Metric(v telex.Metric, err error) telex.Metric {
 	if err != nil {
 		panic(err)
 	}
@@ -21,8 +21,8 @@ func TestConverter(t *testing.T) {
 	tests := []struct {
 		name      string
 		converter *Converter
-		input     telegraf.Metric
-		expected  telegraf.Metric
+		input     telex.Metric
+		expected  telex.Metric
 	}{
 		{
 			name:      "empty",

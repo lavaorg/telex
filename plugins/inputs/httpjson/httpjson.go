@@ -10,11 +10,11 @@ import (
 	"sync"
 	"time"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/internal"
-	"github.com/influxdata/telegraf/internal/tls"
-	"github.com/influxdata/telegraf/plugins/inputs"
-	"github.com/influxdata/telegraf/plugins/parsers"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/internal"
+	"github.com/lavaorg/telex/internal/tls"
+	"github.com/lavaorg/telex/plugins/inputs"
+	"github.com/lavaorg/telex/plugins/parsers"
 )
 
 var (
@@ -122,7 +122,7 @@ func (h *HttpJson) Description() string {
 }
 
 // Gathers data for all servers.
-func (h *HttpJson) Gather(acc telegraf.Accumulator) error {
+func (h *HttpJson) Gather(acc telex.Accumulator) error {
 	var wg sync.WaitGroup
 
 	if h.client.HTTPClient() == nil {
@@ -163,7 +163,7 @@ func (h *HttpJson) Gather(acc telegraf.Accumulator) error {
 // Returns:
 //     error: Any error that may have occurred
 func (h *HttpJson) gatherServer(
-	acc telegraf.Accumulator,
+	acc telex.Accumulator,
 	serverURL string,
 ) error {
 	resp, responseTime, err := h.sendRequest(serverURL)
@@ -284,7 +284,7 @@ func (h *HttpJson) sendRequest(serverURL string) (string, float64, error) {
 }
 
 func init() {
-	inputs.Add("httpjson", func() telegraf.Input {
+	inputs.Add("httpjson", func() telex.Input {
 		return &HttpJson{
 			client: &RealHTTPClient{},
 			ResponseTimeout: internal.Duration{
