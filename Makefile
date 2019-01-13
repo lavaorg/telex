@@ -72,9 +72,12 @@ docker-image: telex_linux_x86
 
 docker-sm: telex_linux_x86
 	docker build -f scripts/smimg.docker -t "telexsm" .
-	
+
 docker-base:
 	docker build -f scripts/telex_base.docker -t "telex_base" .
+
+loctest:
+	docker run -i -t -e  TELEGRAF_CONFIG_PATH=telex.conf telexsm telex --test
 
 .PHONY: static
 static:
