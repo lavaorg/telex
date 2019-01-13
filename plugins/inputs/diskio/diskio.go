@@ -34,7 +34,7 @@ func (_ *DiskIO) Description() string {
 }
 
 var diskIOsampleConfig = `
-  ## By default, telegraf will gather stats for all devices including
+  ## By default, telex will gather stats for all devices including
   ## disk partitions.
   ## Setting devices will restrict the stats to the specified devices.
   # devices = ["sda", "sdb", "vd*"]

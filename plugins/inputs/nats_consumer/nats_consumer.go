@@ -64,7 +64,7 @@ var sampleConfig = `
   ## Use Transport Layer Security
   secure = false
   ## subject(s) to consume
-  subjects = ["telegraf"]
+  subjects = ["telex"]
   ## name a queue group
   queue_group = "telegraf_consumers"
 
@@ -174,7 +174,7 @@ func (n *natsConsumer) Start(acc telex.Accumulator) error {
 }
 
 // receiver() reads all incoming messages from NATS, and parses them into
-// telegraf metrics.
+// telex metrics.
 func (n *natsConsumer) receiver(ctx context.Context) {
 	sem := make(semaphore, n.MaxUndeliveredMessages)
 
@@ -238,7 +238,7 @@ func init() {
 		return &natsConsumer{
 			Servers:                []string{"nats://localhost:4222"},
 			Secure:                 false,
-			Subjects:               []string{"telegraf"},
+			Subjects:               []string{"telex"},
 			QueueGroup:             "telegraf_consumers",
 			PendingBytesLimit:      nats.DefaultSubPendingBytesLimit,
 			PendingMessageLimit:    nats.DefaultSubPendingMsgsLimit,

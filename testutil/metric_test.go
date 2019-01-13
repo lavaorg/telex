@@ -15,7 +15,7 @@ func TestRequireMetricsEqual(t *testing.T) {
 		want telex.Metric
 	}{
 		{
-			name: "telegraf and testutil metrics should be equal",
+			name: "telex and testutil metrics should be equal",
 			got: func() telex.Metric {
 				m, _ := metric.New(
 					"test",

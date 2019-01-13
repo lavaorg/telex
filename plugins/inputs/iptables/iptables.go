@@ -13,7 +13,7 @@ import (
 	"github.com/lavaorg/telex/plugins/inputs"
 )
 
-// Iptables is a telegraf plugin to gather packets and bytes throughput from Linux's iptables packet filter.
+// Iptables is a telex plugin to gather packets and bytes throughput from Linux's iptables packet filter.
 type Iptables struct {
 	UseSudo bool
 	UseLock bool
@@ -33,7 +33,7 @@ func (ipt *Iptables) SampleConfig() string {
 	return `
   ## iptables require root access on most systems.
   ## Setting 'use_sudo' to true will make use of sudo to run iptables.
-  ## Users must configure sudo to allow telegraf user to run iptables with no password.
+  ## Users must configure sudo to allow telex user to run iptables with no password.
   ## iptables can be restricted to only list command "iptables -nvL".
   use_sudo = false
   ## Setting 'use_lock' to true runs iptables with the "-w" option.

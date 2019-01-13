@@ -32,7 +32,7 @@ in the sample configuration, it may be described here.
 ### Metrics
 
 The optional Metrics section contains details about how the parser converts
-input data into Telegraf metrics.
+input data into telex metrics.
 
 ### Examples
 

@@ -435,7 +435,7 @@ func TestDefaultUserAgent(t *testing.T) {
 
 	t.Run("default-user-agent", func(t *testing.T) {
 		ts.Config.Handler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			require.Equal(t, "Telegraf/1.2.3", r.Header.Get("User-Agent"))
+			require.Equal(t, "telex/1.2.3", r.Header.Get("User-Agent"))
 			w.WriteHeader(http.StatusOK)
 		})
 

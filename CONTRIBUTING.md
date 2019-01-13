@@ -1,6 +1,6 @@
 ### Contributing
 
-1. [Sign the CLA][cla].
+1. [Sign the CLA][cla]
 1. Open a [new issue][] to discuss the changes you would like to make.  This is
    not strictly required but it may help reduce the amount of rework you need
    to do later.
@@ -24,10 +24,9 @@ and the accumulator can be found in the GoDoc:
 
 **Adding a dependency:**
 
-Assuming you can already build the project, run these in the telegraf directory:
+Assuming you can already build the project, run these in the telex directory:
 
-1. `dep ensure -vendor-only`
-2. `dep ensure -add github.com/[dependency]/[new-package]`
+(TBD - update go.mod, go.sum)
 
 **Unit Tests:**
 
@@ -62,7 +61,7 @@ make test-all
 Use `make docker-kill` to stop the containers.
 
 
-[cla]: https://www.influxdata.com/legal/cla/
+[cla]: https://github.com/lavaorg/telex/wiki/cla/
 [new issue]: https:/github.com/lavaorg/telex/issues/new/choose
 [pull request]: https:/github.com/lavaorg/telex/compare
 [inputs]: /docs/INPUTS.md

@@ -15,11 +15,11 @@ LDFLAGS := $(LDFLAGS) -X main.commit=$(COMMIT) -X main.branch=$(BRANCH)
 
 .PHONY: all
 all:
-	@$(MAKE) --no-print-directory telegraf
+	@$(MAKE) --no-print-directory telex
 
-.PHONY: telegraf
-telegraf:
-	go build -ldflags "$(LDFLAGS)" ./cmd/telegraf
+.PHONY: telex
+telex:
+	go build -ldflags "$(LDFLAGS)" ./cmd/telex
 
 
 .PHONY: test
@@ -60,12 +60,11 @@ test-all: fmtcheck vet
 
 .PHONY: clean
 clean:
-	rm -f telegraf
-	rm -f telex.exe
+	rm -f telex
 
 .PHONY: docker-image
 docker-image:
-	docker build -f scripts/stretch.docker -t "telegraf:$(COMMIT)" .
+	docker build -f scripts/alpine.docker -t "telex:$(COMMIT)" .
 
 
 .PHONY: static
@@ -74,5 +73,5 @@ static:
 	@CGO_ENABLED=0 \
 	GOOS=linux \
 	GOARCH=amd64 \
-	go build -ldflags "$(LDFLAGS)" ./cmd/telegraf
+	go build -ldflags "$(LDFLAGS)" ./cmd/telex
 

@@ -19,7 +19,7 @@ func NewSelf() telex.Input {
 }
 
 var sampleConfig = `
-  ## If true, collect telegraf memory stats.
+  ## If true, collect telex memory stats.
   # collect_memstats = true
 `
 

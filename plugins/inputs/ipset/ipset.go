@@ -14,7 +14,7 @@ import (
 	"github.com/lavaorg/telex/plugins/inputs"
 )
 
-// Ipsets is a telegraf plugin to gather packets and bytes counters from ipset
+// Ipsets is a telex plugin to gather packets and bytes counters from ipset
 type Ipset struct {
 	IncludeUnmatchedSets bool
 	UseSudo              bool

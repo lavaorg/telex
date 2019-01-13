@@ -63,7 +63,7 @@ const sampleConfig = `
   files = ["/var/log/apache/access.log"]
 
   ## Read files that currently exist from the beginning. Files that are created
-  ## while telegraf is running (and that match the "files" globs) will always
+  ## while telex is running (and that match the "files" globs) will always
   ## be read from the beginning.
   from_beginning = false
 

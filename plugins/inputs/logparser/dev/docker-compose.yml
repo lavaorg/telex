@@ -1,13 +1,13 @@
 version: '3'
 
 services:
-    telegraf:
+    telex:
         image: glinton/scratch
         volumes:
           - ./telex.conf:/telex.conf
-          - ../../../../telegraf:/telegraf
+          - ../../../../telex:/telex
           - ./test.log:/var/log/test.log
         entrypoint:
-          - /telegraf
+          - /telex
           - --config
           - /telex.conf

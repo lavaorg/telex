@@ -183,7 +183,7 @@ func (s *Sysstat) collect() error {
 		options = append(options, "-S", act)
 	}
 	s.tmpFile = path.Join("/tmp", fmt.Sprintf("sysstat-%d", time.Now().Unix()))
-	// collectInterval has to be smaller than the telegraf data collection interval
+	// collectInterval has to be smaller than the telex data collection interval
 	collectInterval := s.interval - parseInterval
 
 	// If true, interval is not defined yet and Gather is run for the first time.

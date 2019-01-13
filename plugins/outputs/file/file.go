@@ -79,7 +79,7 @@ func (f *File) SampleConfig() string {
 }
 
 func (f *File) Description() string {
-	return "Send telegraf metrics to file(s)"
+	return "Send telex metrics to file(s)"
 }
 
 func (f *File) Write(metrics []telex.Metric) error {

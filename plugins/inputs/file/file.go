@@ -39,7 +39,7 @@ func (f *File) SampleConfig() string {
 }
 
 func (f *File) Description() string {
-	return "Reload and gather from file[s] on telegraf's interval."
+	return "Reload and gather from file[s] on telex's interval."
 }
 
 func (f *File) Gather(acc telex.Accumulator) error {

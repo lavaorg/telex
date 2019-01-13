@@ -22,7 +22,7 @@ var sampleConfig = `
   ## If not specified, then default is:
   bcachePath = "/sys/fs/bcache"
 
-  ## By default, telegraf gather stats for all bcache devices
+  ## By default, telex gather stats for all bcache devices
   ## Setting devices will restrict the stats to the specified
   ## bcache devices.
   bcacheDevs = ["bcache0"]

@@ -180,7 +180,7 @@ func (n *NetResponse) UDPGather() (tags map[string]string, fields map[string]int
 	return tags, fields
 }
 
-// Gather is called by telegraf when the plugin is executed on its interval.
+// Gather is called by telex when the plugin is executed on its interval.
 // It will call either UDPGather or TCPGather based on the configuration and
 // also fill an Accumulator that is supplied.
 func (n *NetResponse) Gather(acc telex.Accumulator) error {

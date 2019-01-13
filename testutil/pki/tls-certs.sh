@@ -63,7 +63,7 @@ extendedKeyUsage = 1.3.6.1.5.5.7.3.1
 DNS.1 = localhost
 IP.1 = 127.0.0.1
 EOF
-openssl req -x509 -config ./openssl.conf -days 3650 -newkey rsa:1024 -out ./certs/cacert.pem -keyout ./private/cakey.pem -subj "/CN=Telegraf Test CA/" -nodes &&
+openssl req -x509 -config ./openssl.conf -days 3650 -newkey rsa:1024 -out ./certs/cacert.pem -keyout ./private/cakey.pem -subj "/CN=telex Test CA/" -nodes &&
 
 # Create server keypair
 openssl genrsa -out ./private/serverkey.pem 1024 &&

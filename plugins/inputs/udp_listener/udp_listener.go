@@ -17,10 +17,10 @@ import (
 type UdpListener struct {
 	ServiceAddress string
 
-	// UDPBufferSize should only be set if you want/need the telegraf UDP socket to
+	// UDPBufferSize should only be set if you want/need the telex UDP socket to
 	// differ from the system setting. In cases where you set the rmem_default to a lower
 	// value at the host level, but need a larger buffer for UDP bursty traffic, this
-	// setting enables you to configure that value ONLY for telegraf UDP sockets on this listener
+	// setting enables you to configure that value ONLY for telex UDP sockets on this listener
 	// Set this to 0 (or comment out) to take system default
 	//
 	// NOTE: You should ensure that your rmem_max is >= to this setting to work properly!

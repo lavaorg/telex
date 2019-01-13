@@ -61,9 +61,9 @@ var sampleConfig = `
   server = "tcp://:6514"
 
   ## TLS Config
-  # tls_allowed_cacerts = ["/etc/telegraf/ca.pem"]
-  # tls_cert = "/etc/telegraf/cert.pem"
-  # tls_key = "/etc/telegraf/key.pem"
+  # tls_allowed_cacerts = ["/etc/telex/ca.pem"]
+  # tls_cert = "/etc/telex/cert.pem"
+  # tls_key = "/etc/telex/key.pem"
 
   ## Period between keep alive probes.
   ## 0 disables keep alive probes.

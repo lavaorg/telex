@@ -23,7 +23,7 @@ func (_ *HDDTemp) Description() string {
 }
 
 var hddtempSampleConfig = `
-  ## By default, telegraf gathers temps data from all disks detected by the
+  ## By default, telex gathers temps data from all disks detected by the
   ## hddtemp.
   ##
   ## Only collect temps from the selected disks.

@@ -2,11 +2,11 @@
 
 package internal
 
-const Usage = `Telegraf, The plugin-driven server agent for collecting and reporting metrics.
+const Usage = `telex, The plugin-driven server agent for collecting and reporting metrics.
 
 Usage:
 
-  telegraf [commands|flags]
+  telex [commands|flags]
 
 The commands & flags are:
 
@@ -28,26 +28,26 @@ The commands & flags are:
   --sample-config                print out full sample configuration
   --test                         gather metrics, print them out, and exit;
                                  processors, aggregators, and outputs are not run
-  --usage <plugin>               print usage for a plugin, ie, 'telegraf --usage mysql'
+  --usage <plugin>               print usage for a plugin, ie, 'telex --usage mysql'
   --version                      display the version and exit
 
 Examples:
 
-  # generate a telegraf config file:
-  telegraf config > telex.conf
+  # generate a telex config file:
+  telex config > telex.conf
 
   # generate config with only cpu input & influxdb output plugins defined
-  telegraf --input-filter cpu --output-filter influxdb config
+  telex --input-filter cpu --output-filter influxdb config
 
-  # run a single telegraf collection, outputing metrics to stdout
-  telegraf --config telex.conf --test
+  # run a single telex collection, outputing metrics to stdout
+  telex --config telex.conf --test
 
-  # run telegraf with all plugins defined in config file
-  telegraf --config telex.conf
+  # run telex with all plugins defined in config file
+  telex --config telex.conf
 
-  # run telegraf, enabling the cpu & memory input, and influxdb output plugins
-  telegraf --config telex.conf --input-filter cpu:mem --output-filter influxdb
+  # run telex, enabling the cpu & memory input, and influxdb output plugins
+  telex --config telex.conf --input-filter cpu:mem --output-filter influxdb
 
-  # run telegraf with pprof
-  telegraf --config telex.conf --pprof-addr localhost:6060
+  # run telex with pprof
+  telex --config telex.conf --pprof-addr localhost:6060
 `

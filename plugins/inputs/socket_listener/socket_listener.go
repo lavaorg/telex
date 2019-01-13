@@ -202,10 +202,10 @@ func (sl *SocketListener) SampleConfig() string {
 
   ## Optional TLS configuration.
   ## Only applies to stream sockets (e.g. TCP).
-  # tls_cert = "/etc/telegraf/cert.pem"
-  # tls_key  = "/etc/telegraf/key.pem"
+  # tls_cert = "/etc/telex/cert.pem"
+  # tls_key  = "/etc/telex/key.pem"
   ## Enables client authentication if set.
-  # tls_allowed_cacerts = ["/etc/telegraf/clientca.pem"]
+  # tls_allowed_cacerts = ["/etc/telex/clientca.pem"]
 
   ## Maximum socket buffer size (in bytes when no unit specified).
   ## For stream sockets, once the buffer fills up, the sender will start backing up.

@@ -45,7 +45,7 @@ var sampleConfig = `
   ## Server address (default http://localhost)
   # address = "http://localhost"
 
-  ## Set http_proxy (telegraf uses the system wide proxy settings if it's is not set)
+  ## Set http_proxy (telex uses the system wide proxy settings if it's is not set)
   # http_proxy = "http://localhost:8888"
 
   ## Set response_timeout (default 5 seconds)
@@ -68,9 +68,9 @@ var sampleConfig = `
   # response_string_match = "\".*_status\".?:.?\"up\""
 
   ## Optional TLS Config
-  # tls_ca = "/etc/telegraf/ca.pem"
-  # tls_cert = "/etc/telegraf/cert.pem"
-  # tls_key = "/etc/telegraf/key.pem"
+  # tls_ca = "/etc/telex/ca.pem"
+  # tls_cert = "/etc/telex/cert.pem"
+  # tls_key = "/etc/telex/key.pem"
   ## Use TLS but skip chain & host verification
   # insecure_skip_verify = false
 

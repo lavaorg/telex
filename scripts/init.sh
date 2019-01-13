@@ -1,15 +1,15 @@
 #! /usr/bin/env bash
 
 # chkconfig: 2345 99 01
-# description: Telegraf daemon
+# description: telex daemon
 
 ### BEGIN INIT INFO
-# Provides:          telegraf
+# Provides:          telex
 # Required-Start:    $all
 # Required-Stop:     $remote_fs $syslog
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
-# Short-Description: Start telegraf at boot time
+# Short-Description: Start telex at boot time
 ### END INIT INFO
 
 # this init script supports three different variations:
@@ -24,14 +24,14 @@
 # any config file values.
 TELEGRAF_OPTS=
 
-USER=telegraf
-GROUP=telegraf
+USER=telex
+GROUP=telex
 
 if [ -r /lib/lsb/init-functions ]; then
     source /lib/lsb/init-functions
 fi
 
-DEFAULT=/etc/default/telegraf
+DEFAULT=/etc/default/telex
 
 if [ -r $DEFAULT ]; then
     set -o allexport
@@ -47,7 +47,7 @@ if [ ! -f "$STDOUT" ]; then
 fi
 
 if [ -z "$STDERR" ]; then
-    STDERR=/var/log/telegraf/telex.log
+    STDERR=/var/log/telex/telex.log
 fi
 if [ ! -f "$STDERR" ]; then
     mkdir -p `dirname $STDERR`
@@ -96,13 +96,13 @@ function log_success_msg() {
 }
 
 # Process name ( For display )
-name=telegraf
+name=telex
 
 # Daemon name, where is the actual executable
-daemon=/usr/bin/telegraf
+daemon=/usr/bin/telex
 
 # pid file for the daemon
-pidfile=/var/run/telegraf/telex.pid
+pidfile=/var/run/telex/telex.pid
 piddir=`dirname $pidfile`
 
 if [ ! -d "$piddir" ]; then
@@ -111,8 +111,8 @@ if [ ! -d "$piddir" ]; then
 fi
 
 # Configuration file
-config=/etc/telegraf/telex.conf
-confdir=/etc/telegraf/telex.d
+config=/etc/telex/telex.conf
+confdir=/etc/telex/telex.d
 
 # If the daemon is not there, then exit.
 [ -x $daemon ] || exit 5

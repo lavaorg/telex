@@ -13,7 +13,7 @@ import (
 )
 
 const sampleConfig = `
-  ## Postfix queue directory. If not provided, telegraf will try to use
+  ## Postfix queue directory. If not provided, telex will try to use
   ## 'postconf -h queue_directory' to determine it.
   # queue_directory = "/var/spool/postfix"
 `

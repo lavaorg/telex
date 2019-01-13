@@ -25,13 +25,13 @@ func (_ *NetIOStats) Description() string {
 }
 
 var netSampleConfig = `
-  ## By default, telegraf gathers stats from any up interface (excluding loopback)
+  ## By default, telex gathers stats from any up interface (excluding loopback)
   ## Setting interfaces will tell it to gather these explicit interfaces,
   ## regardless of status.
   ##
   # interfaces = ["eth0"]
   ##
-  ## On linux systems telegraf also collects protocol stats.
+  ## On linux systems telex also collects protocol stats.
   ## Setting ignore_protocol_stats to true will skip reporting of protocol metrics.
   ##
   # ignore_protocol_stats = false

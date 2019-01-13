@@ -131,7 +131,7 @@ type Snmp struct {
 	Tables []Table `toml:"table"`
 
 	// Name & Fields are the elements of a Table.
-	// Telegraf chokes if we try to embed a Table. So instead we have to embed the
+	// telex chokes if we try to embed a Table. So instead we have to embed the
 	// fields of a Table, and construct a Table during runtime.
 	Name   string
 	Fields []Field `toml:"field"`

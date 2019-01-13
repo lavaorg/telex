@@ -48,7 +48,7 @@ var (
 	)
 )
 
-// Config specifies the URL/user/password for the database that telegraf
+// Config specifies the URL/user/password for the database that telex
 // will be logging to, as well as all the plugins that the user has
 // specified
 type Config struct {
@@ -110,7 +110,7 @@ type AgentConfig struct {
 
 	// FlushJitter Jitters the flush interval by a random amount.
 	// This is primarily to avoid large write spikes for users running a large
-	// number of telegraf instances.
+	// number of telex instances.
 	// ie, a jitter of 5s and interval 10s means flushes will happen every 10-15s
 	FlushJitter internal.Duration
 
@@ -125,7 +125,7 @@ type AgentConfig struct {
 	// not be less than 2 times MetricBatchSize.
 	MetricBufferLimit int
 
-	// FlushBufferWhenFull tells Telegraf to flush the metric buffer whenever
+	// FlushBufferWhenFull tells telex to flush the metric buffer whenever
 	// it fills up, regardless of FlushInterval. Setting this option to true
 	// does _not_ deactivate FlushInterval.
 	FlushBufferWhenFull bool
@@ -197,15 +197,15 @@ func (c *Config) ListTags() string {
 	return strings.Join(tags, " ")
 }
 
-var header = `# Telegraf Configuration
+var header = `# telex Configuration
 #
-# Telegraf is entirely plugin driven. All metrics are gathered from the
+# telex is entirely plugin driven. All metrics are gathered from the
 # declared inputs, and sent to the declared outputs.
 #
 # Plugins must be declared in here to be active.
 # To deactivate a plugin, comment out the name and any variables.
 #
-# Use 'telegraf -config telex.conf -test' to see what metrics a config
+# Use 'telex -config telex.conf -test' to see what metrics a config
 # file would generate.
 #
 # Environment variables can be used anywhere in this config file, simply prepend
@@ -221,7 +221,7 @@ var header = `# Telegraf Configuration
   # user = "$USER"
 
 
-# Configuration for telegraf agent
+# Configuration for telex agent
 [agent]
   ## Default data collection interval for all inputs
   interval = "10s"
@@ -229,12 +229,12 @@ var header = `# Telegraf Configuration
   ## ie, if interval="10s" then always collect on :00, :10, :20, etc.
   round_interval = true
 
-  ## Telegraf will send metrics to outputs in batches of at most
+  ## telex will send metrics to outputs in batches of at most
   ## metric_batch_size metrics.
-  ## This controls the size of writes that Telegraf sends to output plugins.
+  ## This controls the size of writes that telex sends to output plugins.
   metric_batch_size = 1000
 
-  ## For failed writes, telegraf will cache metric_buffer_limit metrics for each
+  ## For failed writes, telex will cache metric_buffer_limit metrics for each
   ## output, and will flush this buffer on a successful write. Oldest metrics
   ## are dropped first when this buffer fills.
   ## This buffer only fills when writes fail to output plugin(s).
@@ -250,7 +250,7 @@ var header = `# Telegraf Configuration
   ## flush_interval + flush_jitter
   flush_interval = "10s"
   ## Jitter the flush interval by a random amount. This is primarily to avoid
-  ## large write spikes for users running a large number of telegraf instances.
+  ## large write spikes for users running a large number of telex instances.
   ## ie, a jitter of 5s and interval 10s means flushes will happen every 10-15s
   flush_jitter = "0s"
 
@@ -264,16 +264,16 @@ var header = `# Telegraf Configuration
   precision = ""
 
   ## Logging configuration:
-  ## Run telegraf with debug log messages.
+  ## Run telex with debug log messages.
   debug = false
-  ## Run telegraf in quiet mode (error log messages only).
+  ## Run telex in quiet mode (error log messages only).
   quiet = false
   ## Specify the log file name. The empty string means to log to stderr.
   logfile = ""
 
   ## Override default hostname, if empty use os.Hostname()
   hostname = ""
-  ## If set to true, do no set the "host" tag in the telegraf agent.
+  ## If set to true, do no set the "host" tag in the telex agent.
   omit_hostname = false
 
 
@@ -534,7 +534,7 @@ func PrintOutputConfig(name string) error {
 func (c *Config) LoadDirectory(path string) error {
 	walkfn := func(thispath string, info os.FileInfo, _ error) error {
 		if info == nil {
-			log.Printf("W! Telegraf is not permitted to read %s", thispath)
+			log.Printf("W! telex is not permitted to read %s", thispath)
 			return nil
 		}
 
@@ -561,15 +561,15 @@ func (c *Config) LoadDirectory(path string) error {
 
 // Try to find a default config file at these locations (in order):
 //   1. $TELEGRAF_CONFIG_PATH
-//   2. $HOME/.telegraf/telex.conf
-//   3. /etc/telegraf/telex.conf
+//   2. $HOME/.telex/telex.conf
+//   3. /etc/telex/telex.conf
 //
 func getDefaultConfigPath() (string, error) {
 	envfile := os.Getenv("TELEGRAF_CONFIG_PATH")
-	homefile := os.ExpandEnv("${HOME}/.telegraf/telex.conf")
-	etcfile := "/etc/telegraf/telex.conf"
+	homefile := os.ExpandEnv("${HOME}/.telex/telex.conf")
+	etcfile := "/etc/telex/telex.conf"
 	if runtime.GOOS == "windows" {
-		etcfile = `C:\Program Files\Telegraf\telex.conf`
+		etcfile = `C:\Program Files\telex\telex.conf`
 	}
 	for _, path := range []string{envfile, homefile, etcfile} {
 		if _, err := os.Stat(path); err == nil {

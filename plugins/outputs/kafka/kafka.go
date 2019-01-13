@@ -67,10 +67,10 @@ var sampleConfig = `
   ## URLs of kafka brokers
   brokers = ["localhost:9092"]
   ## Kafka topic for producer messages
-  topic = "telegraf"
+  topic = "telex"
 
   ## Optional Client id
-  # client_id = "Telegraf"
+  # client_id = "telex"
 
   ## Set the minimal supported Kafka version.  Setting this enables the use of new
   ## Kafka features and APIs.  Of particular interest, lz4 compression
@@ -105,7 +105,7 @@ var sampleConfig = `
   #   keys = ["foo", "bar"]
   #   separator = "_"
 
-  ## Telegraf tag to use as a routing key
+  ## telex tag to use as a routing key
   ##  ie, if this tag exists, its value will be used as the routing key
   routing_tag = "host"
 
@@ -113,7 +113,7 @@ var sampleConfig = `
   ## when the tag specified in routing tag is not found.  If set to "random",
   ## a random value will be generated for each message.
   ##   ex: routing_key = "random"
-  ##       routing_key = "telegraf"
+  ##       routing_key = "telex"
   # routing_key = ""
 
   ## CompressionCodec represents the various compression codecs recognized by
@@ -149,9 +149,9 @@ var sampleConfig = `
   # max_message_bytes = 1000000
 
   ## Optional TLS Config
-  # tls_ca = "/etc/telegraf/ca.pem"
-  # tls_cert = "/etc/telegraf/cert.pem"
-  # tls_key = "/etc/telegraf/key.pem"
+  # tls_ca = "/etc/telex/ca.pem"
+  # tls_cert = "/etc/telex/cert.pem"
+  # tls_key = "/etc/telex/key.pem"
   ## Use TLS but skip chain & host verification
   # insecure_skip_verify = false
 
@@ -218,7 +218,7 @@ func (k *Kafka) Connect() error {
 	if k.ClientID != "" {
 		config.ClientID = k.ClientID
 	} else {
-		config.ClientID = "Telegraf"
+		config.ClientID = "telex"
 	}
 
 	config.Producer.RequiredAcks = sarama.RequiredAcks(k.RequiredAcks)

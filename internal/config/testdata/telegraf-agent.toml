@@ -1,6 +1,6 @@
-# Telegraf configuration
+# telex configuration
 
-# Telegraf is entirely plugin driven. All metrics are gathered from the
+# telex is entirely plugin driven. All metrics are gathered from the
 # declared inputs.
 
 # Even if a plugin has no configuration, it must be declared in here
@@ -8,7 +8,7 @@
 # as a section with no variables. To deactivate a plugin, comment
 # out the name and any variables.
 
-# Use 'telegraf -config telex.toml -test' to see what metrics a config
+# Use 'telex -config telex.toml -test' to see what metrics a config
 # file would generate.
 
 # One rule that plugins conform to is wherever a connection string
@@ -23,12 +23,12 @@
 [global_tags]
   dc = "us-east-1"
 
-# Configuration for telegraf agent
+# Configuration for telex agent
 [agent]
   # Default data collection interval for all plugins
   interval = "10s"
 
-  # run telegraf in debug mode
+  # run telex in debug mode
   debug = false
 
   # Override default hostname, if empty use os.Hostname()
@@ -47,19 +47,19 @@
   urls = ["http://localhost:8086"] # required.
 
   # The target database for metrics. This database must already exist
-  database = "telegraf" # required.
+  database = "telex" # required.
 
 [[outputs.influxdb]]
   urls = ["udp://localhost:8089"]
-  database = "udp-telegraf"
+  database = "udp-telex"
 
 # Configuration for the Kafka server to send metrics to
 [[outputs.kafka]]
   # URLs of kafka brokers
   brokers = ["localhost:9092"]
   # Kafka topic for producer messages
-  topic = "telegraf"
-  # Telegraf tag to use as a routing key
+  topic = "telex"
+  # telex tag to use as a routing key
   #  ie, if this tag exists, its value will be used as the routing key
   routing_tag = "host"
 
@@ -148,7 +148,7 @@
   ## kafka brokers
   brokers = ["localhost:9092"]
   ## topic(s) to consume
-  topics = ["telegraf"]
+  topics = ["telex"]
   ## the name of the consumer group
   consumer_group = "telegraf_metrics_consumers"
   ## Offset (must be either "oldest" or "newest")
@@ -157,7 +157,7 @@
 # read metrics from a Kafka legacy topic
 [[inputs.kafka_consumer_legacy]]
   ## topic(s) to consume
-  topics = ["telegraf"]
+  topics = ["telex"]
   # an array of Zookeeper connection strings
   zookeeper_peers = ["localhost:2181"]
   ## the name of the consumer group
@@ -196,7 +196,7 @@
   # If no servers are specified, then localhost is used as the host.
   servers = ["localhost"]
 
-# Telegraf plugin for gathering metrics from N Mesos masters
+# telex plugin for gathering metrics from N Mesos masters
 [[inputs.mesos]]
   # Timeout, in ms.
   timeout = 100
@@ -227,7 +227,7 @@
 
 # Read metrics about network interface usage
 [[inputs.net]]
-  # By default, telegraf gathers stats from any up interface (excluding loopback)
+  # By default, telex gathers stats from any up interface (excluding loopback)
   # Setting interfaces will tell it to gather these explicit interfaces,
   # regardless of status.
   #

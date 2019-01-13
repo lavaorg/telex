@@ -32,7 +32,7 @@ in the sample configuration, it may be described here.
 ### Metrics
 
 The optional Metrics section contains details about how the serializer converts
-Telegraf metrics into output.
+telex metrics into output.
 
 ### Example
 

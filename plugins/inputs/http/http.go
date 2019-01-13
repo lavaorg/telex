@@ -34,7 +34,7 @@ type HTTP struct {
 
 	client *http.Client
 
-	// The parser will automatically be set by Telegraf core code because
+	// The parser will automatically be set by telex core code because
 	// this plugin implements the ParserInput interface (i.e. the SetParser method)
 	parser parsers.Parser
 }
@@ -63,9 +63,9 @@ var sampleConfig = `
   # content_encoding = "identity"
 
   ## Optional TLS Config
-  # tls_ca = "/etc/telegraf/ca.pem"
-  # tls_cert = "/etc/telegraf/cert.pem"
-  # tls_key = "/etc/telegraf/key.pem"
+  # tls_ca = "/etc/telex/ca.pem"
+  # tls_cert = "/etc/telex/cert.pem"
+  # tls_key = "/etc/telex/key.pem"
   ## Use TLS but skip chain & host verification
   # insecure_skip_verify = false
 
@@ -133,7 +133,7 @@ func (h *HTTP) SetParser(parser parsers.Parser) {
 
 // Gathers data from a particular URL
 // Parameters:
-//     acc    : The telegraf Accumulator to use
+//     acc    : The telex Accumulator to use
 //     url    : endpoint to send request to
 //
 // Returns:

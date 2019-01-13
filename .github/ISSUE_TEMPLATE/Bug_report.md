@@ -4,11 +4,11 @@ about: Create a report to help us improve
 
 ---
 
-### Relevant telegraf.conf:
+### Relevant telex.conf:
 
 ### System info:
 
-[Include Telegraf version, operating system name, and other relevant details]
+[Include Telex version, operating system name, and other relevant details]
 
 ### Steps to reproduce:
 

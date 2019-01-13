@@ -33,7 +33,7 @@ func GetLocalHost() string {
 }
 
 // MockMetrics returns a mock []telex.Metric object for using in unit tests
-// of telegraf output sinks.
+// of telex output sinks.
 func MockMetrics() []telex.Metric {
 	metrics := make([]telex.Metric, 0)
 	// Create a new point batch

@@ -54,7 +54,7 @@ const sampleConfig = `
   service_address = ":8080"
 
   ## Path to listen to.
-  # path = "/telegraf"
+  # path = "/telex"
 
   ## HTTP methods to accept.
   # methods = ["POST", "PUT"]
@@ -70,11 +70,11 @@ const sampleConfig = `
 
   ## Set one or more allowed client CA certificate file names to 
   ## enable mutually authenticated TLS connections
-  # tls_allowed_cacerts = ["/etc/telegraf/clientca.pem"]
+  # tls_allowed_cacerts = ["/etc/telex/clientca.pem"]
 
   ## Add service certificate and key
-  # tls_cert = "/etc/telegraf/cert.pem"
-  # tls_key = "/etc/telegraf/key.pem"
+  # tls_cert = "/etc/telex/cert.pem"
+  # tls_key = "/etc/telex/key.pem"
 
   ## Optional username and password to accept for HTTP basic authentication.
   ## You probably want to make sure you have TLS configured above for this.
@@ -267,7 +267,7 @@ func init() {
 		return &HTTPListenerV2{
 			ServiceAddress: ":8080",
 			TimeFunc:       time.Now,
-			Path:           "/telegraf",
+			Path:           "/telex",
 			Methods:        []string{"POST", "PUT"},
 		}
 	})

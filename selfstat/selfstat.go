@@ -20,7 +20,7 @@ var (
 	registry *rgstry
 )
 
-// Stat is an interface for dealing with telegraf statistics collected
+// Stat is an interface for dealing with telex statistics collected
 // on itself.
 type Stat interface {
 	// Name is the name of the measurement
@@ -54,7 +54,7 @@ type Stat interface {
 // already been registered.
 //
 // The returned Stat can be incremented by the consumer of Register(), and it's
-// value will be returned as a telegraf metric when Metrics() is called.
+// value will be returned as a telex metric when Metrics() is called.
 func Register(measurement, field string, tags map[string]string) Stat {
 	return registry.register(&stat{
 		measurement: "internal_" + measurement,
@@ -78,7 +78,7 @@ func Register(measurement, field string, tags map[string]string) Stat {
 // to Get().
 //
 // The returned Stat can be incremented by the consumer of Register(), and it's
-// value will be returned as a telegraf metric when Metrics() is called.
+// value will be returned as a telex metric when Metrics() is called.
 func RegisterTiming(measurement, field string, tags map[string]string) Stat {
 	return registry.register(&timingStat{
 		measurement: "internal_" + measurement,
@@ -87,7 +87,7 @@ func RegisterTiming(measurement, field string, tags map[string]string) Stat {
 	})
 }
 
-// Metrics returns all registered stats as telegraf metrics.
+// Metrics returns all registered stats as telex metrics.
 func Metrics() []telex.Metric {
 	registry.mu.Lock()
 	now := time.Now()
