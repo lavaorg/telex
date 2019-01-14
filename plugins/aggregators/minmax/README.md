@@ -29,7 +29,7 @@ No tags are applied by this aggregator.
 ### Example Output:
 
 ```
-$ telegraf --config telegraf.conf --quiet
+$ telex --config telex.conf --quiet
 system,host=tars load1=1.72 1475583980000000000
 system,host=tars load1=1.6 1475583990000000000
 system,host=tars load1=1.66 1475584000000000000

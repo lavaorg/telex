@@ -1,6 +1,6 @@
 # Output Data Formats
 
-In addition to output specific data formats, Telegraf supports a set of
+In addition to output specific data formats, Telex supports a set of
 standard data formats that may be selected from when configuring many output
 plugins.
 
@@ -20,6 +20,6 @@ You will be able to identify the plugins with support by the presence of a
   ## Data format to output.
   ## Each data format has its own unique set of configuration options, read
   ## more about them here:
-  ## https://github.com/influxdata/telegraf/blob/master/docs/DATA_FORMATS_OUTPUT.md
+  ## https://github.com/lavaorg/telex/blob/master/docs/DATA_FORMATS_OUTPUT.md
   data_format = "influx"
 ```

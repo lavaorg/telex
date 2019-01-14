@@ -1,6 +1,6 @@
 # Licenses of dependencies
 
-When distributed in a binary form, Telegraf may contain portions of the
+When distributed in a binary form, Telex may contain portions of the
 following works:
 
 - cloud.google.com/go [Apache License 2.0](https://github.com/GoogleCloudPlatform/google-cloud-go/blob/master/LICENSE)

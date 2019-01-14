@@ -6,9 +6,9 @@ field values within a range.
 Values added to a bucket are also added to the larger buckets in the
 distribution.  This creates a [cumulative histogram](https://en.wikipedia.org/wiki/Histogram#/media/File:Cumulative_vs_normal_histogram.svg).
 
-Like other Telegraf aggregators, the metric is emitted every `period` seconds.
+Like other Telex aggregators, the metric is emitted every `period` seconds.
 Bucket counts however are not reset between periods and will be non-strictly
-increasing while Telegraf is running.
+increasing while Telex is running.
 
 #### Design
 

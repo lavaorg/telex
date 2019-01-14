@@ -1,12 +1,12 @@
 # Value
 
-The "value" data format translates single values into Telegraf metrics. This
+The "value" data format translates single values into Telex metrics. This
 is done by assigning a measurement name and setting a single field ("value")
 as the parsed metric.
 
 ### Configuration
 
-You **must** tell Telegraf what type of metric to collect by using the
+You **must** tell Telex what type of metric to collect by using the
 `data_type` configuration option. Available options are:
 
 1. integer
@@ -29,7 +29,7 @@ name of the plugin.
   ## Data format to consume.
   ## Each data format has its own unique set of configuration options, read
   ## more about them here:
-  ##   https://github.com/influxdata/telegraf/blob/master/docs/DATA_FORMATS_INPUT.md
+  ##   https://github.com/lavaorg/telex/blob/master/docs/DATA_FORMATS_INPUT.md
   data_format = "value"
   data_type = "integer" # required
 ```

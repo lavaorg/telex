@@ -23,7 +23,7 @@ SNMP data:
 .1.0.0.1.3 uinteger 234
 ```
 
-Telegraf config:
+Telex config:
 ```toml
 [[inputs.snmp]]
   agents = [ "127.0.0.1:161" ]
@@ -72,7 +72,7 @@ Resulting output:
 This example uses the SNMP data above, but is configured via the MIB.
 The example MIB file can be found in the `testdata` directory. See the [MIB lookups](#mib-lookups) section for more information.
 
-Telegraf config:
+Telex config:
 ```toml
 [[inputs.snmp]]
   agents = [ "127.0.0.1:161" ]

@@ -31,9 +31,9 @@ The HTTP input plugin collects metrics from one or more HTTP(S) endpoints.  The 
   # password = "pa$$word"
 
   ## Optional TLS Config
-  # tls_ca = "/etc/telegraf/ca.pem"
-  # tls_cert = "/etc/telegraf/cert.pem"
-  # tls_key = "/etc/telegraf/key.pem"
+  # tls_ca = "/etc/telex/ca.pem"
+  # tls_cert = "/etc/telex/cert.pem"
+  # tls_key = "/etc/telex/key.pem"
   ## Use TLS but skip chain & host verification
   # insecure_skip_verify = false
 
@@ -43,7 +43,7 @@ The HTTP input plugin collects metrics from one or more HTTP(S) endpoints.  The 
   ## Data format to consume.
   ## Each data format has its own unique set of configuration options, read
   ## more about them here:
-  ## https://github.com/influxdata/telegraf/blob/master/docs/DATA_FORMATS_INPUT.md
+  ## https://github.com/lavaorg/telex/blob/master/docs/DATA_FORMATS_INPUT.md
   # data_format = "influx"
 
 ```

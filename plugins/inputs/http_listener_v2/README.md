@@ -4,7 +4,7 @@ HTTP Listener v2 is a service input plugin that listens for metrics sent via
 HTTP.  Metrics may be sent in any supported [data format][data_format].
 
 **Note:** The plugin previously known as `http_listener` has been renamed
-`influxdb_listener`.  If you would like Telegraf to act as a proxy/relay for
+`influxdb_listener`.  If you would like Telex to act as a proxy/relay for
 InfluxDB it is recommended to use [`influxdb_listener`][influxdb_listener].
 
 ### Configuration:
@@ -17,7 +17,7 @@ This is a sample configuration for the plugin.
   service_address = ":8080"
 
   ## Path to listen to.
-  # path = "/telegraf"
+  # path = "/telex"
 
   ## HTTP methods to accept.
   # methods = ["POST", "PUT"]
@@ -33,11 +33,11 @@ This is a sample configuration for the plugin.
 
   ## Set one or more allowed client CA certificate file names to
   ## enable mutually authenticated TLS connections
-  # tls_allowed_cacerts = ["/etc/telegraf/clientca.pem"]
+  # tls_allowed_cacerts = ["/etc/telex/clientca.pem"]
 
   ## Add service certificate and key
-  # tls_cert = "/etc/telegraf/cert.pem"
-  # tls_key = "/etc/telegraf/key.pem"
+  # tls_cert = "/etc/telex/cert.pem"
+  # tls_key = "/etc/telex/key.pem"
 
   ## Optional username and password to accept for HTTP basic authentication.
   ## You probably want to make sure you have TLS configured above for this.
@@ -47,7 +47,7 @@ This is a sample configuration for the plugin.
   ## Data format to consume.
   ## Each data format has its own unique set of configuration options, read
   ## more about them here:
-  ## https://github.com/influxdata/telegraf/blob/master/docs/DATA_FORMATS_INPUT.md
+  ## https://github.com/lavaorg/telex/blob/master/docs/DATA_FORMATS_INPUT.md
   data_format = "influx"
 ```
 
@@ -59,12 +59,12 @@ Metrics are created from the request body and are dependant on the value of `dat
 
 **Send Line Protocol**
 ```
-curl -i -XPOST 'http://localhost:8080/telegraf' --data-binary 'cpu_load_short,host=server01,region=us-west value=0.64 1434055562000000000'
+curl -i -XPOST 'http://localhost:8080/telex' --data-binary 'cpu_load_short,host=server01,region=us-west value=0.64 1434055562000000000'
 ```
 
 **Send JSON**
 ```
-curl -i -XPOST 'http://localhost:8080/telegraf' --data-binary '{"value1": 42, "value2": 42}'
+curl -i -XPOST 'http://localhost:8080/telex' --data-binary '{"value1": 42, "value2": 42}'
 ```
 
 [data_format]: /docs/DATA_FORMATS_INPUT.md

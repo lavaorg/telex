@@ -8,15 +8,15 @@ Also when the rule set is becoming big (hundreds of lines) most people are inter
 
 Before using this plugin **you must ensure that the rules you want to monitor are named with a unique comment**. Comments are added using the `-m comment --comment "my comment"` iptables options.
 
-The iptables command requires CAP_NET_ADMIN and CAP_NET_RAW capabilities. You have several options to grant telegraf to run iptables:
+The iptables command requires CAP_NET_ADMIN and CAP_NET_RAW capabilities. You have several options to grant telex to run iptables:
 
-* Run telegraf as root. This is strongly discouraged.
-* Configure systemd to run telegraf with CAP_NET_ADMIN and CAP_NET_RAW. This is the simplest and recommended option.
-* Configure sudo to grant telegraf to run iptables. This is the most restrictive option, but require sudo setup.
+* Run telex as root. This is strongly discouraged.
+* Configure systemd to run telex with CAP_NET_ADMIN and CAP_NET_RAW. This is the simplest and recommended option.
+* Configure sudo to grant telex to run iptables. This is the most restrictive option, but require sudo setup.
 
 ### Using systemd capabilities
 
-You may run `systemctl edit telegraf.service` and add the following:
+You may run `systemctl edit telex.service` and add the following:
 
 ```
 [Service]
@@ -24,19 +24,19 @@ CapabilityBoundingSet=CAP_NET_RAW CAP_NET_ADMIN
 AmbientCapabilities=CAP_NET_RAW CAP_NET_ADMIN
 ```
 
-Since telegraf will fork a process to run iptables, `AmbientCapabilities` is required to transmit the capabilities bounding set to the forked process.
+Since telex will fork a process to run iptables, `AmbientCapabilities` is required to transmit the capabilities bounding set to the forked process.
 
 ### Using sudo
 
 You may edit your sudo configuration with the following:
 
 ```sudo
-telegraf ALL=(root) NOPASSWD: /usr/bin/iptables -nvL *
+telex ALL=(root) NOPASSWD: /usr/bin/iptables -nvL *
 ```
 
 ### Using IPtables lock feature
 
-Defining multiple instances of this plugin in telegraf.conf can lead to concurrent IPtables access resulting in "ERROR in input [inputs.iptables]: exit status 4" messages in telegraf.log and missing metrics. Setting 'use_lock = true' in the plugin configuration will run IPtables with the '-w' switch, allowing a lock usage to prevent this error.
+Defining multiple instances of this plugin in telex.conf can lead to concurrent IPtables access resulting in "ERROR in input [inputs.iptables]: exit status 4" messages in telex.log and missing metrics. Setting 'use_lock = true' in the plugin configuration will run IPtables with the '-w' switch, allowing a lock usage to prevent this error.
 
 ### Configuration:
 
@@ -80,7 +80,7 @@ pkts bytes target     prot opt in     out     source               destination
 ```
 
 ```
-$ ./telegraf --config telegraf.conf --input-filter iptables --test
+$ ./telex --config telex.conf --input-filter iptables --test
 iptables,table=filter,chain=INPUT,ruleid=ssh pkts=100i,bytes=1024i 1453831884664956455
 iptables,table=filter,chain=INPUT,ruleid=httpd pkts=42i,bytes=2048i 1453831884664956455
 ```

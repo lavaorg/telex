@@ -1,6 +1,6 @@
 # Input Data Formats
 
-Telegraf contains many general purpose plugins that support parsing input data
+Telex contains many general purpose plugins that support parsing input data
 using a configurable parser into [metrics][].  This allows, for example, the
 `kafka_consumer` input plugin to process messages in either InfluxDB Line
 Protocol or in JSON format.
@@ -31,7 +31,7 @@ desired parser:
   ## Data format to consume.
   ## Each data format has its own unique set of configuration options, read
   ## more about them here:
-  ## https://github.com/influxdata/telegraf/blob/master/docs/DATA_FORMATS_INPUT.md
+  ## https://github.com/lavaorg/telex/blob/master/docs/DATA_FORMATS_INPUT.md
   data_format = "json"
 ```
 

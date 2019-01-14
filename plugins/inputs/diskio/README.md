@@ -7,7 +7,7 @@ The diskio input plugin gathers metrics about disk traffic and timing.
 ```toml
 # Read metrics about disk IO by device
 [[inputs.diskio]]
-  ## By default, telegraf will gather stats for all devices including
+  ## By default, telex will gather stats for all devices including
   ## disk partitions.
   ## Setting devices will restrict the stats to the specified devices.
   # devices = ["sda", "sdb"]
@@ -45,7 +45,7 @@ If you are using the `device_tags` or `name_templates` options, you will need
 to bind mount `/run/udev` into the container.
 
 ```
-docker run --privileged -v /:/hostfs:ro -v /run/udev:/run/udev:ro -e HOST_PROC=/hostfs/proc telegraf
+docker run --privileged -v /:/hostfs:ro -v /run/udev:/run/udev:ro -e HOST_PROC=/hostfs/proc telex
 ```
 
 ### Metrics:

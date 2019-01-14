@@ -37,7 +37,7 @@ templates = [
 ]
 ```
 
-would result in the following Graphite -> Telegraf transformation.
+would result in the following Graphite -> Telex transformation.
 
 ```
 us.west.cpu.load 100
@@ -56,7 +56,7 @@ templates = [
 
 #### Field Templates
 
-The field keyword tells Telegraf to give the metric that field name.
+The field keyword tells Telex to give the metric that field name.
 So the following template:
 
 ```toml
@@ -66,7 +66,7 @@ templates = [
 ]
 ```
 
-would result in the following Graphite -> Telegraf transformation.
+would result in the following Graphite -> Telex transformation.
 
 ```
 cpu.usage.idle.percent.eu-east 100
@@ -83,7 +83,7 @@ templates = [
 ]
 ```
 
-which would result in the following Graphite -> Telegraf transformation.
+which would result in the following Graphite -> Telex transformation.
 
 ```
 cpu.usage.eu-east.idle.percentage 100
@@ -125,7 +125,7 @@ templates = [
 ]
 ```
 
-would result in the following Graphite -> Telegraf transformation.
+would result in the following Graphite -> Telex transformation.
 
 ```
 cpu.usage.idle.eu-east 100

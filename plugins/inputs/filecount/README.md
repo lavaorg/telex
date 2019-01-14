@@ -54,7 +54,7 @@ Counts files in directories that match certain criteria.
 ### Example Output:
 
 ```
-$ telegraf --config /etc/telegraf/telegraf.conf --input-filter filecount --test
+$ telex --config /etc/telex/telex.conf --input-filter filecount --test
 > filecount,directory=/var/cache/apt,host=czernobog count=7i,size=7438336i 1530034445000000000
 > filecount,directory=/tmp,host=czernobog count=17i,size=28934786i 1530034445000000000
 ```

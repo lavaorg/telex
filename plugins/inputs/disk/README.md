@@ -28,7 +28,7 @@ the `/proc` directory, when present this variable is stripped from the
 reported `path` tag.
 
 ```
-docker run -v /:/hostfs:ro -e HOST_MOUNT_PREFIX=/hostfs -e HOST_PROC=/hostfs/proc telegraf
+docker run -v /:/hostfs:ro -e HOST_MOUNT_PREFIX=/hostfs -e HOST_PROC=/hostfs/proc telex
 ```
 
 ### Metrics:
@@ -52,16 +52,16 @@ docker run -v /:/hostfs:ro -e HOST_MOUNT_PREFIX=/hostfs -e HOST_PROC=/hostfs/pro
 
 On Linux, the list of disks is taken from the `/proc/self/mounts` file and a
 [statfs] call is made on the second column.  If any expected filesystems are
-missing ensure that the `telegraf` user can read these files:
+missing ensure that the `telex` user can read these files:
 ```
-$ sudo -u telegraf cat /proc/self/mounts | grep sda2
+$ sudo -u telex cat /proc/self/mounts | grep sda2
 /dev/sda2 /home ext4 rw,relatime,data=ordered 0 0
-$ sudo -u telegraf stat /home
+$ sudo -u telex stat /home
 ```
 
 It may be desired to use POSIX ACLs to provide additional access:
 ```
-sudo setfacl -R -m u:telegraf:X /var/lib/docker/volumes/
+sudo setfacl -R -m u:telex:X /var/lib/docker/volumes/
 ```
 
 ### Example Output:

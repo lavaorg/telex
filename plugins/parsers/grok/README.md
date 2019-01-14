@@ -59,7 +59,7 @@ To match a comma decimal point you can use a period.  For example `%{TIMESTAMP:t
 To match a comma decimal point you can use a period in the pattern string.
 See https://golang.org/pkg/time/#Parse for more details.
 
-Telegraf has many of its own [built-in patterns](/plugins/parsers/grok/influx_patterns.go),
+Telex has many of its own [built-in patterns](/plugins/parsers/grok/influx_patterns.go),
 as well as support for most of
 [logstash's builtin patterns](https://github.com/logstash-plugins/logstash-patterns-core/blob/master/patterns/grok-patterns).
 _Golang regular expressions do not support lookahead or lookbehind.
@@ -82,7 +82,7 @@ you will find the https://grokdebug.herokuapp.com application quite useful!
   ## The dataformat to be read from files
   ## Each data format has its own unique set of configuration options, read
   ## more about them here:
-  ## https://github.com/influxdata/telegraf/blob/master/docs/DATA_FORMATS_INPUT.md
+  ## https://github.com/lavaorg/telex/blob/master/docs/DATA_FORMATS_INPUT.md
   data_format = "grok"
 
   ## This is a list of patterns to check the given log file(s) for.
@@ -169,7 +169,7 @@ syntax with `'''` may be useful.
 The following config examples will parse this input file:
 
 ```
-|42|\uD83D\uDC2F|'telegraf'|
+|42|\uD83D\uDC2F|'telex'|
 ```
 
 Since `|` is a special character in the grok language, we must escape it to
@@ -216,7 +216,7 @@ the file output will only print once per `flush_interval`.
 - Start with a file containing only a single line of your input.
 - Remove all but the first token or piece of the line.
 - Add the section of your pattern to match this piece to your configuration file.
-- Verify that the metric is parsed successfully by running Telegraf.
+- Verify that the metric is parsed successfully by running Telex.
 - If successful, add the next token, update the pattern and retest.
 - Continue one token at a time until the entire line is successfully parsed.
 

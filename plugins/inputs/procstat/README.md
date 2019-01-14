@@ -83,11 +83,11 @@ Processes can be selected for monitoring using one of several methods:
     - memory_swap (int)
     - memory_vms (int)
     - nice_priority (int)
-    - num_fds (int, *telegraf* may need to be ran as **root**)
+    - num_fds (int, *telex* may need to be ran as **root**)
     - num_threads (int)
     - pid (int)
-    - read_bytes (int, *telegraf* may need to be ran as **root**)
-    - read_count (int, *telegraf* may need to be ran as **root**)
+    - read_bytes (int, *telex* may need to be ran as **root**)
+    - read_count (int, *telex* may need to be ran as **root**)
     - realtime_priority (int)
     - rlimit_cpu_time_hard (int)
     - rlimit_cpu_time_soft (int)
@@ -113,8 +113,8 @@ Processes can be selected for monitoring using one of several methods:
     - rlimit_signals_pending_soft (int)
     - signals_pending (int)
     - voluntary_context_switches (int)
-    - write_bytes (int, *telegraf* may need to be ran as **root**)
-    - write_count (int, *telegraf* may need to be ran as **root**)
+    - write_bytes (int, *telex* may need to be ran as **root**)
+    - write_count (int, *telex* may need to be ran as **root**)
 - procstat_lookup
   - tags:
     - exe

@@ -4,7 +4,7 @@ The Socket Listener is a service input plugin that listens for messages from
 streaming (tcp, unix) or datagram (udp, unixgram) protocols.
 
 The plugin expects messages in the
-[Telegraf Input Data Formats](https://github.com/influxdata/telegraf/blob/master/docs/DATA_FORMATS_INPUT.md).
+[Telex Input Data Formats](https://github.com/lavaorg/telex/blob/master/docs/DATA_FORMATS_INPUT.md).
 
 ### Configuration:
 
@@ -22,8 +22,8 @@ This is a sample configuration for the plugin.
   # service_address = "udp://:8094"
   # service_address = "udp4://:8094"
   # service_address = "udp6://:8094"
-  # service_address = "unix:///tmp/telegraf.sock"
-  # service_address = "unixgram:///tmp/telegraf.sock"
+  # service_address = "unix:///tmp/telex.sock"
+  # service_address = "unixgram:///tmp/telex.sock"
 
   ## Maximum number of concurrent connections.
   ## Only applies to stream sockets (e.g. TCP).
@@ -37,10 +37,10 @@ This is a sample configuration for the plugin.
 
   ## Optional TLS configuration.
   ## Only applies to stream sockets (e.g. TCP).
-  # tls_cert = "/etc/telegraf/cert.pem"
-  # tls_key  = "/etc/telegraf/key.pem"
+  # tls_cert = "/etc/telex/cert.pem"
+  # tls_key  = "/etc/telex/key.pem"
   ## Enables client authentication if set.
-  # tls_allowed_cacerts = ["/etc/telegraf/clientca.pem"]
+  # tls_allowed_cacerts = ["/etc/telex/clientca.pem"]
 
   ## Maximum socket buffer size (in bytes when no unit specified).
   ## For stream sockets, once the buffer fills up, the sender will start backing up.
@@ -57,7 +57,7 @@ This is a sample configuration for the plugin.
   ## Data format to consume.
   ## Each data format has its own unique set of configuration options, read
   ## more about them here:
-  ## https://github.com/influxdata/telegraf/blob/master/docs/DATA_FORMATS_INPUT.md
+  ## https://github.com/lavaorg/telex/blob/master/docs/DATA_FORMATS_INPUT.md
   # data_format = "influx"
 ```
 

@@ -14,11 +14,11 @@ metrics about ipvs virtual and real servers.
 
 #### Permissions
 
-Assuming you installed the telegraf package via one of the published packages,
-the process will be running as the `telegraf` user. However, in order for this
-plugin to communicate over netlink sockets it needs the telegraf process to be
+Assuming you installed the telex package via one of the published packages,
+the process will be running as the `telex` user. However, in order for this
+plugin to communicate over netlink sockets it needs the telex process to be
 running as `root` (or some user with `CAP_NET_ADMIN` and `CAP_NET_RAW`). Be sure
-to ensure these permissions before running telegraf with this plugin included.
+to ensure these permissions before running telex with this plugin included.
 
 ### Metrics
 

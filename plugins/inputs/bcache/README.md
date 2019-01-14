@@ -1,4 +1,4 @@
-# Telegraf plugin: bcache
+# Telex plugin: bcache
 
 Get bcache stat from stats_total directory and dirty_data file.
 
@@ -61,7 +61,7 @@ Using this configuration:
   # If not specified, then default is:
   # bcachePath = "/sys/fs/bcache"
   #
-  # By default, telegraf gather stats for all bcache devices
+  # By default, telex gather stats for all bcache devices
   # Setting devices will restrict the stats to the specified
   # bcache devices.
   # bcacheDevs = ["bcache0", ...]
@@ -70,7 +70,7 @@ Using this configuration:
 When run with:
 
 ```
-./telegraf --config telegraf.conf --input-filter bcache --test
+./telex --config telex.conf --input-filter bcache --test
 ```
 
 It produces:

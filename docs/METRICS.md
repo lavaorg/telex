@@ -1,6 +1,6 @@
 # Metrics
 
-Telegraf metrics are the internal representation used to model data during
+Telex metrics are the internal representation used to model data during
 processing.  Metrics are closely based on InfluxDB's data model and contain
 four main components:
 
@@ -16,7 +16,7 @@ representation in order to be transmitted or viewed.  To acheive this we
 provide several [output data formats][] sometimes referred to as
 *serializers*.  Our default serializer converts to [InfluxDB Line
 Protocol][line protocol] which provides a high performance and one-to-one
-direct mapping from Telegraf metrics.
+direct mapping from Telex metrics.
 
 [output data formats]: /docs/DATA_FORMATS_OUTPUT.md
 [line protocol]: /plugins/serializers/influx

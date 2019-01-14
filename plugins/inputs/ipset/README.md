@@ -8,14 +8,14 @@ Results are tagged with:
 - ipset name
 - ipset entry
 
-There are 3 ways to grant telegraf the right to run ipset:
+There are 3 ways to grant telex the right to run ipset:
 * Run as root (strongly discouraged)
 * Use sudo
-* Configure systemd to run telegraf with CAP_NET_ADMIN and CAP_NET_RAW capabilities.
+* Configure systemd to run telex with CAP_NET_ADMIN and CAP_NET_RAW capabilities.
 
 ### Using systemd capabilities
 
-You may run `systemctl edit telegraf.service` and add the following:
+You may run `systemctl edit telex.service` and add the following:
 
 ```
 [Service]
@@ -28,7 +28,7 @@ AmbientCapabilities=CAP_NET_RAW CAP_NET_ADMIN
 You may edit your sudo configuration with the following:
 
 ```sudo
-telegraf ALL=(root) NOPASSWD: /sbin/ipset save
+telex ALL=(root) NOPASSWD: /sbin/ipset save
 ```
 
 ### Configuration
@@ -40,7 +40,7 @@ telegraf ALL=(root) NOPASSWD: /sbin/ipset save
     include_unmatched_sets = false
     ## Adjust your sudo settings appropriately if using this option ("sudo ipset save")
     ## You can avoid using sudo or root, by setting appropriate privileges for
-    ## the telegraf.service systemd service.
+    ## the telex.service systemd service.
     use_sudo = false
     ## The default timeout of 1s for ipset execution can be overridden here:
     # timeout = "1s"
@@ -56,7 +56,7 @@ add myset 10.69.152.1 packets 8 bytes 672 comment "machine A"
 ```
 
 ```
-$ telegraf --config telegraf.conf --input-filter ipset --test --debug
+$ telex --config telex.conf --input-filter ipset --test --debug
 * Plugin: inputs.ipset, Collection 1
 > ipset,rule=10.69.152.1,host=trashme,set=myset bytes_total=8i,packets_total=672i 1507615028000000000
 ```

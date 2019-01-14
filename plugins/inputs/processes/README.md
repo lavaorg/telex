@@ -38,7 +38,7 @@ Using the environment variable `HOST_PROC` the plugin will retrieve process info
 
 Different OSes use slightly different State codes for their processes, these
 state codes are documented in `man ps`, and I will give a mapping of what major
-OS state codes correspond to in telegraf metrics:
+OS state codes correspond to in telex metrics:
 
 ```
 Linux  FreeBSD  Darwin  meaning
@@ -59,7 +59,7 @@ None
 ### Example Output:
 
 ```
-$ telegraf --config ~/ws/telegraf.conf --input-filter processes --test
+$ telex --config ~/ws/telex.conf --input-filter processes --test
 * Plugin: processes, Collection 1
 > processes blocked=8i,running=1i,sleeping=265i,stopped=0i,total=274i,zombie=0i,dead=0i,paging=0i,total_threads=687i 1457478636980905042
 ```

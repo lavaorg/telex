@@ -13,7 +13,7 @@ for interoperability.
   ## Data format to output.
   ## Each data format has its own unique set of configuration options, read
   ## more about them here:
-  ## https://github.com/influxdata/telegraf/blob/master/docs/DATA_FORMATS_OUTPUT.md
+  ## https://github.com/lavaorg/telex/blob/master/docs/DATA_FORMATS_OUTPUT.md
   data_format = "influx"
 
   ## Maximum line length in bytes.  Useful only for debugging.
@@ -24,7 +24,7 @@ for interoperability.
   ## when you need predictable ordering while debugging.
   influx_sort_fields = false
 
-  ## When true, Telegraf will output unsigned integers as unsigned values,
+  ## When true, Telex will output unsigned integers as unsigned values,
   ## i.e.: `42u`.  You will need a version of InfluxDB supporting unsigned
   ## integer values.  Enabling this option will result in field type errors if
   ## existing data has been written.

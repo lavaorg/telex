@@ -19,9 +19,9 @@ Syslog messages should be formatted according to
   server = "tcp://:6514"
 
   ## TLS Config
-  # tls_allowed_cacerts = ["/etc/telegraf/ca.pem"]
-  # tls_cert = "/etc/telegraf/cert.pem"
-  # tls_key = "/etc/telegraf/key.pem"
+  # tls_allowed_cacerts = ["/etc/telex/ca.pem"]
+  # tls_cert = "/etc/telex/cert.pem"
+  # tls_key = "/etc/telex/key.pem"
 
   ## Period between keep alive probes.
   ## 0 disables keep alive probes.
@@ -75,7 +75,7 @@ messages. If unset only full messages will be collected.
 
 #### Rsyslog Integration
 
-Rsyslog can be configured to forward logging messages to Telegraf by configuring
+Rsyslog can be configured to forward logging messages to Telex by configuring
 [remote logging](https://www.rsyslog.com/doc/v8-stable/configuration/actions.html#remote-machine).
 
 Most system are setup with a configuration split between `/etc/rsyslog.conf`
@@ -83,7 +83,7 @@ and the files in the `/etc/rsyslog.d/` directory, it is recommended to add the
 new configuration into the config directory to simplify updates to the main
 config file.
 
-Add the following lines to `/etc/rsyslog.d/50-telegraf.conf` making
+Add the following lines to `/etc/rsyslog.d/50-telex.conf` making
 adjustments to the target address as needed:
 ```
 $ActionQueueType LinkedList # use asynchronous processing

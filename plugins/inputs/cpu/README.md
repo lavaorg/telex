@@ -1,4 +1,4 @@
-# Telegraf plugin: CPU
+# Telex plugin: CPU
 
 #### Plugin arguments:
 - **totalcpu** boolean: If true, include `cpu-total` data

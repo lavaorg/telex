@@ -8,10 +8,10 @@ This plugin writes to a [Kafka Broker](http://kafka.apache.org/07/quickstart.htm
   ## URLs of kafka brokers
   brokers = ["localhost:9092"]
   ## Kafka topic for producer messages
-  topic = "telegraf"
+  topic = "telex"
 
   ## Optional Client id
-  # client_id = "Telegraf"
+  # client_id = "Telex"
 
   ## Set the minimal supported Kafka version.  Setting this enables the use of new
   ## Kafka features and APIs.  Of particular interested, lz4 compression
@@ -46,7 +46,7 @@ This plugin writes to a [Kafka Broker](http://kafka.apache.org/07/quickstart.htm
   #   keys = ["foo", "bar"]
   #   separator = "_"
 
-  ## Telegraf tag to use as a routing key
+  ## Telex tag to use as a routing key
   ##  ie, if this tag exists, its value will be used as the routing key
   routing_tag = "host"
 
@@ -54,7 +54,7 @@ This plugin writes to a [Kafka Broker](http://kafka.apache.org/07/quickstart.htm
   ## when the tag specified in routing tag is not found.  If set to "random",
   ## a random value will be generated for each message.
   ##   ex: routing_key = "random"
-  ##       routing_key = "telegraf"
+  ##       routing_key = "telex"
   # routing_key = ""
 
   ## CompressionCodec represents the various compression codecs recognized by
@@ -86,9 +86,9 @@ This plugin writes to a [Kafka Broker](http://kafka.apache.org/07/quickstart.htm
   # max_retry = 3
 
   ## Optional TLS Config
-  # tls_ca = "/etc/telegraf/ca.pem"
-  # tls_cert = "/etc/telegraf/cert.pem"
-  # tls_key = "/etc/telegraf/key.pem"
+  # tls_ca = "/etc/telex/ca.pem"
+  # tls_cert = "/etc/telex/cert.pem"
+  # tls_key = "/etc/telex/key.pem"
   ## Use TLS but skip chain & host verification
   # insecure_skip_verify = false
 
@@ -99,7 +99,7 @@ This plugin writes to a [Kafka Broker](http://kafka.apache.org/07/quickstart.htm
   ## Data format to output.
   ## Each data format has its own unique set of configuration options, read
   ## more about them here:
-  ## https://github.com/influxdata/telegraf/blob/master/docs/DATA_FORMATS_OUTPUT.md
+  ## https://github.com/lavaorg/telex/blob/master/docs/DATA_FORMATS_OUTPUT.md
   # data_format = "influx"
 ```
 

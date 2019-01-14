@@ -1,4 +1,4 @@
-# Telegraf
+# Telex
 
 - Concepts
   - [Metrics][metrics]

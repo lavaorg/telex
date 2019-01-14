@@ -10,7 +10,7 @@ Hddtemp should be installed and its daemon running
 
 ```toml
 [[inputs.hddtemp]]
-## By default, telegraf gathers temps data from all disks detected by the
+## By default, telex gathers temps data from all disks detected by the
 ## hddtemp.
 ##
 ## Only collect temps from the selected disks.

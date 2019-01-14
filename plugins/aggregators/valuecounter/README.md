@@ -43,7 +43,7 @@ No tags are applied by this aggregator.
 
 Example for parsing a HTTP access log.
 
-telegraf.conf:
+telex.conf:
 ```
 [[inputs.logparser]]
   files = ["/tmp/tst.log"]
@@ -64,7 +64,7 @@ telegraf.conf:
 ```
 
 ```
-$ telegraf --config telegraf.conf --quiet
+$ telex --config telex.conf --quiet
 
 access,url=/some/path,path=/tmp/tst.log,host=localhost.localdomain response="200" 1511948755991487011
 access,url=/some/path,path=/tmp/tst.log,host=localhost.localdomain response="401" 1511948755991522282

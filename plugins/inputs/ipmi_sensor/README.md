@@ -78,13 +78,13 @@ Version 2 schema:
 
 #### Permissions
 
-When gathering from the local system, Telegraf will need permission to the
+When gathering from the local system, Telex will need permission to the
 ipmi device node.  When using udev you can create the device node giving
-`rw` permissions to the `telegraf` user by adding the following rule to
-`/etc/udev/rules.d/52-telegraf-ipmi.rules`:
+`rw` permissions to the `telex` user by adding the following rule to
+`/etc/udev/rules.d/52-telex-ipmi.rules`:
 
 ```
-KERNEL=="ipmi*", MODE="660", GROUP="telegraf"
+KERNEL=="ipmi*", MODE="660", GROUP="telex"
 ```
 
 ### Example Output

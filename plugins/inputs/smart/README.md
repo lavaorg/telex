@@ -34,7 +34,7 @@ smartctl -s on <device>
   #
   ## On most platforms smartctl requires root access.
   ## Setting 'use_sudo' to true will make use of sudo to run smartctl.
-  ## Sudo must be configured to to allow the telegraf user to run smartctl
+  ## Sudo must be configured to to allow the telex user to run smartctl
   ## with out password.
   # use_sudo = false
   #

@@ -4,7 +4,7 @@ The [NATS][nats] consumer plugin reads from the specified NATS subjects and
 creates metrics using one of the supported [input data formats][].
 
 A [Queue Group][queue group] is used when subscribing to subjects so multiple
-instances of telegraf can read from a NATS cluster in parallel.
+instances of telex can read from a NATS cluster in parallel.
 
 ### Configuration:
 
@@ -15,7 +15,7 @@ instances of telegraf can read from a NATS cluster in parallel.
   ## Use Transport Layer Security
   secure = false
   ## subject(s) to consume
-  subjects = ["telegraf"]
+  subjects = ["telex"]
   ## name a queue group
   queue_group = "telegraf_consumers"
 
@@ -37,7 +37,7 @@ instances of telegraf can read from a NATS cluster in parallel.
   ## Data format to consume.
   ## Each data format has its own unique set of configuration options, read
   ## more about them here:
-  ## https://github.com/influxdata/telegraf/blob/master/docs/DATA_FORMATS_INPUT.md
+  ## https://github.com/lavaorg/telex/blob/master/docs/DATA_FORMATS_INPUT.md
   data_format = "influx"
 ```
 

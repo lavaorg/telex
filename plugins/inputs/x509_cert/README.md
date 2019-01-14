@@ -16,9 +16,9 @@ file or network connection.
   # timeout = "5s"
 
   ## Optional TLS Config
-  # tls_ca = "/etc/telegraf/ca.pem"
-  # tls_cert = "/etc/telegraf/cert.pem"
-  # tls_key = "/etc/telegraf/key.pem"
+  # tls_ca = "/etc/telex/ca.pem"
+  # tls_cert = "/etc/telex/cert.pem"
+  # tls_key = "/etc/telex/key.pem"
 
   ## Use TLS but skip chain & host verification
   # insecure_skip_verify = false

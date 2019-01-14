@@ -46,7 +46,7 @@ No tags are applied by this aggregator.
 ### Example Output:
 
 ```
-$ telegraf --config telegraf.conf --quiet
+$ telex --config telex.conf --quiet
 system,host=tars load1=1 1475583980000000000
 system,host=tars load1=1 1475583990000000000
 system,host=tars load1_count=2,load1_max=1,load1_min=1,load1_mean=1,load1_sum=2,load1_s2=0,load1_stdev=0 1475584010000000000

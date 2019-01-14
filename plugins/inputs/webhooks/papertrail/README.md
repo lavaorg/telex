@@ -1,6 +1,6 @@
 # papertrail webhooks
 
-Enables Telegraf to act as a [Papertrail Webhook](http://help.papertrailapp.com/kb/how-it-works/web-hooks/).
+Enables Telex to act as a [Papertrail Webhook](http://help.papertrailapp.com/kb/how-it-works/web-hooks/).
 
 ## Events
 

@@ -1,4 +1,4 @@
-# CGroup Input Plugin For Telegraf Agent
+# CGroup Input Plugin For Telex Agent
 
 This input plugin will capture specific statistics per cgroup.
 

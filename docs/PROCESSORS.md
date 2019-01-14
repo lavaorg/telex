@@ -4,16 +4,16 @@ This section is for developers who want to create a new processor plugin.
 
 ### Processor Plugin Guidelines
 
-* A processor must conform to the [telegraf.Processor][] interface.
+* A processor must conform to the [telex.Processor][] interface.
 * Processors should call `processors.Add` in their `init` function to register
   themselves.  See below for a quick example.
-* To be available within Telegraf itself, plugins must add themselves to the
-  `github.com/influxdata/telegraf/plugins/processors/all/all.go` file.
+* To be available within Telex itself, plugins must add themselves to the
+  `github.com/lavaorg/telex/plugins/processors/all/all.go` file.
 * The `SampleConfig` function should return valid toml that describes how the
-  processor can be configured. This is include in the output of `telegraf
+  processor can be configured. This is include in the output of `telex
   config`.
 - The `SampleConfig` function should return valid toml that describes how the
-  plugin can be configured. This is included in `telegraf config`.  Please
+  plugin can be configured. This is included in `telex config`.  Please
   consult the [SampleConfig][] page for the latest style guidelines.
 * The `Description` function should say in one line what this processor does.
 - Follow the recommended [CodeStyle][].
@@ -28,8 +28,8 @@ package printer
 import (
 	"fmt"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/plugins/processors"
+	"github.com/lavaorg/telex"
+	"github.com/lavaorg/telex/plugins/processors"
 )
 
 type Printer struct {
@@ -46,7 +46,7 @@ func (p *Printer) Description() string {
 	return "Print all metrics that pass through this filter."
 }
 
-func (p *Printer) Apply(in ...telegraf.Metric) []telegraf.Metric {
+func (p *Printer) Apply(in ...telex.Metric) []telex.Metric {
 	for _, metric := range in {
 		fmt.Println(metric.String())
 	}
@@ -54,12 +54,12 @@ func (p *Printer) Apply(in ...telegraf.Metric) []telegraf.Metric {
 }
 
 func init() {
-	processors.Add("printer", func() telegraf.Processor {
+	processors.Add("printer", func() telex.Processor {
 		return &Printer{}
 	})
 }
 ```
 
-[SampleConfig]: https://github.com/influxdata/telegraf/wiki/SampleConfig
-[CodeStyle]: https://github.com/influxdata/telegraf/wiki/CodeStyle
-[telegraf.Processor]: https://godoc.org/github.com/influxdata/telegraf#Processor
+[SampleConfig]: https://github.com/lavaorg/telex/wiki/SampleConfig
+[CodeStyle]: https://github.com/lavaorg/telex/wiki/CodeStyle
+[telex.Processor]: https://godoc.org/github.com/lavaorg/telex#Processor
