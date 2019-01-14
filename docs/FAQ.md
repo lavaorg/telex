@@ -1,6 +1,6 @@
 # Frequently Asked Questions
 
-### Q: Why the name change from telex to telex
+### Q: Why the name change from telegraf to telex
 
 Telex is a direct copy of Telegraf but scaled down by removing and consolidating functionality.
 It also uses the Go modules to build and the only platform supported is Linux for production use. 
