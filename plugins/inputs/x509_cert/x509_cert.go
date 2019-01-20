@@ -19,38 +19,11 @@ import (
 	"github.com/lavaorg/telex/plugins/inputs"
 )
 
-const sampleConfig = `
-  ## List certificate sources
-  sources = ["/etc/ssl/certs/ssl-cert-snakeoil.pem", "tcp://example.org:443"]
-
-  ## Timeout for SSL connection
-  # timeout = "5s"
-
-  ## Optional TLS Config
-  # tls_ca = "/etc/telex/ca.pem"
-  # tls_cert = "/etc/telex/cert.pem"
-  # tls_key = "/etc/telex/key.pem"
-
-  ## Use TLS but skip chain & host verification
-  # insecure_skip_verify = false
-`
-const description = "Reads metrics from a SSL certificate"
-
 // X509Cert holds the configuration of the plugin.
 type X509Cert struct {
 	Sources []string          `toml:"sources"`
 	Timeout internal.Duration `toml:"timeout"`
 	_tls.ClientConfig
-}
-
-// Description returns description of the plugin.
-func (c *X509Cert) Description() string {
-	return description
-}
-
-// SampleConfig returns configuration sample for the plugin.
-func (c *X509Cert) SampleConfig() string {
-	return sampleConfig
 }
 
 func (c *X509Cert) getCert(location string, timeout time.Duration) ([]*x509.Certificate, error) {

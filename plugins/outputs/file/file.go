@@ -19,17 +19,6 @@ type File struct {
 	serializer serializers.Serializer
 }
 
-var sampleConfig = `
-  ## Files to write to, "stdout" is a specially handled file.
-  files = ["stdout", "/tmp/metrics.out"]
-
-  ## Data format to output.
-  ## Each data format has its own unique set of configuration options, read
-  ## more about them here:
-  ## https:/github.com/lavaorg/telex/blob/master/docs/DATA_FORMATS_OUTPUT.md
-  data_format = "influx"
-`
-
 func (f *File) SetSerializer(serializer serializers.Serializer) {
 	f.serializer = serializer
 }
@@ -72,14 +61,6 @@ func (f *File) Close() error {
 		return fmt.Errorf(errS)
 	}
 	return nil
-}
-
-func (f *File) SampleConfig() string {
-	return sampleConfig
-}
-
-func (f *File) Description() string {
-	return "Send telex metrics to file(s)"
 }
 
 func (f *File) Write(metrics []telex.Metric) error {

@@ -10,7 +10,6 @@ import (
 	_ "net/http/pprof" // Comment this line to disable pprof endpoint.
 	"os"
 	"os/signal"
-	"runtime"
 	"strings"
 	"syscall"
 
@@ -27,38 +26,19 @@ import (
 	"github.com/kardianos/service"
 )
 
-var fDebug = flag.Bool("debug", false,
-	"turn on debug logging")
-var pprofAddr = flag.String("pprof-addr", "",
-	"pprof address to listen on, not activate pprof if empty")
-var fQuiet = flag.Bool("quiet", false,
-	"run in quiet mode")
+var fDebug = flag.Bool("debug", false, "turn on debug logging")
+var pprofAddr = flag.String("pprof-addr", "", "pprof address to listen on, not activate pprof if empty")
+var fQuiet = flag.Bool("quiet", false, "run in quiet mode")
 var fTest = flag.Bool("test", false, "gather metrics, print them out, and exit")
 var fConfig = flag.String("config", "", "configuration file to load")
-var fConfigDirectory = flag.String("config-directory", "",
-	"directory containing additional *.conf files")
 var fVersion = flag.Bool("version", false, "display the version and exit")
-var fSampleConfig = flag.Bool("sample-config", false,
-	"print out full sample configuration")
 var fPidfile = flag.String("pidfile", "", "file to write our pid to")
-var fInputFilters = flag.String("input-filter", "",
-	"filter the inputs to enable, separator is :")
-var fInputList = flag.Bool("input-list", false,
-	"print available input plugins.")
-var fOutputFilters = flag.String("output-filter", "",
-	"filter the outputs to enable, separator is :")
-var fOutputList = flag.Bool("output-list", false,
-	"print available output plugins.")
-var fAggregatorFilters = flag.String("aggregator-filter", "",
-	"filter the aggregators to enable, separator is :")
-var fProcessorFilters = flag.String("processor-filter", "",
-	"filter the processors to enable, separator is :")
-var fUsage = flag.String("usage", "",
-	"print usage for a plugin, ie, 'telex --usage mysql'")
-var fService = flag.String("service", "",
-	"operate on the service (windows only)")
-var fServiceName = flag.String("service-name", "telex", "service name (windows only)")
-var fRunAsConsole = flag.Bool("console", false, "run as console application (windows only)")
+var fInputFilters = flag.String("input-filter", "", "filter the inputs to enable, separator is :")
+var fInputList = flag.Bool("input-list", false, "print available input plugins.")
+var fOutputFilters = flag.String("output-filter", "", "filter the outputs to enable, separator is :")
+var fOutputList = flag.Bool("output-list", false, "print available output plugins.")
+var fAggregatorFilters = flag.String("aggregator-filter", "", "filter the aggregators to enable, separator is :")
+var fProcessorFilters = flag.String("processor-filter", "", "filter the processors to enable, separator is :")
 
 var (
 	version string
@@ -124,12 +104,6 @@ func runAgent(ctx context.Context,
 		return err
 	}
 
-	if *fConfigDirectory != "" {
-		err = c.LoadDirectory(*fConfigDirectory)
-		if err != nil {
-			return err
-		}
-	}
 	if !*fTest && len(c.Outputs) == 0 {
 		return errors.New("Error: no outputs found, did you provide a valid config file?")
 	}
@@ -287,14 +261,6 @@ func main() {
 		case "version":
 			fmt.Println(formatFullVersion())
 			return
-		case "config":
-			config.PrintSampleConfig(
-				inputFilters,
-				outputFilters,
-				aggregatorFilters,
-				processorFilters,
-			)
-			return
 		}
 	}
 
@@ -315,21 +281,6 @@ func main() {
 	case *fVersion:
 		fmt.Println(formatFullVersion())
 		return
-	case *fSampleConfig:
-		config.PrintSampleConfig(
-			inputFilters,
-			outputFilters,
-			aggregatorFilters,
-			processorFilters,
-		)
-		return
-	case *fUsage != "":
-		err := config.PrintInputConfig(*fUsage)
-		err2 := config.PrintOutputConfig(*fUsage)
-		if err != nil && err2 != nil {
-			log.Fatalf("E! %s and %s", err, err2)
-		}
-		return
 	}
 
 	shortVersion := version
@@ -342,53 +293,12 @@ func main() {
 		log.Println("telex version already configured to: " + internal.Version())
 	}
 
-	if runtime.GOOS == "windows" && !(*fRunAsConsole) {
-		svcConfig := &service.Config{
-			Name:        *fServiceName,
-			DisplayName: "telex Data Collector Service",
-			Description: "Collects data using a series of plugins and publishes it to" +
-				"another series of plugins.",
-			Arguments: []string{"--config", "C:\\Program Files\\telex\\telex.conf"},
-		}
-
-		prg := &program{
-			inputFilters:      inputFilters,
-			outputFilters:     outputFilters,
-			aggregatorFilters: aggregatorFilters,
-			processorFilters:  processorFilters,
-		}
-		s, err := service.New(prg, svcConfig)
-		if err != nil {
-			log.Fatal("E! " + err.Error())
-		}
-		// Handle the --service flag here to prevent any issues with tooling that
-		// may not have an interactive session, e.g. installing from Ansible.
-		if *fService != "" {
-			if *fConfig != "" {
-				(*svcConfig).Arguments = []string{"--config", *fConfig}
-			}
-			if *fConfigDirectory != "" {
-				(*svcConfig).Arguments = append((*svcConfig).Arguments, "--config-directory", *fConfigDirectory)
-			}
-			err := service.Control(s, *fService)
-			if err != nil {
-				log.Fatal("E! " + err.Error())
-			}
-			os.Exit(0)
-		} else {
-			err = s.Run()
-			if err != nil {
-				log.Println("E! " + err.Error())
-			}
-		}
-	} else {
-		stop = make(chan struct{})
-		reloadLoop(
-			stop,
-			inputFilters,
-			outputFilters,
-			aggregatorFilters,
-			processorFilters,
-		)
-	}
+	stop = make(chan struct{})
+	reloadLoop(
+		stop,
+		inputFilters,
+		outputFilters,
+		aggregatorFilters,
+		processorFilters,
+	)
 }

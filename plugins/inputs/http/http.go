@@ -39,55 +39,7 @@ type HTTP struct {
 	parser parsers.Parser
 }
 
-var sampleConfig = `
-  ## One or more URLs from which to read formatted metrics
-  urls = [
-    "http://localhost/metrics"
-  ]
 
-  ## HTTP method
-  # method = "GET"
-
-  ## Optional HTTP headers
-  # headers = {"X-Special-Header" = "Special-Value"}
-
-  ## Optional HTTP Basic Auth Credentials
-  # username = "username"
-  # password = "pa$$word"
-
-  ## HTTP entity-body to send with POST/PUT requests.
-  # body = ""
-
-  ## HTTP Content-Encoding for write request body, can be set to "gzip" to
-  ## compress body or "identity" to apply no encoding.
-  # content_encoding = "identity"
-
-  ## Optional TLS Config
-  # tls_ca = "/etc/telex/ca.pem"
-  # tls_cert = "/etc/telex/cert.pem"
-  # tls_key = "/etc/telex/key.pem"
-  ## Use TLS but skip chain & host verification
-  # insecure_skip_verify = false
-
-  ## Amount of time allowed to complete the HTTP request
-  # timeout = "5s"
-
-  ## Data format to consume.
-  ## Each data format has its own unique set of configuration options, read
-  ## more about them here:
-  ## https:/github.com/lavaorg/telex/blob/master/docs/DATA_FORMATS_INPUT.md
-  # data_format = "influx"
-`
-
-// SampleConfig returns the default configuration of the Input
-func (*HTTP) SampleConfig() string {
-	return sampleConfig
-}
-
-// Description returns a one-sentence description on the Input
-func (*HTTP) Description() string {
-	return "Read formatted metrics from one or more HTTP endpoints"
-}
 
 // Gather takes in an accumulator and adds the metrics that the Input
 // gathers. This is called every "interval"

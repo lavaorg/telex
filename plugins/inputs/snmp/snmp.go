@@ -19,65 +19,6 @@ import (
 	"github.com/soniah/gosnmp"
 )
 
-const description = `Retrieves SNMP values from remote agents`
-const sampleConfig = `
-  agents = [ "127.0.0.1:161" ]
-  ## Timeout for each SNMP query.
-  timeout = "5s"
-  ## Number of retries to attempt within timeout.
-  retries = 3
-  ## SNMP version, values can be 1, 2, or 3
-  version = 2
-
-  ## SNMP community string.
-  community = "public"
-
-  ## The GETBULK max-repetitions parameter
-  max_repetitions = 10
-
-  ## SNMPv3 auth parameters
-  #sec_name = "myuser"
-  #auth_protocol = "md5"      # Values: "MD5", "SHA", ""
-  #auth_password = "pass"
-  #sec_level = "authNoPriv"   # Values: "noAuthNoPriv", "authNoPriv", "authPriv"
-  #context_name = ""
-  #priv_protocol = ""         # Values: "DES", "AES", ""
-  #priv_password = ""
-
-  ## measurement name
-  name = "system"
-  [[inputs.snmp.field]]
-    name = "hostname"
-    oid = ".1.0.0.1.1"
-  [[inputs.snmp.field]]
-    name = "uptime"
-    oid = ".1.0.0.1.2"
-  [[inputs.snmp.field]]
-    name = "load"
-    oid = ".1.0.0.1.3"
-  [[inputs.snmp.field]]
-    oid = "HOST-RESOURCES-MIB::hrMemorySize"
-
-  [[inputs.snmp.table]]
-    ## measurement name
-    name = "remote_servers"
-    inherit_tags = [ "hostname" ]
-    [[inputs.snmp.table.field]]
-      name = "server"
-      oid = ".1.0.0.0.1.0"
-      is_tag = true
-    [[inputs.snmp.table.field]]
-      name = "connections"
-      oid = ".1.0.0.0.1.1"
-    [[inputs.snmp.table.field]]
-      name = "latency"
-      oid = ".1.0.0.0.1.2"
-
-  [[inputs.snmp.table]]
-    ## auto populate table's fields using the MIB
-    oid = "HOST-RESOURCES-MIB::hrNetworkTable"
-`
-
 // execCommand is so tests can mock out exec.Command usage.
 var execCommand = exec.Command
 
@@ -337,16 +278,6 @@ func init() {
 			Community:      "public",
 		}
 	})
-}
-
-// SampleConfig returns the default configuration of the input.
-func (s *Snmp) SampleConfig() string {
-	return sampleConfig
-}
-
-// Description returns a one-sentence description on the input.
-func (s *Snmp) Description() string {
-	return description
 }
 
 // Gather retrieves all the configured fields and tables.

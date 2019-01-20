@@ -18,12 +18,6 @@ import (
 
 type SystemStats struct{}
 
-func (_ *SystemStats) Description() string {
-	return "Read metrics about system load & uptime"
-}
-
-func (_ *SystemStats) SampleConfig() string { return "" }
-
 func (_ *SystemStats) Gather(acc telex.Accumulator) error {
 	loadavg, err := load.Avg()
 	if err != nil && !strings.Contains(err.Error(), "not implemented") {

@@ -13,16 +13,6 @@ type NetStats struct {
 	ps system.PS
 }
 
-func (_ *NetStats) Description() string {
-	return "Read TCP metrics such as established, time wait and sockets counts."
-}
-
-var tcpstatSampleConfig = ""
-
-func (_ *NetStats) SampleConfig() string {
-	return tcpstatSampleConfig
-}
-
 func (s *NetStats) Gather(acc telex.Accumulator) error {
 	netconns, err := s.ps.NetConnections()
 	if err != nil {

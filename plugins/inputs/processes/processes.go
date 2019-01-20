@@ -27,12 +27,6 @@ type Processes struct {
 	forceProc bool
 }
 
-func (p *Processes) Description() string {
-	return "Get the number of processes and group them by status"
-}
-
-func (p *Processes) SampleConfig() string { return "" }
-
 func (p *Processes) Gather(acc telex.Accumulator) error {
 	// Get an empty map of metric fields
 	fields := getEmptyFields()

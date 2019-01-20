@@ -6,7 +6,7 @@ After=network.target
 [Service]
 EnvironmentFile=-/etc/default/telex
 User=telex
-ExecStart=/usr/bin/telex -config /etc/telex/telex.conf -config-directory /etc/telex/telex.d $TELEGRAF_OPTS
+ExecStart=/usr/bin/telex -config /etc/telex/telex.conf -config-directory /etc/telex/telex.d $TELEX_OPTS
 ExecReload=/bin/kill -HUP $MAINPID
 Restart=on-failure
 RestartForceExitStatus=SIGPIPE

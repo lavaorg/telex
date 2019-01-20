@@ -17,31 +17,6 @@ type File struct {
 	filenames []string
 }
 
-const sampleConfig = `
-  ## Files to parse each interval.
-  ## These accept standard unix glob matching rules, but with the addition of
-  ## ** as a "super asterisk". ie:
-  ##   /var/log/**.log     -> recursively find all .log files in /var/log
-  ##   /var/log/*/*.log    -> find all .log files with a parent dir in /var/log
-  ##   /var/log/apache.log -> only read the apache log file
-  files = ["/var/log/apache/access.log"]
-
-  ## The dataformat to be read from files
-  ## Each data format has its own unique set of configuration options, read
-  ## more about them here:
-  ## https:/github.com/lavaorg/telex/blob/master/docs/DATA_FORMATS_INPUT.md
-  data_format = "influx"
-`
-
-// SampleConfig returns the default configuration of the Input
-func (f *File) SampleConfig() string {
-	return sampleConfig
-}
-
-func (f *File) Description() string {
-	return "Reload and gather from file[s] on telex's interval."
-}
-
 func (f *File) Gather(acc telex.Accumulator) error {
 	err := f.refreshFilePaths()
 	if err != nil {

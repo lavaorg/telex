@@ -19,49 +19,6 @@ import (
 	"golang.org/x/oauth2/clientcredentials"
 )
 
-var sampleConfig = `
-  ## URL is the address to send metrics to
-  url = "http://127.0.0.1:8080/metric"
-
-  ## Timeout for HTTP message
-  # timeout = "5s"
-
-  ## HTTP method, one of: "POST" or "PUT"
-  # method = "POST"
-
-  ## HTTP Basic Auth credentials
-  # username = "username"
-  # password = "pa$$word"
-
-  ## OAuth2 Client Credentials Grant
-  # client_id = "clientid"
-  # client_secret = "secret"
-  # token_url = "https://indentityprovider/oauth2/v1/token"
-  # scopes = ["urn:opc:idm:__myscopes__"]
-
-  ## Optional TLS Config
-  # tls_ca = "/etc/telex/ca.pem"
-  # tls_cert = "/etc/telex/cert.pem"
-  # tls_key = "/etc/telex/key.pem"
-  ## Use TLS but skip chain & host verification
-  # insecure_skip_verify = false
-
-  ## Data format to output.
-  ## Each data format has it's own unique set of configuration options, read
-  ## more about them here:
-  ## https:/github.com/lavaorg/telex/blob/master/docs/DATA_FORMATS_OUTPUT.md
-  # data_format = "influx"
-
-  ## Additional HTTP headers
-  # [outputs.http.headers]
-  #   # Should be set manually to "application/json" for json data_format
-  #   Content-Type = "text/plain; charset=utf-8"
-
-  ## HTTP Content-Encoding for write request body, can be set to "gzip" to
-  ## compress body or "identity" to apply no encoding.
-  # content_encoding = "identity"
-`
-
 const (
 	defaultClientTimeout = 5 * time.Second
 	defaultContentType   = "text/plain; charset=utf-8"
@@ -144,14 +101,6 @@ func (h *HTTP) Connect() error {
 
 func (h *HTTP) Close() error {
 	return nil
-}
-
-func (h *HTTP) Description() string {
-	return "A plugin that can transmit metrics over HTTP"
-}
-
-func (h *HTTP) SampleConfig() string {
-	return sampleConfig
 }
 
 func (h *HTTP) Write(metrics []telex.Metric) error {

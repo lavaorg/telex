@@ -233,9 +233,9 @@ Logparser configuration:
 
   [inputs.logparser.grok]
     measurement = "telegraf_log"
-    patterns = ['^%{TIMESTAMP_ISO8601:timestamp:ts-rfc3339} %{TELEGRAF_LOG_LEVEL:level:tag}! %{GREEDYDATA:msg}']
+    patterns = ['^%{TIMESTAMP_ISO8601:timestamp:ts-rfc3339} %{TELEX_LOG_LEVEL:level:tag}! %{GREEDYDATA:msg}']
     custom_patterns = '''
-TELEGRAF_LOG_LEVEL (?:[DIWE]+)
+TELEX_LOG_LEVEL (?:[DIWE]+)
 '''
 ```
 

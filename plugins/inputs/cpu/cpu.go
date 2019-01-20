@@ -28,25 +28,6 @@ func NewCPUStats(ps system.PS) *CPUStats {
 	}
 }
 
-func (_ *CPUStats) Description() string {
-	return "Read metrics about cpu usage"
-}
-
-var sampleConfig = `
-  ## Whether to report per-cpu stats or not
-  percpu = true
-  ## Whether to report total system cpu stats or not
-  totalcpu = true
-  ## If true, collect raw CPU time metrics.
-  collect_cpu_time = false
-  ## If true, compute and report the sum of all non-idle CPU states.
-  report_active = false
-`
-
-func (_ *CPUStats) SampleConfig() string {
-	return sampleConfig
-}
-
 func (s *CPUStats) Gather(acc telex.Accumulator) error {
 	times, err := s.ps.CPUTimes(s.PerCPU, s.TotalCPU)
 	if err != nil {

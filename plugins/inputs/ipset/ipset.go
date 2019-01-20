@@ -28,24 +28,6 @@ const measurement = "ipset"
 
 var defaultTimeout = internal.Duration{Duration: time.Second}
 
-// Description returns a short description of the plugin
-func (ipset *Ipset) Description() string {
-	return "Gather packets and bytes counters from Linux ipsets"
-}
-
-// SampleConfig returns sample configuration options.
-func (ipset *Ipset) SampleConfig() string {
-	return `
-  ## By default, we only show sets which have already matched at least 1 packet.
-  ## set include_unmatched_sets = true to gather them all.
-  include_unmatched_sets = false
-  ## Adjust your sudo settings appropriately if using this option ("sudo ipset save")
-  use_sudo = false
-  ## The default timeout of 1s for ipset execution can be overridden here:
-  # timeout = "1s"
-`
-}
-
 func (ips *Ipset) Gather(acc telex.Accumulator) error {
 	out, e := ips.lister(ips.Timeout, ips.UseSudo)
 	if e != nil {

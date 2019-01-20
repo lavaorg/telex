@@ -429,14 +429,6 @@ func (m *mockOutput) Close() error {
 	return nil
 }
 
-func (m *mockOutput) Description() string {
-	return ""
-}
-
-func (m *mockOutput) SampleConfig() string {
-	return ""
-}
-
 func (m *mockOutput) Write(metrics []telex.Metric) error {
 	m.Lock()
 	defer m.Unlock()
@@ -471,14 +463,6 @@ func (m *perfOutput) Connect() error {
 
 func (m *perfOutput) Close() error {
 	return nil
-}
-
-func (m *perfOutput) Description() string {
-	return ""
-}
-
-func (m *perfOutput) SampleConfig() string {
-	return ""
 }
 
 func (m *perfOutput) Write(metrics []telex.Metric) error {

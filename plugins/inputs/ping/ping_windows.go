@@ -46,32 +46,6 @@ type Ping struct {
 	pingHost HostPinger
 }
 
-func (s *Ping) Description() string {
-	return "Ping given url(s) and return statistics"
-}
-
-const sampleConfig = `
-	## List of urls to ping
-	urls = ["www.google.com"]
-
-	## number of pings to send per collection (ping -n <COUNT>)
-	# count = 1
-
-	## Ping timeout, in seconds. 0.0 means default timeout (ping -w <TIMEOUT>)
-	# timeout = 0.0
-
-	## Specify the ping executable binary, default is "ping"
-	# binary = "ping"
-
-	## Arguments for ping command
-	## when arguments is not empty, other options (ping_interval, timeout, etc) will be ignored
-	# arguments = ["-c", "3"]
-`
-
-func (s *Ping) SampleConfig() string {
-	return sampleConfig
-}
-
 func (p *Ping) Gather(acc telex.Accumulator) error {
 	if p.Count < 1 {
 		p.Count = 1

@@ -34,43 +34,6 @@ type Ipmi struct {
 	MetricVersion int
 }
 
-var sampleConfig = `
-  ## optionally specify the path to the ipmitool executable
-  # path = "/usr/bin/ipmitool"
-  ##
-  ## optionally force session privilege level. Can be CALLBACK, USER, OPERATOR, ADMINISTRATOR
-  # privilege = "ADMINISTRATOR"
-  ##
-  ## optionally specify one or more servers via a url matching
-  ##  [username[:password]@][protocol[(address)]]
-  ##  e.g.
-  ##    root:passwd@lan(127.0.0.1)
-  ##
-  ## if no servers are specified, local machine sensor stats will be queried
-  ##
-  # servers = ["USERID:PASSW0RD@lan(192.168.1.1)"]
-
-  ## Recommended: use metric 'interval' that is a multiple of 'timeout' to avoid
-  ## gaps or overlap in pulled data
-  interval = "30s"
-
-  ## Timeout for the ipmitool command to complete
-  timeout = "20s"
-
-  ## Schema Version: (Optional, defaults to version 1)
-  metric_version = 2
-`
-
-// SampleConfig returns the documentation about the sample configuration
-func (m *Ipmi) SampleConfig() string {
-	return sampleConfig
-}
-
-// Description returns a basic description for the plugin functions
-func (m *Ipmi) Description() string {
-	return "Read metrics from the bare metal servers via IPMI"
-}
-
 // Gather is the main execution function for the plugin
 func (m *Ipmi) Gather(acc telex.Accumulator) error {
 	if len(m.Path) == 0 {

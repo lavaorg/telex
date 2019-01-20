@@ -57,47 +57,6 @@ type Smart struct {
 	UseSudo    bool
 }
 
-var sampleConfig = `
-  ## Optionally specify the path to the smartctl executable
-  # path = "/usr/bin/smartctl"
-  #
-  ## On most platforms smartctl requires root access.
-  ## Setting 'use_sudo' to true will make use of sudo to run smartctl.
-  ## Sudo must be configured to to allow the telex user to run smartctl
-  ## with out password.
-  # use_sudo = false
-  #
-  ## Skip checking disks in this power mode. Defaults to
-  ## "standby" to not wake up disks that have stoped rotating.
-  ## See --nocheck in the man pages for smartctl.
-  ## smartctl version 5.41 and 5.42 have faulty detection of
-  ## power mode and might require changing this value to
-  ## "never" depending on your disks.
-  # nocheck = "standby"
-  #
-  ## Gather detailed metrics for each SMART Attribute.
-  ## Defaults to "false"
-  ##
-  # attributes = false
-  #
-  ## Optionally specify devices to exclude from reporting.
-  # excludes = [ "/dev/pass6" ]
-  #
-  ## Optionally specify devices and device type, if unset
-  ## a scan (smartctl --scan) for S.M.A.R.T. devices will
-  ## done and all found will be included except for the
-  ## excluded in excludes.
-  # devices = [ "/dev/ada0 -d atacam" ]
-`
-
-func (m *Smart) SampleConfig() string {
-	return sampleConfig
-}
-
-func (m *Smart) Description() string {
-	return "Read metrics from storage devices supporting S.M.A.R.T."
-}
-
 func (m *Smart) Gather(acc telex.Accumulator) error {
 	if len(m.Path) == 0 {
 		return fmt.Errorf("smartctl not found: verify that smartctl is installed and that smartctl is in your PATH")

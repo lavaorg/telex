@@ -16,14 +16,6 @@ type MockProcessor struct {
 	ApplyF func(in ...telex.Metric) []telex.Metric
 }
 
-func (p *MockProcessor) SampleConfig() string {
-	return ""
-}
-
-func (p *MockProcessor) Description() string {
-	return ""
-}
-
 func (p *MockProcessor) Apply(in ...telex.Metric) []telex.Metric {
 	return p.ApplyF(in...)
 }

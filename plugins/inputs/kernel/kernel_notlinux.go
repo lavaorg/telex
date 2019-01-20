@@ -10,12 +10,6 @@ import (
 type Kernel struct {
 }
 
-func (k *Kernel) Description() string {
-	return "Get kernel statistics from /proc/stat"
-}
-
-func (k *Kernel) SampleConfig() string { return "" }
-
 func (k *Kernel) Gather(acc telex.Accumulator) error {
 	return nil
 }

@@ -2,7 +2,6 @@ package config
 
 import (
 	"bytes"
-	"errors"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -10,15 +9,12 @@ import (
 	"net/http"
 	"net/url"
 	"os"
-	"path/filepath"
 	"regexp"
-	"runtime"
 	"sort"
 	"strconv"
 	"strings"
 	"time"
 
-	"github.com/lavaorg/telex"
 	"github.com/lavaorg/telex/internal"
 	"github.com/lavaorg/telex/internal/models"
 	"github.com/lavaorg/telex/plugins/aggregators"
@@ -197,310 +193,6 @@ func (c *Config) ListTags() string {
 	return strings.Join(tags, " ")
 }
 
-var header = `# telex Configuration
-#
-# telex is entirely plugin driven. All metrics are gathered from the
-# declared inputs, and sent to the declared outputs.
-#
-# Plugins must be declared in here to be active.
-# To deactivate a plugin, comment out the name and any variables.
-#
-# Use 'telex -config telex.conf -test' to see what metrics a config
-# file would generate.
-#
-# Environment variables can be used anywhere in this config file, simply prepend
-# them with $. For strings the variable must be within quotes (ie, "$STR_VAR"),
-# for numbers and booleans they should be plain (ie, $INT_VAR, $BOOL_VAR)
-
-
-# Global tags can be specified here in key="value" format.
-[global_tags]
-  # dc = "us-east-1" # will tag all metrics with dc=us-east-1
-  # rack = "1a"
-  ## Environment variables can be used as tags, and throughout the config file
-  # user = "$USER"
-
-
-# Configuration for telex agent
-[agent]
-  ## Default data collection interval for all inputs
-  interval = "10s"
-  ## Rounds collection interval to 'interval'
-  ## ie, if interval="10s" then always collect on :00, :10, :20, etc.
-  round_interval = true
-
-  ## telex will send metrics to outputs in batches of at most
-  ## metric_batch_size metrics.
-  ## This controls the size of writes that telex sends to output plugins.
-  metric_batch_size = 1000
-
-  ## For failed writes, telex will cache metric_buffer_limit metrics for each
-  ## output, and will flush this buffer on a successful write. Oldest metrics
-  ## are dropped first when this buffer fills.
-  ## This buffer only fills when writes fail to output plugin(s).
-  metric_buffer_limit = 10000
-
-  ## Collection jitter is used to jitter the collection by a random amount.
-  ## Each plugin will sleep for a random time within jitter before collecting.
-  ## This can be used to avoid many plugins querying things like sysfs at the
-  ## same time, which can have a measurable effect on the system.
-  collection_jitter = "0s"
-
-  ## Default flushing interval for all outputs. Maximum flush_interval will be
-  ## flush_interval + flush_jitter
-  flush_interval = "10s"
-  ## Jitter the flush interval by a random amount. This is primarily to avoid
-  ## large write spikes for users running a large number of telex instances.
-  ## ie, a jitter of 5s and interval 10s means flushes will happen every 10-15s
-  flush_jitter = "0s"
-
-  ## By default or when set to "0s", precision will be set to the same
-  ## timestamp order as the collection interval, with the maximum being 1s.
-  ##   ie, when interval = "10s", precision will be "1s"
-  ##       when interval = "250ms", precision will be "1ms"
-  ## Precision will NOT be used for service inputs. It is up to each individual
-  ## service input to set the timestamp at the appropriate precision.
-  ## Valid time units are "ns", "us" (or "µs"), "ms", "s".
-  precision = ""
-
-  ## Logging configuration:
-  ## Run telex with debug log messages.
-  debug = false
-  ## Run telex in quiet mode (error log messages only).
-  quiet = false
-  ## Specify the log file name. The empty string means to log to stderr.
-  logfile = ""
-
-  ## Override default hostname, if empty use os.Hostname()
-  hostname = ""
-  ## If set to true, do no set the "host" tag in the telex agent.
-  omit_hostname = false
-
-
-###############################################################################
-#                            OUTPUT PLUGINS                                   #
-###############################################################################
-`
-
-var processorHeader = `
-
-###############################################################################
-#                            PROCESSOR PLUGINS                                #
-###############################################################################
-`
-
-var aggregatorHeader = `
-
-###############################################################################
-#                            AGGREGATOR PLUGINS                               #
-###############################################################################
-`
-
-var inputHeader = `
-
-###############################################################################
-#                            INPUT PLUGINS                                    #
-###############################################################################
-`
-
-var serviceInputHeader = `
-
-###############################################################################
-#                            SERVICE INPUT PLUGINS                            #
-###############################################################################
-`
-
-// PrintSampleConfig prints the sample config
-func PrintSampleConfig(
-	inputFilters []string,
-	outputFilters []string,
-	aggregatorFilters []string,
-	processorFilters []string,
-) {
-	fmt.Printf(header)
-
-	// print output plugins
-	if len(outputFilters) != 0 {
-		printFilteredOutputs(outputFilters, false)
-	} else {
-		printFilteredOutputs(outputDefaults, false)
-		// Print non-default outputs, commented
-		var pnames []string
-		for pname := range outputs.Outputs {
-			if !sliceContains(pname, outputDefaults) {
-				pnames = append(pnames, pname)
-			}
-		}
-		sort.Strings(pnames)
-		printFilteredOutputs(pnames, true)
-	}
-
-	// print processor plugins
-	fmt.Printf(processorHeader)
-	if len(processorFilters) != 0 {
-		printFilteredProcessors(processorFilters, false)
-	} else {
-		pnames := []string{}
-		for pname := range processors.Processors {
-			pnames = append(pnames, pname)
-		}
-		sort.Strings(pnames)
-		printFilteredProcessors(pnames, true)
-	}
-
-	// pring aggregator plugins
-	fmt.Printf(aggregatorHeader)
-	if len(aggregatorFilters) != 0 {
-		printFilteredAggregators(aggregatorFilters, false)
-	} else {
-		pnames := []string{}
-		for pname := range aggregators.Aggregators {
-			pnames = append(pnames, pname)
-		}
-		sort.Strings(pnames)
-		printFilteredAggregators(pnames, true)
-	}
-
-	// print input plugins
-	fmt.Printf(inputHeader)
-	if len(inputFilters) != 0 {
-		printFilteredInputs(inputFilters, false)
-	} else {
-		printFilteredInputs(inputDefaults, false)
-		// Print non-default inputs, commented
-		var pnames []string
-		for pname := range inputs.Inputs {
-			if !sliceContains(pname, inputDefaults) {
-				pnames = append(pnames, pname)
-			}
-		}
-		sort.Strings(pnames)
-		printFilteredInputs(pnames, true)
-	}
-}
-
-func printFilteredProcessors(processorFilters []string, commented bool) {
-	// Filter processors
-	var pnames []string
-	for pname := range processors.Processors {
-		if sliceContains(pname, processorFilters) {
-			pnames = append(pnames, pname)
-		}
-	}
-	sort.Strings(pnames)
-
-	// Print Outputs
-	for _, pname := range pnames {
-		creator := processors.Processors[pname]
-		output := creator()
-		printConfig(pname, output, "processors", commented)
-	}
-}
-
-func printFilteredAggregators(aggregatorFilters []string, commented bool) {
-	// Filter outputs
-	var anames []string
-	for aname := range aggregators.Aggregators {
-		if sliceContains(aname, aggregatorFilters) {
-			anames = append(anames, aname)
-		}
-	}
-	sort.Strings(anames)
-
-	// Print Outputs
-	for _, aname := range anames {
-		creator := aggregators.Aggregators[aname]
-		output := creator()
-		printConfig(aname, output, "aggregators", commented)
-	}
-}
-
-func printFilteredInputs(inputFilters []string, commented bool) {
-	// Filter inputs
-	var pnames []string
-	for pname := range inputs.Inputs {
-		if sliceContains(pname, inputFilters) {
-			pnames = append(pnames, pname)
-		}
-	}
-	sort.Strings(pnames)
-
-	// cache service inputs to print them at the end
-	servInputs := make(map[string]telex.ServiceInput)
-	// for alphabetical looping:
-	servInputNames := []string{}
-
-	// Print Inputs
-	for _, pname := range pnames {
-		creator := inputs.Inputs[pname]
-		input := creator()
-
-		switch p := input.(type) {
-		case telex.ServiceInput:
-			servInputs[pname] = p
-			servInputNames = append(servInputNames, pname)
-			continue
-		}
-
-		printConfig(pname, input, "inputs", commented)
-	}
-
-	// Print Service Inputs
-	if len(servInputs) == 0 {
-		return
-	}
-	sort.Strings(servInputNames)
-	fmt.Printf(serviceInputHeader)
-	for _, name := range servInputNames {
-		printConfig(name, servInputs[name], "inputs", commented)
-	}
-}
-
-func printFilteredOutputs(outputFilters []string, commented bool) {
-	// Filter outputs
-	var onames []string
-	for oname := range outputs.Outputs {
-		if sliceContains(oname, outputFilters) {
-			onames = append(onames, oname)
-		}
-	}
-	sort.Strings(onames)
-
-	// Print Outputs
-	for _, oname := range onames {
-		creator := outputs.Outputs[oname]
-		output := creator()
-		printConfig(oname, output, "outputs", commented)
-	}
-}
-
-type printer interface {
-	Description() string
-	SampleConfig() string
-}
-
-func printConfig(name string, p printer, op string, commented bool) {
-	comment := ""
-	if commented {
-		comment = "# "
-	}
-	fmt.Printf("\n%s# %s\n%s[[%s.%s]]", comment, p.Description(), comment,
-		op, name)
-
-	config := p.SampleConfig()
-	if config == "" {
-		fmt.Printf("\n%s  # no configuration\n\n", comment)
-	} else {
-		lines := strings.Split(config, "\n")
-		for i, line := range lines {
-			if i == 0 || i == len(lines)-1 {
-				fmt.Print("\n")
-				continue
-			}
-			fmt.Print(strings.TrimRight(comment+line, " ") + "\n")
-		}
-	}
-}
 
 func sliceContains(name string, list []string) bool {
 	for _, b := range list {
@@ -511,76 +203,18 @@ func sliceContains(name string, list []string) bool {
 	return false
 }
 
-// PrintInputConfig prints the config usage of a single input.
-func PrintInputConfig(name string) error {
-	if creator, ok := inputs.Inputs[name]; ok {
-		printConfig(name, creator(), "inputs", false)
-	} else {
-		return errors.New(fmt.Sprintf("Input %s not found", name))
-	}
-	return nil
-}
-
-// PrintOutputConfig prints the config usage of a single output.
-func PrintOutputConfig(name string) error {
-	if creator, ok := outputs.Outputs[name]; ok {
-		printConfig(name, creator(), "outputs", false)
-	} else {
-		return errors.New(fmt.Sprintf("Output %s not found", name))
-	}
-	return nil
-}
-
-func (c *Config) LoadDirectory(path string) error {
-	walkfn := func(thispath string, info os.FileInfo, _ error) error {
-		if info == nil {
-			log.Printf("W! telex is not permitted to read %s", thispath)
-			return nil
-		}
-
-		if info.IsDir() {
-			if strings.HasPrefix(info.Name(), "..") {
-				// skip Kubernetes mounts, prevening loading the same config twice
-				return filepath.SkipDir
-			}
-
-			return nil
-		}
-		name := info.Name()
-		if len(name) < 6 || name[len(name)-5:] != ".conf" {
-			return nil
-		}
-		err := c.LoadConfig(thispath)
-		if err != nil {
-			return err
-		}
-		return nil
-	}
-	return filepath.Walk(path, walkfn)
-}
-
 // Try to find a default config file at these locations (in order):
-//   1. $TELEGRAF_CONFIG_PATH
-//   2. $HOME/.telex/telex.conf
-//   3. /etc/telex/telex.conf
+//   1. $TELEX_CONFIG_PATH
 //
 func getDefaultConfigPath() (string, error) {
-	envfile := os.Getenv("TELEGRAF_CONFIG_PATH")
-	homefile := os.ExpandEnv("${HOME}/.telex/telex.conf")
-	etcfile := "/etc/telex/telex.conf"
-	if runtime.GOOS == "windows" {
-		etcfile = `C:\Program Files\telex\telex.conf`
-	}
-	for _, path := range []string{envfile, homefile, etcfile} {
-		if _, err := os.Stat(path); err == nil {
-			log.Printf("I! Using config file: %s", path)
-			return path, nil
-		}
+	envfile := os.Getenv("TELEX_CONFIG_PATH")
+	if _, err := os.Stat(envfile); err == nil {
+		log.Printf("I! Using config file: %s", envfile)
+		return envfile, nil
 	}
 
 	// if we got here, we didn't find a file in a default location
-	return "", fmt.Errorf("No config file specified, and could not find one"+
-		" in $TELEGRAF_CONFIG_PATH, %s, or %s", homefile, etcfile)
+	return "", fmt.Errorf("No config file specified, and could not find one in $TELEX_CONFIG_PATH")
 }
 
 // LoadConfig loads the given config file and applies it to c

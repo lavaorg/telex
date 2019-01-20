@@ -46,22 +46,6 @@ type basicstats struct {
 	M2    float64 //intermedia value for variance/stdev
 }
 
-var sampleConfig = `
-  ## General Aggregator Arguments:
-  ## The period on which to flush & clear the aggregator.
-  period = "30s"
-  ## If true, the original metric will be dropped by the
-  ## aggregator and will not get sent to the output plugins.
-  drop_original = false
-`
-
-func (m *BasicStats) SampleConfig() string {
-	return sampleConfig
-}
-
-func (m *BasicStats) Description() string {
-	return "Keep the aggregate basicstats of each metric passing through."
-}
 
 func (m *BasicStats) Add(in telex.Metric) {
 	id := in.HashID()

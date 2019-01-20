@@ -11,33 +11,6 @@ import (
 	"github.com/lavaorg/telex/plugins/processors"
 )
 
-var sampleConfig = `
-  ## Tags to convert
-  ##
-  ## The table key determines the target type, and the array of key-values
-  ## select the keys to convert.  The array may contain globs.
-  ##   <target-type> = [<tag-key>...]
-  [processors.converter.tags]
-    string = []
-    integer = []
-    unsigned = []
-    boolean = []
-    float = []
-
-  ## Fields to convert
-  ##
-  ## The table key determines the target type, and the array of key-values
-  ## select the keys to convert.  The array may contain globs.
-  ##   <target-type> = [<field-key>...]
-  [processors.converter.fields]
-    tag = []
-    string = []
-    integer = []
-    unsigned = []
-    boolean = []
-    float = []
-`
-
 type Conversion struct {
 	Tag      []string `toml:"tag"`
 	String   []string `toml:"string"`
@@ -63,14 +36,6 @@ type ConversionFilter struct {
 	Unsigned filter.Filter
 	Boolean  filter.Filter
 	Float    filter.Filter
-}
-
-func (p *Converter) SampleConfig() string {
-	return sampleConfig
-}
-
-func (p *Converter) Description() string {
-	return "Convert values to another metric value type"
 }
 
 func (p *Converter) Apply(metrics ...telex.Metric) []telex.Metric {

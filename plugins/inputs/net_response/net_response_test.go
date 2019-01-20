@@ -13,21 +13,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestSample(t *testing.T) {
-	c := &NetResponse{}
-	output := c.SampleConfig()
-	if output != sampleConfig {
-		t.Error("Sample config doesn't match")
-	}
-}
 
-func TestDescription(t *testing.T) {
-	c := &NetResponse{}
-	output := c.Description()
-	if output != description {
-		t.Error("Description output is not correct")
-	}
-}
 func TestBadProtocol(t *testing.T) {
 	var acc testutil.Accumulator
 	// Init plugin

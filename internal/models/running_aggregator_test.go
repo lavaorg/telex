@@ -156,8 +156,6 @@ type TestAggregator struct {
 	sum int64
 }
 
-func (t *TestAggregator) Description() string  { return "" }
-func (t *TestAggregator) SampleConfig() string { return "" }
 func (t *TestAggregator) Reset() {
 	atomic.StoreInt64(&t.sum, 0)
 }

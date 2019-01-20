@@ -49,53 +49,6 @@ type HTTPListenerV2 struct {
 	acc telex.Accumulator
 }
 
-const sampleConfig = `
-  ## Address and port to host HTTP listener on
-  service_address = ":8080"
-
-  ## Path to listen to.
-  # path = "/telex"
-
-  ## HTTP methods to accept.
-  # methods = ["POST", "PUT"]
-
-  ## maximum duration before timing out read of the request
-  # read_timeout = "10s"
-  ## maximum duration before timing out write of the response
-  # write_timeout = "10s"
-
-  ## Maximum allowed http request body size in bytes.
-  ## 0 means to use the default of 524,288,00 bytes (500 mebibytes)
-  # max_body_size = "500MB"
-
-  ## Set one or more allowed client CA certificate file names to 
-  ## enable mutually authenticated TLS connections
-  # tls_allowed_cacerts = ["/etc/telex/clientca.pem"]
-
-  ## Add service certificate and key
-  # tls_cert = "/etc/telex/cert.pem"
-  # tls_key = "/etc/telex/key.pem"
-
-  ## Optional username and password to accept for HTTP basic authentication.
-  ## You probably want to make sure you have TLS configured above for this.
-  # basic_username = "foobar"
-  # basic_password = "barfoo"
-
-  ## Data format to consume.
-  ## Each data format has its own unique set of configuration options, read
-  ## more about them here:
-  ## https:/github.com/lavaorg/telex/blob/master/docs/DATA_FORMATS_INPUT.md
-  data_format = "influx"
-`
-
-func (h *HTTPListenerV2) SampleConfig() string {
-	return sampleConfig
-}
-
-func (h *HTTPListenerV2) Description() string {
-	return "Generic HTTP write listener"
-}
-
 func (h *HTTPListenerV2) Gather(_ telex.Accumulator) error {
 	return nil
 }

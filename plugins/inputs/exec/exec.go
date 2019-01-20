@@ -18,27 +18,6 @@ import (
 	"github.com/lavaorg/telex/plugins/parsers"
 )
 
-const sampleConfig = `
-  ## Commands array
-  commands = [
-    "/tmp/test.sh",
-    "/usr/bin/mycollector --foo=bar",
-    "/tmp/collect_*.sh"
-  ]
-
-  ## Timeout for each command to complete.
-  timeout = "5s"
-
-  ## measurement name suffix (for separating different commands)
-  name_suffix = "_mycollector"
-
-  ## Data format to consume.
-  ## Each data format has its own unique set of configuration options, read
-  ## more about them here:
-  ## https:/github.com/lavaorg/telex/blob/master/docs/DATA_FORMATS_INPUT.md
-  data_format = "influx"
-`
-
 const MaxStderrBytes = 512
 
 type Exec struct {
@@ -157,14 +136,6 @@ func (e *Exec) ProcessCommand(command string, acc telex.Accumulator, wg *sync.Wa
 			acc.AddFields(metric.Name(), metric.Fields(), metric.Tags(), metric.Time())
 		}
 	}
-}
-
-func (e *Exec) SampleConfig() string {
-	return sampleConfig
-}
-
-func (e *Exec) Description() string {
-	return "Read metrics from one or more commands that can output to stdout"
 }
 
 func (e *Exec) SetParser(parser parsers.Parser) {

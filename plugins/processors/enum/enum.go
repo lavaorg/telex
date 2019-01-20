@@ -7,27 +7,6 @@ import (
 	"github.com/lavaorg/telex/plugins/processors"
 )
 
-var sampleConfig = `
-  [[processors.enum.mapping]]
-    ## Name of the field to map
-    field = "status"
-
-    ## Destination field to be used for the mapped value.  By default the source
-    ## field is used, overwriting the original value.
-    # dest = "status_code"
-
-    ## Default value to be used for all values not contained in the mapping
-    ## table.  When unset, the unmodified value for the field will be used if no
-    ## match is found.
-    # default = 0
-
-    ## Table of mappings
-    [processors.enum.mapping.value_mappings]
-      green = 1
-      yellow = 2
-      red = 3
-`
-
 type EnumMapper struct {
 	Mappings []Mapping `toml:"mapping"`
 }
@@ -37,14 +16,6 @@ type Mapping struct {
 	Dest          string
 	Default       interface{}
 	ValueMappings map[string]interface{}
-}
-
-func (mapper *EnumMapper) SampleConfig() string {
-	return sampleConfig
-}
-
-func (mapper *EnumMapper) Description() string {
-	return "Map enum values according to given table."
 }
 
 func (mapper *EnumMapper) Apply(in ...telex.Metric) []telex.Metric {

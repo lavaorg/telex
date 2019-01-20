@@ -18,13 +18,6 @@ type Memcached struct {
 	UnixSockets []string
 }
 
-var sampleConfig = `
-  ## An array of address to gather stats about. Specify an ip on hostname
-  ## with optional port. ie localhost, 10.0.0.1:11211, etc.
-  servers = ["localhost:11211"]
-  # unix_sockets = ["/var/run/memcached.sock"]
-`
-
 var defaultTimeout = 5 * time.Second
 
 // The list of metrics that should be sent
@@ -69,16 +62,6 @@ var sendMetrics = []string{
 	"touch_hits",
 	"touch_misses",
 	"uptime",
-}
-
-// SampleConfig returns sample configuration message
-func (m *Memcached) SampleConfig() string {
-	return sampleConfig
-}
-
-// Description returns description of Memcached plugin
-func (m *Memcached) Description() string {
-	return "Read metrics from one or many memcached servers"
 }
 
 // Gather reads stats from all configured servers accumulates stats

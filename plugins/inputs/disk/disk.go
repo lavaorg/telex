@@ -19,23 +19,6 @@ type DiskStats struct {
 	IgnoreFS    []string `toml:"ignore_fs"`
 }
 
-func (_ *DiskStats) Description() string {
-	return "Read metrics about disk usage by mount point"
-}
-
-var diskSampleConfig = `
-  ## By default stats will be gathered for all mount points.
-  ## Set mount_points will restrict the stats to only the specified mount points.
-  # mount_points = ["/"]
-
-  ## Ignore mount points by filesystem type.
-  ignore_fs = ["tmpfs", "devtmpfs", "devfs", "overlay", "aufs", "squashfs"]
-`
-
-func (_ *DiskStats) SampleConfig() string {
-	return diskSampleConfig
-}
-
 func (s *DiskStats) Gather(acc telex.Accumulator) error {
 	// Legacy support:
 	if len(s.Mountpoints) != 0 {

@@ -10,12 +10,10 @@ Usage:
 
 The commands & flags are:
 
-  config              print out full sample configuration to stdout
   version             print the version to stdout
 
   --aggregator-filter <filter>   filter the aggregators to enable, separator is :
   --config <file>                configuration file to load
-  --config-directory <directory> directory containing additional *.conf files
   --debug                        turn on debug logging
   --input-filter <filter>        filter the inputs to enable, separator is :
   --input-list                   print available input plugins.
@@ -25,10 +23,8 @@ The commands & flags are:
   --pprof-addr <address>         pprof address to listen on, don't activate pprof if empty
   --processor-filter <filter>    filter the processors to enable, separator is :
   --quiet                        run in quiet mode
-  --sample-config                print out full sample configuration
   --test                         gather metrics, print them out, and exit;
                                  processors, aggregators, and outputs are not run
-  --usage <plugin>               print usage for a plugin, ie, 'telex --usage mysql'
   --version                      display the version and exit
 
 Examples:

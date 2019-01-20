@@ -18,26 +18,6 @@ type Fetcher interface {
 	Fetch(address string) ([]gohddtemp.Disk, error)
 }
 
-func (_ *HDDTemp) Description() string {
-	return "Monitor disks' temperatures using hddtemp"
-}
-
-var hddtempSampleConfig = `
-  ## By default, telex gathers temps data from all disks detected by the
-  ## hddtemp.
-  ##
-  ## Only collect temps from the selected disks.
-  ##
-  ## A * as the device name will return the temperature values of all disks.
-  ##
-  # address = "127.0.0.1:7634"
-  # devices = ["sda", "*"]
-`
-
-func (_ *HDDTemp) SampleConfig() string {
-	return hddtempSampleConfig
-}
-
 func (h *HDDTemp) Gather(acc telex.Accumulator) error {
 	if h.fetcher == nil {
 		h.fetcher = gohddtemp.New()

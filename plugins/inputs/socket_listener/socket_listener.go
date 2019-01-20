@@ -172,61 +172,6 @@ type SocketListener struct {
 	io.Closer
 }
 
-func (sl *SocketListener) Description() string {
-	return "Generic socket listener capable of handling multiple socket types."
-}
-
-func (sl *SocketListener) SampleConfig() string {
-	return `
-  ## URL to listen on
-  # service_address = "tcp://:8094"
-  # service_address = "tcp://127.0.0.1:http"
-  # service_address = "tcp4://:8094"
-  # service_address = "tcp6://:8094"
-  # service_address = "tcp6://[2001:db8::1]:8094"
-  # service_address = "udp://:8094"
-  # service_address = "udp4://:8094"
-  # service_address = "udp6://:8094"
-  # service_address = "unix:///tmp/telex.sock"
-  # service_address = "unixgram:///tmp/telex.sock"
-
-  ## Maximum number of concurrent connections.
-  ## Only applies to stream sockets (e.g. TCP).
-  ## 0 (default) is unlimited.
-  # max_connections = 1024
-
-  ## Read timeout.
-  ## Only applies to stream sockets (e.g. TCP).
-  ## 0 (default) is unlimited.
-  # read_timeout = "30s"
-
-  ## Optional TLS configuration.
-  ## Only applies to stream sockets (e.g. TCP).
-  # tls_cert = "/etc/telex/cert.pem"
-  # tls_key  = "/etc/telex/key.pem"
-  ## Enables client authentication if set.
-  # tls_allowed_cacerts = ["/etc/telex/clientca.pem"]
-
-  ## Maximum socket buffer size (in bytes when no unit specified).
-  ## For stream sockets, once the buffer fills up, the sender will start backing up.
-  ## For datagram sockets, once the buffer fills up, metrics will start dropping.
-  ## Defaults to the OS default.
-  # read_buffer_size = "64KiB"
-
-  ## Period between keep alive probes.
-  ## Only applies to TCP sockets.
-  ## 0 disables keep alive probes.
-  ## Defaults to the OS configuration.
-  # keep_alive_period = "5m"
-
-  ## Data format to consume.
-  ## Each data format has its own unique set of configuration options, read
-  ## more about them here:
-  ## https:/github.com/lavaorg/telex/blob/master/docs/DATA_FORMATS_INPUT.md
-  # data_format = "influx"
-`
-}
-
 func (sl *SocketListener) Gather(_ telex.Accumulator) error {
 	return nil
 }

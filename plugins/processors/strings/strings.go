@@ -38,55 +38,6 @@ type converter struct {
 	fn ConvertFunc
 }
 
-const sampleConfig = `
-  ## Convert a tag value to uppercase
-  # [[processors.strings.uppercase]]
-  #   tag = "method"
-
-  ## Convert a field value to lowercase and store in a new field
-  # [[processors.strings.lowercase]]
-  #   field = "uri_stem"
-  #   dest = "uri_stem_normalised"
-
-  ## Trim leading and trailing whitespace using the default cutset
-  # [[processors.strings.trim]]
-  #   field = "message"
-
-  ## Trim leading characters in cutset
-  # [[processors.strings.trim_left]]
-  #   field = "message"
-  #   cutset = "\t"
-
-  ## Trim trailing characters in cutset
-  # [[processors.strings.trim_right]]
-  #   field = "message"
-  #   cutset = "\r\n"
-
-  ## Trim the given prefix from the field
-  # [[processors.strings.trim_prefix]]
-  #   field = "my_value"
-  #   prefix = "my_"
-
-  ## Trim the given suffix from the field
-  # [[processors.strings.trim_suffix]]
-  #   field = "read_count"
-  #   suffix = "_count"
-
-  ## Replace all non-overlapping instances of old with new
-  # [[processors.strings.replace]]
-  #   measurement = "*"
-  #   old = ":"
-  #   new = "_"
-`
-
-func (s *Strings) SampleConfig() string {
-	return sampleConfig
-}
-
-func (s *Strings) Description() string {
-	return "Perform string processing on tags, fields, and measurements"
-}
-
 func (c *converter) convertTag(metric telex.Metric) {
 	var tags map[string]string
 	if c.Tag == "*" {

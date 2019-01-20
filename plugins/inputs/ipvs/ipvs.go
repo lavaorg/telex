@@ -20,16 +20,6 @@ type IPVS struct {
 	handle *ipvsutil.Handle
 }
 
-// Description returns a description string
-func (i *IPVS) Description() string {
-	return "Collect virtual and real server stats from Linux IPVS"
-}
-
-// SampleConfig returns a sample configuration for this input plugin
-func (i *IPVS) SampleConfig() string {
-	return ``
-}
-
 // Gather gathers the stats
 func (i *IPVS) Gather(acc telex.Accumulator) error {
 	if i.handle == nil {

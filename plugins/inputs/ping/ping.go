@@ -56,43 +56,6 @@ type Ping struct {
 	pingHost HostPinger
 }
 
-func (_ *Ping) Description() string {
-	return "Ping given url(s) and return statistics"
-}
-
-const sampleConfig = `
-  ## List of urls to ping
-  urls = ["example.org"]
-
-  ## Number of pings to send per collection (ping -c <COUNT>)
-  # count = 1
-
-  ## Interval, in s, at which to ping. 0 == default (ping -i <PING_INTERVAL>)
-  ## Not available in Windows.
-  # ping_interval = 1.0
-
-  ## Per-ping timeout, in s. 0 == no timeout (ping -W <TIMEOUT>)
-  # timeout = 1.0
-
-  ## Total-ping deadline, in s. 0 == no deadline (ping -w <DEADLINE>)
-  # deadline = 10
-
-  ## Interface or source address to send ping from (ping -I <INTERFACE/SRC_ADDR>)
-  ## on Darwin and Freebsd only source address possible: (ping -S <SRC_ADDR>)
-  # interface = ""
-
-  ## Specify the ping executable binary, default is "ping"
-  # binary = "ping"
-
-  ## Arguments for ping command
-  ## when arguments is not empty, other options (ping_interval, timeout, etc) will be ignored
-  # arguments = ["-c", "3"]
-`
-
-func (_ *Ping) SampleConfig() string {
-	return sampleConfig
-}
-
 func (p *Ping) Gather(acc telex.Accumulator) error {
 	// Spin off a go routine for each url to ping
 	for _, url := range p.Urls {

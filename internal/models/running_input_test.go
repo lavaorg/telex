@@ -258,6 +258,4 @@ func TestMakeMetricNameSuffix(t *testing.T) {
 
 type testInput struct{}
 
-func (t *testInput) Description() string                   { return "" }
-func (t *testInput) SampleConfig() string                  { return "" }
 func (t *testInput) Gather(acc telex.Accumulator) error { return nil }

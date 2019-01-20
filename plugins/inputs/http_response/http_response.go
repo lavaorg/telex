@@ -36,54 +36,6 @@ type HTTPResponse struct {
 	client              *http.Client
 }
 
-// Description returns the plugin Description
-func (h *HTTPResponse) Description() string {
-	return "HTTP/HTTPS request given an address a method and a timeout"
-}
-
-var sampleConfig = `
-  ## Server address (default http://localhost)
-  # address = "http://localhost"
-
-  ## Set http_proxy (telex uses the system wide proxy settings if it's is not set)
-  # http_proxy = "http://localhost:8888"
-
-  ## Set response_timeout (default 5 seconds)
-  # response_timeout = "5s"
-
-  ## HTTP Request Method
-  # method = "GET"
-
-  ## Whether to follow redirects from the server (defaults to false)
-  # follow_redirects = false
-
-  ## Optional HTTP Request Body
-  # body = '''
-  # {'fake':'data'}
-  # '''
-
-  ## Optional substring or regex match in body of the response
-  # response_string_match = "\"service_status\": \"up\""
-  # response_string_match = "ok"
-  # response_string_match = "\".*_status\".?:.?\"up\""
-
-  ## Optional TLS Config
-  # tls_ca = "/etc/telex/ca.pem"
-  # tls_cert = "/etc/telex/cert.pem"
-  # tls_key = "/etc/telex/key.pem"
-  ## Use TLS but skip chain & host verification
-  # insecure_skip_verify = false
-
-  ## HTTP Request Headers (all values must be strings)
-  # [inputs.http_response.headers]
-  #   Host = "github.com"
-`
-
-// SampleConfig returns the plugin SampleConfig
-func (h *HTTPResponse) SampleConfig() string {
-	return sampleConfig
-}
-
 // ErrRedirectAttempted indicates that a redirect occurred
 var ErrRedirectAttempted = errors.New("redirect")
 

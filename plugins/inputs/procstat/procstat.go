@@ -40,47 +40,6 @@ type Procstat struct {
 	createProcess   func(PID) (Process, error)
 }
 
-var sampleConfig = `
-  ## PID file to monitor process
-  pid_file = "/var/run/nginx.pid"
-  ## executable name (ie, pgrep <exe>)
-  # exe = "nginx"
-  ## pattern as argument for pgrep (ie, pgrep -f <pattern>)
-  # pattern = "nginx"
-  ## user as argument for pgrep (ie, pgrep -u <user>)
-  # user = "nginx"
-  ## Systemd unit name
-  # systemd_unit = "nginx.service"
-  ## CGroup name or path
-  # cgroup = "systemd/system.slice/nginx.service"
-
-  ## override for process_name
-  ## This is optional; default is sourced from /proc/<pid>/status
-  # process_name = "bar"
-
-  ## Field name prefix
-  # prefix = ""
-
-  ## Add PID as a tag instead of a field; useful to differentiate between
-  ## processes whose tags are otherwise the same.  Can create a large number
-  ## of series, use judiciously.
-  # pid_tag = false
-
-  ## Method to use when finding process IDs.  Can be one of 'pgrep', or
-  ## 'native'.  The pgrep finder calls the pgrep executable in the PATH while
-  ## the native finder performs the search directly in a manor dependent on the
-  ## platform.  Default is 'pgrep'
-  # pid_finder = "pgrep"
-`
-
-func (_ *Procstat) SampleConfig() string {
-	return sampleConfig
-}
-
-func (_ *Procstat) Description() string {
-	return "Monitor process cpu and memory usage"
-}
-
 func (p *Procstat) Gather(acc telex.Accumulator) error {
 	if p.createPIDFinder == nil {
 		switch p.PidFinder {

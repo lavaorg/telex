@@ -234,28 +234,6 @@ func TestGatherChain(t *testing.T) {
 
 }
 
-func TestStrings(t *testing.T) {
-	sc := X509Cert{}
-
-	tests := []struct {
-		name     string
-		method   string
-		returned string
-		expected string
-	}{
-		{name: "description", method: "Description", returned: sc.Description(), expected: description},
-		{name: "sample config", method: "SampleConfig", returned: sc.SampleConfig(), expected: sampleConfig},
-	}
-
-	for _, test := range tests {
-		t.Run(test.name, func(t *testing.T) {
-			if test.returned != test.expected {
-				t.Errorf("Expected method %s to return '%s', found '%s'.", test.method, test.expected, test.returned)
-			}
-		})
-	}
-}
-
 func TestGatherCert(t *testing.T) {
 	if testing.Short() {
 		t.Skip("Skipping integration test in short mode")

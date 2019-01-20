@@ -12,12 +12,6 @@ type MemStats struct {
 	ps system.PS
 }
 
-func (_ *MemStats) Description() string {
-	return "Read metrics about memory usage"
-}
-
-func (_ *MemStats) SampleConfig() string { return "" }
-
 func (s *MemStats) Gather(acc telex.Accumulator) error {
 	vm, err := s.ps.VMStat()
 	if err != nil {

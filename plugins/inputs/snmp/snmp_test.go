@@ -81,48 +81,6 @@ var tsc = &testSNMPConnection{
 	},
 }
 
-func TestSampleConfig(t *testing.T) {
-	conf := struct {
-		Inputs struct {
-			Snmp []*Snmp
-		}
-	}{}
-	err := toml.Unmarshal([]byte("[[inputs.snmp]]\n"+(*Snmp)(nil).SampleConfig()), &conf)
-	assert.NoError(t, err)
-
-	s := Snmp{
-		Agents:         []string{"127.0.0.1:161"},
-		Timeout:        internal.Duration{Duration: 5 * time.Second},
-		Version:        2,
-		Community:      "public",
-		MaxRepetitions: 10,
-		Retries:        3,
-
-		Name: "system",
-		Fields: []Field{
-			{Name: "hostname", Oid: ".1.0.0.1.1"},
-			{Name: "uptime", Oid: ".1.0.0.1.2"},
-			{Name: "load", Oid: ".1.0.0.1.3"},
-			{Oid: "HOST-RESOURCES-MIB::hrMemorySize"},
-		},
-		Tables: []Table{
-			{
-				Name:        "remote_servers",
-				InheritTags: []string{"hostname"},
-				Fields: []Field{
-					{Name: "server", Oid: ".1.0.0.0.1.0", IsTag: true},
-					{Name: "connections", Oid: ".1.0.0.0.1.1"},
-					{Name: "latency", Oid: ".1.0.0.0.1.2"},
-				},
-			},
-			{
-				Oid: "HOST-RESOURCES-MIB::hrNetworkTable",
-			},
-		},
-	}
-	assert.Equal(t, &s, conf.Inputs.Snmp[0])
-}
-
 func TestFieldInit(t *testing.T) {
 	translations := []struct {
 		inputOid           string

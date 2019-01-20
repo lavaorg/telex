@@ -17,16 +17,6 @@ type SysctlFS struct {
 	path string
 }
 
-var sysctlFSDescription = `Provides Linux sysctl fs metrics`
-var sysctlFSSampleConfig = ``
-
-func (_ SysctlFS) Description() string {
-	return sysctlFSDescription
-}
-func (_ SysctlFS) SampleConfig() string {
-	return sysctlFSSampleConfig
-}
-
 func (sfs *SysctlFS) gatherList(file string, fields map[string]interface{}, fieldNames ...string) error {
 	bs, err := ioutil.ReadFile(sfs.path + "/" + file)
 	if err != nil {

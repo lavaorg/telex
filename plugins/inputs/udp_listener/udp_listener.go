@@ -66,20 +66,6 @@ var dropwarn = "E! Error: udp_listener message queue full. " +
 var malformedwarn = "E! udp_listener has received %d malformed packets" +
 	" thus far."
 
-const sampleConfig = `
-  # DEPRECATED: the TCP listener plugin has been deprecated in favor of the
-  # socket_listener plugin
-  # see https:/github.com/lavaorg/telex/tree/master/plugins/inputs/socket_listener
-`
-
-func (u *UdpListener) SampleConfig() string {
-	return sampleConfig
-}
-
-func (u *UdpListener) Description() string {
-	return "Generic UDP listener"
-}
-
 // All the work is done in the Start() function, so this is just a dummy
 // function.
 func (u *UdpListener) Gather(_ telex.Accumulator) error {

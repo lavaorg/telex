@@ -18,19 +18,6 @@ func NewSelf() telex.Input {
 	}
 }
 
-var sampleConfig = `
-  ## If true, collect telex memory stats.
-  # collect_memstats = true
-`
-
-func (s *Self) Description() string {
-	return "Collect statistics about itself"
-}
-
-func (s *Self) SampleConfig() string {
-	return sampleConfig
-}
-
 func (s *Self) Gather(acc telex.Accumulator) error {
 	if s.CollectMemstats {
 		m := &runtime.MemStats{}
