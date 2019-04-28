@@ -18,7 +18,7 @@ import (
 	"github.com/influxdata/go-syslog/rfc5424"
 	"github.com/lavaorg/telex"
 	"github.com/lavaorg/telex/internal"
-	tlsConfig "github.com/lavaorg/telex/internal/tls"
+	telextls "github.com/lavaorg/telex/internal/tls"
 	"github.com/lavaorg/telex/plugins/inputs"
 )
 
@@ -27,7 +27,7 @@ const ipMaxPacketSize = 64 * 1024
 
 // Syslog is a syslog plugin
 type Syslog struct {
-	tlsConfig.ServerConfig
+	telextls.ServerConfig
 	Address         string `toml:"server"`
 	KeepAlivePeriod *internal.Duration
 	MaxConnections  int

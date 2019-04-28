@@ -2,8 +2,8 @@ package influx
 
 import (
 	"bytes"
-	"time"
 	"log"
+	"time"
 
 	"github.com/lavaorg/telex"
 	"github.com/lavaorg/telex/metric"

@@ -3,7 +3,6 @@ package hddtemp
 import (
 	"testing"
 
-	hddtemp "github.com/lavaorg/telex/plugins/inputs/hddtemp/go-hddtemp"
 	"github.com/lavaorg/telex/testutil"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -12,8 +11,8 @@ import (
 type mockFetcher struct {
 }
 
-func (h *mockFetcher) Fetch(address string) ([]hddtemp.Disk, error) {
-	return []hddtemp.Disk{
+func (h *mockFetcher) fetch(address string) ([]Disk, error) {
+	return []Disk{
 		{
 			DeviceName:  "Disk1",
 			Model:       "Model1",
@@ -33,7 +32,7 @@ func newMockFetcher() *mockFetcher {
 	return &mockFetcher{}
 }
 
-func TestFetch(t *testing.T) {
+func TestFetch2(t *testing.T) {
 	hddtemp := &HDDTemp{
 		fetcher: newMockFetcher(),
 		Devices: []string{"*"},

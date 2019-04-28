@@ -18,6 +18,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/influxdata/toml"
+	"github.com/influxdata/toml/ast"
 	"github.com/lavaorg/telex"
 	"github.com/lavaorg/telex/internal"
 	"github.com/lavaorg/telex/internal/models"
@@ -27,8 +29,6 @@ import (
 	"github.com/lavaorg/telex/plugins/parsers"
 	"github.com/lavaorg/telex/plugins/processors"
 	"github.com/lavaorg/telex/plugins/serializers"
-	"github.com/influxdata/toml"
-	"github.com/influxdata/toml/ast"
 )
 
 var (

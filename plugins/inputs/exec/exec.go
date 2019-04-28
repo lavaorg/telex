@@ -10,8 +10,6 @@ import (
 	"sync"
 	"time"
 
-	"github.com/kballard/go-shellquote"
-
 	"github.com/lavaorg/telex"
 	"github.com/lavaorg/telex/internal"
 	"github.com/lavaorg/telex/plugins/inputs"
@@ -64,13 +62,12 @@ type Runner interface {
 
 type CommandRunner struct{}
 
-
 func (c CommandRunner) Run(
 	e *Exec,
 	command string,
 	acc telex.Accumulator,
 ) ([]byte, error) {
-	split_cmd, err := shellquote.Split(command)
+	split_cmd, err := Split(command)
 	if err != nil || len(split_cmd) == 0 {
 		return nil, fmt.Errorf("exec: unable to parse command, %s", err)
 	}
@@ -108,8 +105,8 @@ func (c CommandRunner) Run(
 			errMessage = fmt.Sprintf(": %s", stderr.String())
 		}
 		return nil, fmt.Errorf("exec: %s for command '%s'%s", err, command, errMessage)
-	} 
- 
+	}
+
 	out = removeCarriageReturns(out)
 	return out.Bytes(), nil
 }

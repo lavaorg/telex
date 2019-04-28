@@ -1,5 +1,3 @@
-// +build !windows
-
 package processes
 
 import (
@@ -8,7 +6,6 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
-	"os/exec"
 	"path/filepath"
 	"runtime"
 	"strconv"
@@ -20,11 +17,7 @@ import (
 )
 
 type Processes struct {
-	execPS       func() ([]byte, error)
 	readProcFile func(filename string) ([]byte, error)
-
-	forcePS   bool
-	forceProc bool
 }
 
 func (p *Processes) Description() string {
@@ -37,26 +30,8 @@ func (p *Processes) Gather(acc telex.Accumulator) error {
 	// Get an empty map of metric fields
 	fields := getEmptyFields()
 
-	// Decide if we will use 'ps' to get stats (use procfs otherwise)
-	usePS := true
-	if runtime.GOOS == "linux" {
-		usePS = false
-	}
-	if p.forcePS {
-		usePS = true
-	} else if p.forceProc {
-		usePS = false
-	}
-
-	// Gather stats from 'ps' or procfs
-	if usePS {
-		if err := p.gatherFromPS(fields); err != nil {
-			return err
-		}
-	} else {
-		if err := p.gatherFromProc(fields); err != nil {
-			return err
-		}
+	if err := p.gatherFromProc(fields); err != nil {
+		return err
 	}
 
 	acc.AddGauge("processes", fields, nil)
@@ -89,47 +64,6 @@ func getEmptyFields() map[string]interface{} {
 		fields["idle"] = int64(0)
 	}
 	return fields
-}
-
-// exec `ps` to get all process states
-func (p *Processes) gatherFromPS(fields map[string]interface{}) error {
-	out, err := p.execPS()
-	if err != nil {
-		return err
-	}
-
-	for i, status := range bytes.Fields(out) {
-		if i == 0 && string(status) == "STAT" {
-			// This is a header, skip it
-			continue
-		}
-		switch status[0] {
-		case 'W':
-			fields["wait"] = fields["wait"].(int64) + int64(1)
-		case 'U', 'D', 'L':
-			// Also known as uninterruptible sleep or disk sleep
-			fields["blocked"] = fields["blocked"].(int64) + int64(1)
-		case 'Z':
-			fields["zombies"] = fields["zombies"].(int64) + int64(1)
-		case 'X':
-			fields["dead"] = fields["dead"].(int64) + int64(1)
-		case 'T':
-			fields["stopped"] = fields["stopped"].(int64) + int64(1)
-		case 'R':
-			fields["running"] = fields["running"].(int64) + int64(1)
-		case 'S':
-			fields["sleeping"] = fields["sleeping"].(int64) + int64(1)
-		case 'I':
-			fields["idle"] = fields["idle"].(int64) + int64(1)
-		case '?':
-			fields["unknown"] = fields["unknown"].(int64) + int64(1)
-		default:
-			log.Printf("I! processes: Unknown state [ %s ] from ps",
-				string(status[0]))
-		}
-		fields["total"] = fields["total"].(int64) + int64(1)
-	}
-	return nil
 }
 
 // get process states from /proc/(pid)/stat files
@@ -213,24 +147,9 @@ func readProcFile(filename string) ([]byte, error) {
 	return data, nil
 }
 
-func execPS() ([]byte, error) {
-	bin, err := exec.LookPath("ps")
-	if err != nil {
-		return nil, err
-	}
-
-	out, err := exec.Command(bin, "axo", "state").Output()
-	if err != nil {
-		return nil, err
-	}
-
-	return out, err
-}
-
 func init() {
 	inputs.Add("processes", func() telex.Input {
 		return &Processes{
-			execPS:       execPS,
 			readProcFile: readProcFile,
 		}
 	})

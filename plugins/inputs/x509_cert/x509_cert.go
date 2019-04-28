@@ -15,7 +15,7 @@ import (
 
 	"github.com/lavaorg/telex"
 	"github.com/lavaorg/telex/internal"
-	_tls "github.com/lavaorg/telex/internal/tls"
+	telextls "github.com/lavaorg/telex/internal/tls"
 	"github.com/lavaorg/telex/plugins/inputs"
 )
 
@@ -40,7 +40,7 @@ const description = "Reads metrics from a SSL certificate"
 type X509Cert struct {
 	Sources []string          `toml:"sources"`
 	Timeout internal.Duration `toml:"timeout"`
-	_tls.ClientConfig
+	telextls.ClientConfig
 }
 
 // Description returns description of the plugin.

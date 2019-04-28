@@ -3,7 +3,6 @@ package hddtemp
 import (
 	"github.com/lavaorg/telex"
 	"github.com/lavaorg/telex/plugins/inputs"
-	gohddtemp "github.com/lavaorg/telex/plugins/inputs/hddtemp/go-hddtemp"
 )
 
 const defaultAddress = "127.0.0.1:7634"
@@ -15,7 +14,7 @@ type HDDTemp struct {
 }
 
 type Fetcher interface {
-	Fetch(address string) ([]gohddtemp.Disk, error)
+	fetch(address string) ([]Disk, error)
 }
 
 func (_ *HDDTemp) Description() string {
@@ -40,9 +39,9 @@ func (_ *HDDTemp) SampleConfig() string {
 
 func (h *HDDTemp) Gather(acc telex.Accumulator) error {
 	if h.fetcher == nil {
-		h.fetcher = gohddtemp.New()
+		h.fetcher = newhddtemp()
 	}
-	disks, err := h.fetcher.Fetch(h.Address)
+	disks, err := h.fetcher.fetch(h.Address)
 
 	if err != nil {
 		return err

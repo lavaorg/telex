@@ -26,23 +26,9 @@ telex_linux_x86:
 	go mod download
 	GOOS=linux GOARCH=amd64 go build -ldflags "$(LDFLAGS)" ./cmd/telex
 
-.PHONY: test
-test:
-	go test -short ./...
-
 .PHONY: fmt
 fmt:
 	@gofmt -s -w $(filter-out plugins/parsers/influx/machine.go, $(GOFILES))
-
-.PHONY: fmtcheck
-fmtcheck:
-	@if [ ! -z "$(GOFMT)" ]; then \
-		echo "[ERROR] gofmt has found errors in the following files:"  ; \
-		echo "$(GOFMT)" ; \
-		echo "" ;\
-		echo "Run make fmt to fix them." ; \
-		exit 1 ;\
-	fi
 
 .PHONY: vet
 vet:
@@ -50,17 +36,18 @@ vet:
 	@go vet $$(go list ./... | grep -v ./plugins/parsers/influx) ; if [ $$? -ne 0 ]; then \
 		echo ""; \
 		echo "go vet has found suspicious constructs. Please remediate any reported errors"; \
-		echo "to fix them before submitting code for review."; \
 		exit 1; \
 	fi
 
 .PHONY: check
-check: fmtcheck vet
+check: fmt vet
 
-.PHONY: test-all
-test-all: fmtcheck vet
+.PHONY: test
+test-all: fmt vet
 	go test ./...
 
+testshort:
+	go test -shrot ./...
 
 .PHONY: clean
 clean:
@@ -68,16 +55,19 @@ clean:
 
 .PHONY: docker-image
 docker-image: telex_linux_x86
-	docker build -f scripts/alpine.docker -t "telex:$(COMMIT)" .
+	docker build -f scripts/smimg.docker -t "telex" .
 
-docker-sm: telex_linux_x86
-	docker build -f scripts/smimg.docker -t "telexsm" .
+docker-build:
+	docker run -v $(PWD):/work -w /work golang:1.12.4 make 
 
-docker-base:
-	docker build -f scripts/telex_base.docker -t "telex_base" .
+docker-test:
+	docker run -v $(PWD):/work -w /work golang:1.12.4 go test ./...
 
 loctest:
-	docker run -i -t -e  TELEGRAF_CONFIG_PATH=telex.conf telexsm telex --test
+	docker run -i -t -v $(PWD)/etc/telex.conf:/telex.conf -e TELEGRAF_CONFIG_PATH=/telex.conf telex telex --test
+
+docker-alpine: telex_linux_x86
+	docker build -f scripts/alpine.docker -t "telexa:$(COMMIT)" .
 
 .PHONY: static
 static:

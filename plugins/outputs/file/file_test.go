@@ -7,8 +7,6 @@ import (
 	"os"
 	"testing"
 
-	"github.com/stretchr/testify/assert"
-
 	"github.com/lavaorg/telex/internal"
 	"github.com/lavaorg/telex/plugins/serializers"
 	"github.com/lavaorg/telex/testutil"
@@ -30,15 +28,21 @@ func TestFileExistingFile(t *testing.T) {
 	}
 
 	err := f.Connect()
-	assert.NoError(t, err)
+	if err != nil {
+		t.Errorf("Connect fail:%v", f)
+	}
 
 	err = f.Write(testutil.MockMetrics())
-	assert.NoError(t, err)
+	if err != nil {
+		t.Errorf("error:%v", err)
+	}
 
 	validateFile(fh.Name(), expExistFile, t)
 
 	err = f.Close()
-	assert.NoError(t, err)
+	if err != nil {
+		t.Errorf("error:%v", err)
+	}
 }
 
 func TestFileNewFile(t *testing.T) {
@@ -51,15 +55,21 @@ func TestFileNewFile(t *testing.T) {
 	}
 
 	err := f.Connect()
-	assert.NoError(t, err)
+	if err != nil {
+		t.Errorf("error:%v", err)
+	}
 
 	err = f.Write(testutil.MockMetrics())
-	assert.NoError(t, err)
+	if err != nil {
+		t.Errorf("error:%v", err)
+	}
 
 	validateFile(fh, expNewFile, t)
 
 	err = f.Close()
-	assert.NoError(t, err)
+	if err != nil {
+		t.Errorf("error:%v", err)
+	}
 }
 
 func TestFileExistingFiles(t *testing.T) {
@@ -77,17 +87,23 @@ func TestFileExistingFiles(t *testing.T) {
 	}
 
 	err := f.Connect()
-	assert.NoError(t, err)
+	if err != nil {
+		t.Errorf("error:%v", err)
+	}
 
 	err = f.Write(testutil.MockMetrics())
-	assert.NoError(t, err)
+	if err != nil {
+		t.Errorf("error:%v", err)
+	}
 
 	validateFile(fh1.Name(), expExistFile, t)
 	validateFile(fh2.Name(), expExistFile, t)
 	validateFile(fh3.Name(), expExistFile, t)
 
 	err = f.Close()
-	assert.NoError(t, err)
+	if err != nil {
+		t.Errorf("error:%v", err)
+	}
 }
 
 func TestFileNewFiles(t *testing.T) {
@@ -104,17 +120,23 @@ func TestFileNewFiles(t *testing.T) {
 	}
 
 	err := f.Connect()
-	assert.NoError(t, err)
+	if err != nil {
+		t.Errorf("error:%v", err)
+	}
 
 	err = f.Write(testutil.MockMetrics())
-	assert.NoError(t, err)
+	if err != nil {
+		t.Errorf("error:%v", err)
+	}
 
 	validateFile(fh1, expNewFile, t)
 	validateFile(fh2, expNewFile, t)
 	validateFile(fh3, expNewFile, t)
 
 	err = f.Close()
-	assert.NoError(t, err)
+	if err != nil {
+		t.Errorf("error:%v", err)
+	}
 }
 
 func TestFileBoth(t *testing.T) {
@@ -130,16 +152,22 @@ func TestFileBoth(t *testing.T) {
 	}
 
 	err := f.Connect()
-	assert.NoError(t, err)
+	if err != nil {
+		t.Errorf("error:%v", err)
+	}
 
 	err = f.Write(testutil.MockMetrics())
-	assert.NoError(t, err)
+	if err != nil {
+		t.Errorf("error:%v", err)
+	}
 
 	validateFile(fh1.Name(), expExistFile, t)
 	validateFile(fh2, expNewFile, t)
 
 	err = f.Close()
-	assert.NoError(t, err)
+	if err != nil {
+		t.Errorf("error:%v", err)
+	}
 }
 
 func TestFileStdout(t *testing.T) {
@@ -155,13 +183,19 @@ func TestFileStdout(t *testing.T) {
 	}
 
 	err := f.Connect()
-	assert.NoError(t, err)
+	if err != nil {
+		t.Errorf("error:%v", err)
+	}
 
 	err = f.Write(testutil.MockMetrics())
-	assert.NoError(t, err)
+	if err != nil {
+		t.Errorf("error:%v", err)
+	}
 
 	err = f.Close()
-	assert.NoError(t, err)
+	if err != nil {
+		t.Errorf("error:%v", err)
+	}
 
 	outC := make(chan string)
 	// copy the output in a separate goroutine so printing can't block indefinitely
@@ -177,7 +211,9 @@ func TestFileStdout(t *testing.T) {
 	os.Stdout = old
 	out := <-outC
 
-	assert.Equal(t, expNewFile, out)
+	if expNewFile != out {
+		t.Errorf("output not expected")
+	}
 }
 
 func createFile() *os.File {
@@ -202,5 +238,8 @@ func validateFile(fname, expS string, t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-	assert.Equal(t, expS, string(buf))
+
+	if expS != string(buf) {
+		t.Errorf("no match")
+	}
 }

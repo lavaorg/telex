@@ -10,7 +10,6 @@ import (
 	"github.com/lavaorg/telex/internal"
 	"github.com/lavaorg/telex/internal/globpath"
 	"github.com/lavaorg/telex/plugins/inputs"
-	"github.com/karrick/godirwalk"
 )
 
 const sampleConfig = `
@@ -152,7 +151,7 @@ func (fc *FileCount) initFileFilters() {
 func (fc *FileCount) count(acc telex.Accumulator, basedir string, glob globpath.GlobPath) {
 	childCount := make(map[string]int64)
 	childSize := make(map[string]int64)
-	walkFn := func(path string, de *godirwalk.Dirent) error {
+	walkFn := func(path string, de *globpath.Dirent) error {
 		if path == basedir {
 			return nil
 		}
@@ -178,7 +177,7 @@ func (fc *FileCount) count(acc telex.Accumulator, basedir string, glob globpath.
 		}
 		return nil
 	}
-	postChildrenFn := func(path string, de *godirwalk.Dirent) error {
+	postChildrenFn := func(path string, de *globpath.Dirent) error {
 		if glob.MatchString(path) {
 			gauge := map[string]interface{}{
 				"count":      childCount[path],
@@ -199,7 +198,7 @@ func (fc *FileCount) count(acc telex.Accumulator, basedir string, glob globpath.
 		return nil
 	}
 
-	err := godirwalk.Walk(basedir, &godirwalk.Options{
+	err := globpath.Walk(basedir, &globpath.Options{
 		Callback:             walkFn,
 		PostChildrenCallback: postChildrenFn,
 		Unsorted:             true,

@@ -3,8 +3,8 @@
 This plugin gathers info about the total number of processes and groups
 them by status (zombie, sleeping, running, etc.)
 
-On linux this plugin requires access to procfs (/proc), on other OSes
-it requires access to execute `ps`.
+On linux this plugin requires access to procfs (/proc).
+Other OS not supported.
 
 ### Configuration:
 
