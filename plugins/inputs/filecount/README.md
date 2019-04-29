@@ -58,3 +58,6 @@ $ telex --config /etc/telex/telex.conf --input-filter filecount --test
 > filecount,directory=/var/cache/apt,host=czernobog count=7i,size=7438336i 1530034445000000000
 > filecount,directory=/tmp,host=czernobog count=17i,size=28934786i 1530034445000000000
 ```
+
+### Misc
+uses code from: github.com/karrick/godirwalk

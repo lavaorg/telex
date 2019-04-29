@@ -4,9 +4,8 @@ import (
 	"bytes"
 	"io/ioutil"
 	"os"
-	"strconv"
-
 	"path"
+	"strconv"
 
 	"github.com/lavaorg/telex"
 	"github.com/lavaorg/telex/plugins/inputs"

@@ -1,0 +1,68 @@
+# telex configuration
+
+[global_tags]
+  dc = "us-east-1"
+
+## Configuration for telex agent
+[agent]
+  # Default data collection interval for all plugins
+  interval = "10s"
+
+  # run telex in debug mode
+  debug = false
+
+  # Override default hostname, if empty use os.Hostname()
+  hostname = ""
+
+# OUTPUTS   
+
+## Send telex metrics to file(s)
+[[outputs.file]]
+  ## Files to write to, "stdout" is a specially handled file.
+  ## files = ["stdout", "/tmp/metrics.out"]
+  files = ["stdout"]
+
+  ## Data format to output.
+  ## Each data format has its own unique set of configuration options, read
+  ## more about them here:
+  ## https://github.com/lavaorg/telex/blob/master/docs/DATA_FORMATS_OUTPUT.md
+  data_format = "influx"
+
+
+# PLUGINS 
+
+## Read metrics about cpu usage
+[[inputs.cpu]]
+  # Whether to report per-cpu stats or not
+  percpu = true
+  # Whether to report total system cpu stats or not
+  totalcpu = true
+  # Comment this line if you want the raw CPU time metrics
+  drop = ["cpu_time"]
+
+# Read metrics about disk usage by mount point
+[[inputs.diskio]]
+  # no configuration
+
+# Read metrics about memory usage
+[[inputs.mem]]
+  # no configuration
+
+# Read metrics about network interface usage
+[[inputs.net]]
+  # By default, telex gathers stats from any up interface (excluding loopback)
+  # Setting interfaces will tell it to gather these explicit interfaces,
+  # regardless of status.
+  #
+  # interfaces = ["eth0", ... ]
+
+# Read metrics about swap memory usage
+[[inputs.swap]]
+  # no configuration
+
+# Read metrics about system load & uptime
+[[inputs.system]]
+  # no configuration
+
+[[inputs.dns_query]]
+servers = ["1.1.1.1"]

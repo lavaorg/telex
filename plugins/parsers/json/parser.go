@@ -3,6 +3,7 @@ package json
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"log"
 	"math"
@@ -13,8 +14,6 @@ import (
 
 	"github.com/lavaorg/telex"
 	"github.com/lavaorg/telex/metric"
-	"github.com/pkg/errors"
-	"github.com/tidwall/gjson"
 )
 
 var (
@@ -218,7 +217,7 @@ func (p *JSONParser) switchFieldToTag(tags map[string]string, fields map[string]
 
 func (p *JSONParser) Parse(buf []byte) ([]telex.Metric, error) {
 	if p.JSONQuery != "" {
-		result := gjson.GetBytes(buf, p.JSONQuery)
+		result := GetBytes(buf, p.JSONQuery)
 		buf = []byte(result.Raw)
 		if !result.IsArray() && !result.IsObject() {
 			err := fmt.Errorf("E! Query path must lead to a JSON object or array of objects, but lead to: %v", result.Type)

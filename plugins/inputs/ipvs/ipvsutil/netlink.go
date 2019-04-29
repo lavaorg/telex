@@ -6,6 +6,7 @@ import (
 	"bytes"
 	"encoding/binary"
 	"fmt"
+	"log"
 	"net"
 	"os/exec"
 	"strings"
@@ -13,7 +14,6 @@ import (
 	"sync/atomic"
 	"syscall"
 	"unsafe"
-	"log"
 
 	"github.com/vishvananda/netlink/nl"
 	"github.com/vishvananda/netns"

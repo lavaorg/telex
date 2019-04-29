@@ -8,10 +8,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/miekg/dns"
-
 	"github.com/lavaorg/telex"
 	"github.com/lavaorg/telex/plugins/inputs"
+	"github.com/lavaorg/telex/util/dns"
 )
 
 type ResultType uint64

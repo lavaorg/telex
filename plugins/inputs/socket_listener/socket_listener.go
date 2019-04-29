@@ -14,7 +14,7 @@ import (
 
 	"github.com/lavaorg/telex"
 	"github.com/lavaorg/telex/internal"
-	tlsint "github.com/lavaorg/telex/internal/tls"
+	telextls "github.com/lavaorg/telex/internal/tls"
 	"github.com/lavaorg/telex/plugins/inputs"
 	"github.com/lavaorg/telex/plugins/parsers"
 )
@@ -165,7 +165,7 @@ type SocketListener struct {
 	ReadBufferSize  internal.Size      `toml:"read_buffer_size"`
 	ReadTimeout     *internal.Duration `toml:"read_timeout"`
 	KeepAlivePeriod *internal.Duration `toml:"keep_alive_period"`
-	tlsint.ServerConfig
+	telextls.ServerConfig
 
 	parsers.Parser
 	telex.Accumulator

@@ -6,16 +6,10 @@ using a configurable parser into [metrics][].  This allows, for example, the
 Protocol or in JSON format.
 
 - [InfluxDB Line Protocol](/plugins/parsers/influx)
-- [Collectd](/plugins/parsers/collectd)
 - [CSV](/plugins/parsers/csv)
-- [Dropwizard](/plugins/parsers/dropwizard)
-- [Graphite](/plugins/parsers/graphite)
 - [Grok](/plugins/parsers/grok)
 - [JSON](/plugins/parsers/json)
-- [Logfmt](/plugins/parsers/logfmt)
-- [Nagios](/plugins/parsers/nagios)
 - [Value](/plugins/parsers/value), ie: 45 or "booyah"
-- [Wavefront](/plugins/parsers/wavefront)
 
 Any input plugin containing the `data_format` option can use it to select the
 desired parser:

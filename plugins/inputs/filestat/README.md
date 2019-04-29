@@ -9,7 +9,7 @@ The filestat plugin gathers metrics about file existence, size, and other stats.
 [[inputs.filestat]]
   ## Files to gather stats about.
   ## These accept standard unix glob matching rules, but with the addition of
-  ## ** as a "super asterisk". See https://github.com/gobwas/glob.
+  ## ** as a "super asterisk". See https://github.com/lavaorg/telex/internal/glob.
   files = ["/etc/telex/telex.conf", "/var/log/**.log"]
   ## If true, read the entire file and calculate an md5 checksum.
   md5 = false

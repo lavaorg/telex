@@ -20,7 +20,7 @@ const sampleConfig = `
   ##   "/var/log/*/*.log" -> find all .log files with a parent dir in /var/log
   ##   "/var/log/apache.log" -> just tail the apache log file
   ##
-  ## See https://github.com/gobwas/glob for more examples
+  ## See https://github.com/lavaorg/telex/internal/glob for more examples
   ##
   files = ["/var/log/**.log"]
   ## If true, read the entire file and calculate an md5 checksum.

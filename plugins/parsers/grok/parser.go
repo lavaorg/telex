@@ -11,8 +11,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/vjeantet/grok"
-
 	"github.com/lavaorg/telex"
 	"github.com/lavaorg/telex/metric"
 )
@@ -118,7 +116,7 @@ type Parser struct {
 	foundTsLayouts []string
 
 	timeFunc func() time.Time
-	g        *grok.Grok
+	g        *Grok
 	tsModder *tsModder
 }
 
@@ -129,7 +127,7 @@ func (p *Parser) Compile() error {
 	p.patterns = make(map[string]string)
 	p.tsModder = &tsModder{}
 	var err error
-	p.g, err = grok.NewWithConfig(&grok.Config{NamedCapturesOnly: true})
+	p.g, err = NewWithConfig(&Config{NamedCapturesOnly: true})
 	if err != nil {
 		return err
 	}

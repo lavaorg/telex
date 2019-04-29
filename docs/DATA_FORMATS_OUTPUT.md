@@ -4,10 +4,8 @@ In addition to output specific data formats, Telex supports a set of
 standard data formats that may be selected from when configuring many output
 plugins.
 
-1. [InfluxDB Line Protocol](/plugins/serializers/influx)
-1. [JSON](/plugins/serializers/json)
-1. [Graphite](/plugins/serializers/graphite)
-1. [SplunkMetric](/plugins/serializers/splunkmetric)
+1. `influx` - [InfluxDB Line Protocol](/plugins/serializers/influx)
+1. `json`   - [JSON](/plugins/serializers/json)
 
 You will be able to identify the plugins with support by the presence of a
 `data_format` config option, for example, in the `file` output plugin:

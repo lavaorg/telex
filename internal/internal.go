@@ -7,20 +7,20 @@ import (
 	"context"
 	"crypto/rand"
 	"errors"
+	"fmt"
 	"io"
 	"log"
 	"math/big"
 	"os"
 	"os/exec"
+	"runtime"
 	"strconv"
 	"strings"
 	"syscall"
 	"time"
 	"unicode"
 
-	"fmt"
-	"github.com/alecthomas/units"
-	"runtime"
+	"github.com/lavaorg/telex/internal/units"
 )
 
 const alphanum string = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"

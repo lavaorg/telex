@@ -3,13 +3,10 @@ package config
 import (
 	"os"
 	"testing"
-	"time"
 
 	"github.com/lavaorg/telex/internal/models"
 	"github.com/lavaorg/telex/plugins/inputs"
 	"github.com/lavaorg/telex/plugins/inputs/exec"
-	"github.com/lavaorg/telex/plugins/inputs/memcached"
-	"github.com/lavaorg/telex/plugins/inputs/procstat"
 	"github.com/lavaorg/telex/plugins/parsers"
 
 	"github.com/stretchr/testify/assert"
@@ -23,9 +20,6 @@ func TestConfig_LoadSingleInputWithEnvVars(t *testing.T) {
 	assert.NoError(t, err)
 	c.LoadConfig("./testdata/single_plugin_env_vars.toml")
 
-	memcached := inputs.Inputs["memcached"]().(*memcached.Memcached)
-	memcached.Servers = []string{"192.168.1.1"}
-
 	filter := models.Filter{
 		NameDrop:  []string{"metricname2"},
 		NamePass:  []string{"metricname1"},
@@ -45,26 +39,13 @@ func TestConfig_LoadSingleInputWithEnvVars(t *testing.T) {
 		},
 	}
 	assert.NoError(t, filter.Compile())
-	mConfig := &models.InputConfig{
-		Name:     "memcached",
-		Filter:   filter,
-		Interval: 10 * time.Second,
-	}
-	mConfig.Tags = make(map[string]string)
 
-	assert.Equal(t, memcached, c.Inputs[0].Input,
-		"Testdata did not produce a correct memcached struct.")
-	assert.Equal(t, mConfig, c.Inputs[0].Config,
-		"Testdata did not produce correct memcached metadata.")
 }
 
 func TestConfig_LoadSingleInput(t *testing.T) {
 	c := NewConfig()
 	c.LoadConfig("./testdata/single_plugin.toml")
 
-	memcached := inputs.Inputs["memcached"]().(*memcached.Memcached)
-	memcached.Servers = []string{"localhost"}
-
 	filter := models.Filter{
 		NameDrop:  []string{"metricname2"},
 		NamePass:  []string{"metricname1"},
@@ -84,17 +65,7 @@ func TestConfig_LoadSingleInput(t *testing.T) {
 		},
 	}
 	assert.NoError(t, filter.Compile())
-	mConfig := &models.InputConfig{
-		Name:     "memcached",
-		Filter:   filter,
-		Interval: 5 * time.Second,
-	}
-	mConfig.Tags = make(map[string]string)
 
-	assert.Equal(t, memcached, c.Inputs[0].Input,
-		"Testdata did not produce a correct memcached struct.")
-	assert.Equal(t, mConfig, c.Inputs[0].Config,
-		"Testdata did not produce correct memcached metadata.")
 }
 
 func TestConfig_LoadDirectory(t *testing.T) {
@@ -108,9 +79,6 @@ func TestConfig_LoadDirectory(t *testing.T) {
 		t.Error(err)
 	}
 
-	memcached := inputs.Inputs["memcached"]().(*memcached.Memcached)
-	memcached.Servers = []string{"localhost"}
-
 	filter := models.Filter{
 		NameDrop:  []string{"metricname2"},
 		NamePass:  []string{"metricname1"},
@@ -130,29 +98,19 @@ func TestConfig_LoadDirectory(t *testing.T) {
 		},
 	}
 	assert.NoError(t, filter.Compile())
-	mConfig := &models.InputConfig{
-		Name:     "memcached",
-		Filter:   filter,
-		Interval: 5 * time.Second,
-	}
-	mConfig.Tags = make(map[string]string)
-
-	assert.Equal(t, memcached, c.Inputs[0].Input,
-		"Testdata did not produce a correct memcached struct.")
-	assert.Equal(t, mConfig, c.Inputs[0].Config,
-		"Testdata did not produce correct memcached metadata.")
 
 	ex := inputs.Inputs["exec"]().(*exec.Exec)
 	p, err := parsers.NewParser(&parsers.Config{
 		MetricName: "exec",
-		DataFormat: "json",
+		DataFormat: "value",
+		DataType:   "string",
 	})
 	assert.NoError(t, err)
 	ex.SetParser(p)
-	ex.Command = "/usr/bin/myothercollector --foo=bar"
+	ex.Command = "/usr/bin/uname -a"
 	eConfig := &models.InputConfig{
 		Name:              "exec",
-		MeasurementSuffix: "_myothercollector",
+		MeasurementSuffix: "_uname1",
 	}
 	eConfig.Tags = make(map[string]string)
 	assert.Equal(t, ex, c.Inputs[1].Input,
@@ -160,20 +118,4 @@ func TestConfig_LoadDirectory(t *testing.T) {
 	assert.Equal(t, eConfig, c.Inputs[1].Config,
 		"Merged Testdata did not produce correct exec metadata.")
 
-	memcached.Servers = []string{"192.168.1.1"}
-	assert.Equal(t, memcached, c.Inputs[2].Input,
-		"Testdata did not produce a correct memcached struct.")
-	assert.Equal(t, mConfig, c.Inputs[2].Config,
-		"Testdata did not produce correct memcached metadata.")
-
-	pstat := inputs.Inputs["procstat"]().(*procstat.Procstat)
-	pstat.PidFile = "/var/run/grafana-server.pid"
-
-	pConfig := &models.InputConfig{Name: "procstat"}
-	pConfig.Tags = make(map[string]string)
-
-	assert.Equal(t, pstat, c.Inputs[3].Input,
-		"Merged Testdata did not produce a correct procstat struct.")
-	assert.Equal(t, pConfig, c.Inputs[3].Config,
-		"Merged Testdata did not produce correct procstat metadata.")
 }

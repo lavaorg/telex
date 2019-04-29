@@ -23,7 +23,7 @@ func TestAgent_OmitHostname(t *testing.T) {
 
 func TestAgent_LoadPlugin(t *testing.T) {
 	c := config.NewConfig()
-	c.InputFilters = []string{"mysql"}
+	c.InputFilters = []string{"cpu"}
 	err := c.LoadConfig("../internal/config/testdata/telex-agent.toml")
 	assert.NoError(t, err)
 	a, _ := NewAgent(c)
@@ -37,21 +37,21 @@ func TestAgent_LoadPlugin(t *testing.T) {
 	assert.Equal(t, 0, len(a.Config.Inputs))
 
 	c = config.NewConfig()
-	c.InputFilters = []string{"mysql", "foo"}
+	c.InputFilters = []string{"cpu", "foo"}
 	err = c.LoadConfig("../internal/config/testdata/telex-agent.toml")
 	assert.NoError(t, err)
 	a, _ = NewAgent(c)
 	assert.Equal(t, 1, len(a.Config.Inputs))
 
 	c = config.NewConfig()
-	c.InputFilters = []string{"mysql", "redis"}
+	c.InputFilters = []string{"diskio", "exec"}
 	err = c.LoadConfig("../internal/config/testdata/telex-agent.toml")
 	assert.NoError(t, err)
 	a, _ = NewAgent(c)
-	assert.Equal(t, 2, len(a.Config.Inputs))
+	assert.Equal(t, 1, len(a.Config.Inputs))
 
 	c = config.NewConfig()
-	c.InputFilters = []string{"mysql", "foo", "redis", "bar"}
+	c.InputFilters = []string{"diskio", "foo", "cpu", "bar"}
 	err = c.LoadConfig("../internal/config/testdata/telex-agent.toml")
 	assert.NoError(t, err)
 	a, _ = NewAgent(c)
@@ -60,14 +60,14 @@ func TestAgent_LoadPlugin(t *testing.T) {
 
 func TestAgent_LoadOutput(t *testing.T) {
 	c := config.NewConfig()
-	c.OutputFilters = []string{"influxdb"}
+	c.OutputFilters = []string{"file"}
 	err := c.LoadConfig("../internal/config/testdata/telex-agent.toml")
 	assert.NoError(t, err)
 	a, _ := NewAgent(c)
-	assert.Equal(t, 2, len(a.Config.Outputs))
+	assert.Equal(t, 1, len(a.Config.Outputs))
 
 	c = config.NewConfig()
-	c.OutputFilters = []string{"kafka"}
+	c.OutputFilters = []string{"file"}
 	err = c.LoadConfig("../internal/config/testdata/telex-agent.toml")
 	assert.NoError(t, err)
 	a, _ = NewAgent(c)
@@ -78,7 +78,7 @@ func TestAgent_LoadOutput(t *testing.T) {
 	err = c.LoadConfig("../internal/config/testdata/telex-agent.toml")
 	assert.NoError(t, err)
 	a, _ = NewAgent(c)
-	assert.Equal(t, 3, len(a.Config.Outputs))
+	assert.Equal(t, 1, len(a.Config.Outputs))
 
 	c = config.NewConfig()
 	c.OutputFilters = []string{"foo"}
@@ -88,24 +88,16 @@ func TestAgent_LoadOutput(t *testing.T) {
 	assert.Equal(t, 0, len(a.Config.Outputs))
 
 	c = config.NewConfig()
-	c.OutputFilters = []string{"influxdb", "foo"}
+	c.OutputFilters = []string{"socket_writer", "foo"}
 	err = c.LoadConfig("../internal/config/testdata/telex-agent.toml")
 	assert.NoError(t, err)
 	a, _ = NewAgent(c)
-	assert.Equal(t, 2, len(a.Config.Outputs))
+	assert.Equal(t, 0, len(a.Config.Outputs))
 
 	c = config.NewConfig()
-	c.OutputFilters = []string{"influxdb", "kafka"}
-	err = c.LoadConfig("../internal/config/testdata/telex-agent.toml")
-	assert.NoError(t, err)
-	assert.Equal(t, 3, len(c.Outputs))
-	a, _ = NewAgent(c)
-	assert.Equal(t, 3, len(a.Config.Outputs))
-
-	c = config.NewConfig()
-	c.OutputFilters = []string{"influxdb", "foo", "kafka", "bar"}
+	c.OutputFilters = []string{"file", "foo", "socket_writer", "bar"}
 	err = c.LoadConfig("../internal/config/testdata/telex-agent.toml")
 	assert.NoError(t, err)
 	a, _ = NewAgent(c)
-	assert.Equal(t, 3, len(a.Config.Outputs))
+	assert.Equal(t, 1, len(a.Config.Outputs))
 }

@@ -6,7 +6,7 @@ import (
 
 	"github.com/lavaorg/telex/testutil"
 
-	"github.com/miekg/dns"
+	"github.com/lavaorg/telex/util/dns"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

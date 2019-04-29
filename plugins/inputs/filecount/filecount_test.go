@@ -71,6 +71,7 @@ func TestDoubleAndSimpleStar(t *testing.T) {
 
 	acc := testutil.Accumulator{}
 	acc.GatherError(fc.Gather)
+	t.Logf("fc:%v; count:%v, size:%v\n", fc, len(matches), 446)
 
 	require.True(t, acc.HasPoint("filecount", tags, "count", int64(len(matches))))
 	require.True(t, acc.HasPoint("filecount", tags, "size_bytes", int64(446)))
@@ -137,7 +138,12 @@ func getTestdataDir() string {
 func fileCountEquals(t *testing.T, fc FileCount, expectedCount int, expectedSize int) {
 	tags := map[string]string{"directory": getTestdataDir()}
 	acc := testutil.Accumulator{}
-	acc.GatherError(fc.Gather)
+	err := acc.GatherError(fc.Gather)
+	if err != nil {
+		t.Fail()
+		return
+	}
+	t.Logf("fc:%v; count:%v, size:%v\n", fc, expectedCount, expectedSize)
 	require.True(t, acc.HasPoint("filecount", tags, "count", int64(expectedCount)))
 	require.True(t, acc.HasPoint("filecount", tags, "size_bytes", int64(expectedSize)))
 }
