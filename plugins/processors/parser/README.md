@@ -29,7 +29,7 @@ creates new metrics based on the contents of the field.
 [[processors.parser]]
   parse_fields = ["message"]
   merge = "override"
-  data_format = "logfmt"
+  data_format = "csv"
 ```
 
 **Input**:

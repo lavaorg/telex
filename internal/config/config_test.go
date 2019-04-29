@@ -7,7 +7,6 @@ import (
 	"github.com/lavaorg/telex/internal/models"
 	"github.com/lavaorg/telex/plugins/inputs"
 	"github.com/lavaorg/telex/plugins/inputs/exec"
-	"github.com/lavaorg/telex/plugins/inputs/procstat"
 	"github.com/lavaorg/telex/plugins/parsers"
 
 	"github.com/stretchr/testify/assert"
@@ -103,14 +102,15 @@ func TestConfig_LoadDirectory(t *testing.T) {
 	ex := inputs.Inputs["exec"]().(*exec.Exec)
 	p, err := parsers.NewParser(&parsers.Config{
 		MetricName: "exec",
-		DataFormat: "json",
+		DataFormat: "value",
+		DataType:   "string",
 	})
 	assert.NoError(t, err)
 	ex.SetParser(p)
-	ex.Command = "/usr/bin/myothercollector --foo=bar"
+	ex.Command = "/usr/bin/uname -a"
 	eConfig := &models.InputConfig{
 		Name:              "exec",
-		MeasurementSuffix: "_myothercollector",
+		MeasurementSuffix: "_uname1",
 	}
 	eConfig.Tags = make(map[string]string)
 	assert.Equal(t, ex, c.Inputs[1].Input,
@@ -118,14 +118,4 @@ func TestConfig_LoadDirectory(t *testing.T) {
 	assert.Equal(t, eConfig, c.Inputs[1].Config,
 		"Merged Testdata did not produce correct exec metadata.")
 
-	pstat := inputs.Inputs["procstat"]().(*procstat.Procstat)
-	pstat.PidFile = "/var/run/grafana-server.pid"
-
-	pConfig := &models.InputConfig{Name: "procstat"}
-	pConfig.Tags = make(map[string]string)
-
-	assert.Equal(t, pstat, c.Inputs[3].Input,
-		"Merged Testdata did not produce a correct procstat struct.")
-	assert.Equal(t, pConfig, c.Inputs[3].Config,
-		"Merged Testdata did not produce correct procstat metadata.")
 }

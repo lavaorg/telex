@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/gobwas/glob"
+	"github.com/lavaorg/telex/internal/glob"
 )
 
 type GlobPath struct {

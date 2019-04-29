@@ -9,7 +9,6 @@ Protocol or in JSON format.
 - [CSV](/plugins/parsers/csv)
 - [Grok](/plugins/parsers/grok)
 - [JSON](/plugins/parsers/json)
-- [Logfmt](/plugins/parsers/logfmt)
 - [Value](/plugins/parsers/value), ie: 45 or "booyah"
 
 Any input plugin containing the `data_format` option can use it to select the

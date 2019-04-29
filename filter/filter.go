@@ -3,7 +3,7 @@ package filter
 import (
 	"strings"
 
-	"github.com/gobwas/glob"
+	"github.com/lavaorg/telex/internal/glob"
 )
 
 type Filter interface {

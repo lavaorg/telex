@@ -58,10 +58,10 @@ docker-image: telex_linux_x86
 	docker build -f scripts/smimg.docker -t "telex" .
 
 docker-build:
-	docker run -v $(PWD):/work -w /work golang:1.12.4 make 
+	docker run -v $(HOME)/golinux:/go -v $(PWD):/work -w /work golang:1.12.4 make 
 
 docker-test:
-	docker run -v $(PWD):/work -w /work golang:1.12.4 go test ./...
+	docker run -v $(HOME)/golinux:/go -v $(PWD):/work -w /work golang:1.12.4 go test ./...
 
 loctest:
 	docker run -i -t -v $(PWD)/etc/telex.conf:/telex.conf -e TELEGRAF_CONFIG_PATH=/telex.conf telex telex --test

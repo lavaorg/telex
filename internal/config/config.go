@@ -18,11 +18,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/influxdata/toml"
-	"github.com/influxdata/toml/ast"
 	"github.com/lavaorg/telex"
 	"github.com/lavaorg/telex/internal"
 	"github.com/lavaorg/telex/internal/models"
+	"github.com/lavaorg/telex/internal/toml"
+	"github.com/lavaorg/telex/internal/toml/ast"
 	"github.com/lavaorg/telex/plugins/aggregators"
 	"github.com/lavaorg/telex/plugins/inputs"
 	"github.com/lavaorg/telex/plugins/outputs"
@@ -879,10 +879,6 @@ func (c *Config) addOutput(name string, table *ast.Table) error {
 func (c *Config) addInput(name string, table *ast.Table) error {
 	if len(c.InputFilters) > 0 && !sliceContains(name, c.InputFilters) {
 		return nil
-	}
-	// Legacy support renaming io input to diskio
-	if name == "io" {
-		name = "diskio"
 	}
 
 	creator, ok := inputs.Inputs[name]

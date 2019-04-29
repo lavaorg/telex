@@ -1,4 +1,4 @@
-// +build !windows
+// +build linux
 
 package processes
 
@@ -26,6 +26,7 @@ func TestProcesses(t *testing.T) {
 	assert.True(t, acc.HasInt64Field("processes", "stopped"))
 	assert.True(t, acc.HasInt64Field("processes", "total"))
 	total, ok := acc.Get("processes")
+	t.Logf("processes:%v\n", total)
 	require.True(t, ok)
 	assert.True(t, total.Fields["total"].(int64) > 0)
 }

@@ -9,7 +9,6 @@ import (
 	"github.com/lavaorg/telex/plugins/parsers/grok"
 	"github.com/lavaorg/telex/plugins/parsers/influx"
 	"github.com/lavaorg/telex/plugins/parsers/json"
-	"github.com/lavaorg/telex/plugins/parsers/logfmt"
 	"github.com/lavaorg/telex/plugins/parsers/value"
 )
 
@@ -150,8 +149,6 @@ func NewParser(config *Config) (Parser, error) {
 			config.CSVTimestampColumn,
 			config.CSVTimestampFormat,
 			config.DefaultTags)
-	case "logfmt":
-		parser, err = NewLogFmtParser(config.MetricName, config.DefaultTags)
 	default:
 		err = fmt.Errorf("Invalid data format: %s", config.DataFormat)
 	}
@@ -286,9 +283,4 @@ func NewValueParser(
 		DataType:    dataType,
 		DefaultTags: defaultTags,
 	}, nil
-}
-
-// NewLogFmtParser returns a logfmt parser with the default options.
-func NewLogFmtParser(metricName string, defaultTags map[string]string) (Parser, error) {
-	return logfmt.NewParser(metricName, defaultTags), nil
 }
