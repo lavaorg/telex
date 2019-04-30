@@ -45,7 +45,7 @@ func TestMarshal(t *testing.T) {
 		}{map[string]string{"foo": "bar", "baz": "quux"}}, "[name]\nbaz=\"quux\"\nfoo=\"bar\"\n"},
 		{struct {
 			Preferences map[string]iceCreamPreference `toml:"preferences"`
-		}{map[string]iceCreamPreference{"tim": iceCreamPreference{"Vanilla", 3}}}, "[preferences]\n[preferences.tim]\nflavor=\"Vanilla\"\nscoops=3\n"},
+		}{map[string]iceCreamPreference{"tim": {"Vanilla", 3}}}, "[preferences]\n[preferences.tim]\nflavor=\"Vanilla\"\nscoops=3\n"},
 		{struct {
 			Name string `toml:"name" doc:"The name of the person"`
 		}{"bob"}, "name=\"bob\" # The name of the person\n"},
@@ -364,12 +364,12 @@ func TestMarshal_MixedStructMap(t *testing.T) {
 	foo := store{
 		"Arby's",
 		map[string]location{
-			"Boston": location{1, 2},
+			"Boston": {1, 2},
 		},
 		"American",
 		[]menuItem{
-			menuItem{"Burger", 12},
-			menuItem{"Fries", 4},
+			{"Burger", 12},
+			{"Fries", 4},
 		},
 	}
 

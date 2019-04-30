@@ -85,7 +85,6 @@ func TestAddPatternErr(t *testing.T) {
 	}
 }
 
-
 func TestAddPattern(t *testing.T) {
 	name := "DAYO"
 	pattern := "(?:Mon(?:day)?|Tue(?:sday)?|Wed(?:nesday)?|Thu(?:rsday)?|Fri(?:day)?|Sat(?:urday)?|Sun(?:day)?)"

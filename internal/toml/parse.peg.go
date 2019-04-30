@@ -335,7 +335,7 @@ func (t *tokens16) PreOrder() (<-chan state16, [][]token16) {
 	s, ordered := make(chan state16, 6), t.Order()
 	go func() {
 		var states [8]state16
-		for i, _ := range states {
+		for i := range states {
 			states[i].depths = make([]int16, len(ordered))
 		}
 		depths, state, depth := make([]int16, len(ordered)), 0, 1
@@ -474,7 +474,7 @@ func (t *tokens16) Error() []token32 {
 	ordered := t.Order()
 	length := len(ordered)
 	tokens, length := make([]token32, length), length-1
-	for i, _ := range tokens {
+	for i := range tokens {
 		o := ordered[length-i]
 		if len(o) > 1 {
 			tokens[i] = o[len(o)-2].getToken32()
@@ -583,7 +583,7 @@ func (t *tokens32) PreOrder() (<-chan state32, [][]token32) {
 	s, ordered := make(chan state32, 6), t.Order()
 	go func() {
 		var states [8]state32
-		for i, _ := range states {
+		for i := range states {
 			states[i].depths = make([]int32, len(ordered))
 		}
 		depths, state, depth := make([]int32, len(ordered)), 0, 1
@@ -722,7 +722,7 @@ func (t *tokens32) Error() []token32 {
 	ordered := t.Order()
 	length := len(ordered)
 	tokens, length := make([]token32, length), length-1
-	for i, _ := range tokens {
+	for i := range tokens {
 		o := ordered[length-i]
 		if len(o) > 1 {
 			tokens[i] = o[len(o)-2].getToken32()
